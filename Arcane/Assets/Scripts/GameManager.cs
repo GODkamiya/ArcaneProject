@@ -8,9 +8,12 @@ public class GameManager : MonoBehaviour
     BoardManager boardManager;
     [SerializeField]
     GameObject piecePrefab;
+    [SerializeField]
+    NetWorkManagerScript netWorkManager;
     // Start is called before the first frame update
     void Start()
     {
+        netWorkManager.StartGame();
         boardManager.SetBoard();
         boardManager.SetPiece(Instantiate(piecePrefab),5,5);
     }
