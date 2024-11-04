@@ -49,7 +49,11 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     }
     
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
-    public void GameStart_Rpc(){
+    public async void GameStart_Rpc(){
+        StartCoroutine(DelayGameStart());
+    }
+    IEnumerator DelayGameStart(){
+        yield return new WaitForSeconds(3);
         Debug.Log("GameStart");
         PlayerObject po = localPlayer.GetComponent<PlayerObject>();
         po.SetDeck();
