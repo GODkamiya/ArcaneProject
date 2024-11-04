@@ -315,6 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1444782187}
   - component: {fileID: 1444782186}
+  - component: {fileID: 1444782188}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -337,6 +338,7 @@ MonoBehaviour:
   boardManager: {fileID: 452434027}
   piecePrefab: {fileID: 1544669507261657927, guid: 6f260399f93b65b4ea9c2231bfb32825, type: 3}
   netWorkManager: {fileID: 236009443}
+  playerObjectPrefab: {fileID: 3482173005165694937, guid: 727bcf0f19e087443bdedbcac8b202d5, type: 3}
 --- !u!4 &1444782187
 Transform:
   m_ObjectHideFlags: 0
@@ -352,6 +354,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1444782188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444782185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1628628760
+  ObjectInterest: 1
+  Flags: 131073
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1444782186}
 --- !u!1 &1643625040
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,13 +457,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643625040}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 4.5, y: 6, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
