@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardManager: {fileID: 452434027}
-  piecePrefab: {fileID: 1544669507261657927, guid: 6f260399f93b65b4ea9c2231bfb32825, type: 3}
+  pieceSpawner: {fileID: 1836417347}
   netWorkManager: {fileID: 236009443}
   playerObjectPrefab: {fileID: 3482173005165694937, guid: 727bcf0f19e087443bdedbcac8b202d5, type: 3}
 --- !u!4 &1444782187
@@ -464,6 +464,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+--- !u!1 &1836417346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836417348}
+  - component: {fileID: 1836417347}
+  m_Layer: 0
+  m_Name: PieceSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1836417347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836417346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9256adf96865b543ba87d2aab8cc6ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foolPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  magicianPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  highpriestessPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  empressPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  emperorPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  hierophantPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  loversPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  chariotPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  strengthPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  hermitPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  wheelOfFortunePrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  justicePrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  hangedManPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  deathPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  temperancePrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  devilPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  towerPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  starPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  sunPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  moonPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  JudgementPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  worldPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+--- !u!4 &1836417348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836417346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.02404742, y: 1.6334043, z: 0.59906673}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -473,3 +539,4 @@ SceneRoots:
   - {fileID: 452434028}
   - {fileID: 1444782187}
   - {fileID: 236009442}
+  - {fileID: 1836417348}

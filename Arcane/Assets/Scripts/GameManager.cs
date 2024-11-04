@@ -11,7 +11,7 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     [SerializeField]
     BoardManager boardManager;
     [SerializeField]
-    GameObject piecePrefab;
+    PieceSpawner pieceSpawner;
     [SerializeField]
     NetWorkManagerScript netWorkManager;
 
@@ -51,7 +51,9 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     void Start()
     {
         boardManager.SetBoard();
-        boardManager.SetPiece(Instantiate(piecePrefab),0,0);
+        var piece = Instantiate(pieceSpawner.GetPiecePrefab(PieceType.Fool));
+        piece.GetComponent<PieceObject>().RenderName();
+        boardManager.SetPiece(piece,0,0);
     }
 
 
