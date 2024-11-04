@@ -44,8 +44,11 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
         playerObjects.Set(playerCount,playerObject);
         playerCount++;
         if(playerCount == 2){
-            Debug.Log("ゲームスタート");
+            GameStart();
         }
+    }
+    public void GameStart(){
+        Debug.Log("GameStart");
     }
 
     void Start()
