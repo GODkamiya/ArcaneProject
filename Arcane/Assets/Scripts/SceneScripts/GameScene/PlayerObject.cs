@@ -9,6 +9,11 @@ public class PlayerObject : NetworkBehaviour
 {
     [Networked,Capacity(22)]
     NetworkArray<PieceType> deck => default;
+    [Networked]
+    int drawCount{ get; set; } = 0;
+    [Networked,Capacity(22)]
+    NetworkLinkedList<PieceType> hand => default;
+
     // プレイヤーが生成され次第、プレイヤーを登録する
     public override void Spawned(){
         GameManager.singleton.AddPlayerObject_Rpc(GetComponent<NetworkObject>());
@@ -29,5 +34,12 @@ public class PlayerObject : NetworkBehaviour
         }
 
     }
+    public void DrawDeck(){
+        PieceType result = deck.Get(drawCount);
+        drawCount++;
+        hand.Add(result);
+        Debug.Log(result);
+    }
+    
 
 }

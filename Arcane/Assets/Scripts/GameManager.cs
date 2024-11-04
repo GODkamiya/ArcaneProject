@@ -51,6 +51,12 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
     public void GameStart_Rpc(){
         Debug.Log("GameStart");
+        PlayerObject po = localPlayer.GetComponent<PlayerObject>();
+        po.SetDeck();
+        for(int i = 0; i < 5; i++){
+            po.DrawDeck();
+        }
+        
     }
 
     void Start()
