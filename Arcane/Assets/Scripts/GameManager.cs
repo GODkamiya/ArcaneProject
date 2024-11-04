@@ -49,7 +49,7 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     }
     
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
-    public async void GameStart_Rpc(){
+    public void GameStart_Rpc(){
         StartCoroutine(DelayGameStart());
     }
     IEnumerator DelayGameStart(){
