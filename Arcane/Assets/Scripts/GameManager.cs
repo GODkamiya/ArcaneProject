@@ -44,10 +44,12 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
         playerObjects.Set(playerCount,playerObject);
         playerCount++;
         if(playerCount == 2){
-            GameStart();
+            GameStart_Rpc();
         }
     }
-    public void GameStart(){
+    
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+    public void GameStart_Rpc(){
         Debug.Log("GameStart");
     }
 
