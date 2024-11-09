@@ -16,8 +16,12 @@ public class PlayerObject : NetworkBehaviour
 
     // プレイヤーが生成され次第、プレイヤーを登録する
     public override void Spawned(){
-        GameManager.singleton.AddPlayerObject_Rpc(GetComponent<NetworkObject>());
+        if(HasStateAuthority)GameManager.singleton.AddPlayerObject_Rpc(GetComponent<NetworkObject>());
     }
+
+    /// <summary>
+    /// 新たにデッキを生成し、シャッフルする
+    /// </summary>
     public void SetDeck(){
         int count = 0;
         PieceType[] pieceTypes = new PieceType[22];
@@ -32,8 +36,11 @@ public class PlayerObject : NetworkBehaviour
             deck.Set(count, pieceType);
             count++;
         }
-
     }
+
+    /// <summary>
+    /// カードを1枚ドローする
+    /// </summary>
     public void DrawDeck(){
         PieceType result = deck.Get(drawCount);
         drawCount++;
@@ -41,5 +48,13 @@ public class PlayerObject : NetworkBehaviour
         Debug.Log(result);
     }
     
+    /// <summary>
+    /// 手持ちのコマをDebugLogに表示するデバッグ用
+    /// </summary>
+    public void PrintHand(){
+        foreach(PieceType pieceType in hand){
+            Debug.Log(pieceType);
+        }
+    }
 
 }

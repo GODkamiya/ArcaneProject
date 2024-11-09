@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : NetworkBehaviour,IPlayerJoined
 {
     public static GameManager singleton;
-    public static NetworkObject localPlayer;
 
     [SerializeField]
     BoardManager boardManager;
@@ -30,9 +31,8 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
 
     public void PlayerJoined(PlayerRef player)
     {
-        if(player == Runner.LocalPlayer){
-            var playerObject = Runner.Spawn(playerObjectPrefab,Vector3.zero,Quaternion.identity,player);
-            localPlayer = playerObject;
+        if(HasStateAuthority){
+            Runner.Spawn(playerObjectPrefab,Vector3.zero,Quaternion.identity,player);
         }
     }
     /// <summary>
@@ -41,6 +41,7 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     /// <param name="playerObject"></param>
     [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
     public void AddPlayerObject_Rpc(NetworkObject playerObject){
+        print("call AddPlayerObject");
         playerObjects.Set(playerCount,playerObject);
         playerCount++;
         if(playerCount == 2){
@@ -55,7 +56,7 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
     IEnumerator DelayGameStart(){
         yield return new WaitForSeconds(3);
         Debug.Log("GameStart");
-        PlayerObject po = localPlayer.GetComponent<PlayerObject>();
+        PlayerObject po = playerObjects[HasStateAuthority?0:1].GetComponent<PlayerObject>();
         po.SetDeck();
         for(int i = 0; i < 5; i++){
             po.DrawDeck();
@@ -70,6 +71,4 @@ public class GameManager : NetworkBehaviour,IPlayerJoined
         piece.GetComponent<PieceObject>().RenderName();
         boardManager.SetPiece(piece,0,0);
     }
-
-
 }
