@@ -31,8 +31,6 @@ public class MatchingManager : MonoBehaviour
 
         _runnerInstance.ProvideInput = true;
 
-        Debug.Log(_roomnameField.text);
-
         // オンラインの設定を行う
         var startGameArgs = new StartGameArgs(){
             GameMode = GameMode.Shared,
