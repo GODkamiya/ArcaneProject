@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,7 +49,6 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     /// <param name="playerObject"></param>
     [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
     public void AddPlayerObject_Rpc(NetworkObject playerObject){
-        print("call AddPlayerObject");
         playerObjects.Set(playerCount,playerObject);
         playerCount++;
         if(playerCount == 2){
@@ -62,13 +62,11 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     IEnumerator DelayGameStart(){
         yield return new WaitForSeconds(3);
-        Debug.Log("GameStart");
         PlayerObject po = playerObjects[HasStateAuthority?0:1].GetComponent<PlayerObject>();
         po.SetDeck();
         for(int i = 0; i < 5; i++){
             po.DrawDeck();
         }
-        
     }
 
     void Start()
