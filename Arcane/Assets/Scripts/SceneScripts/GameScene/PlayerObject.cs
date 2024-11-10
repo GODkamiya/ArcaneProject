@@ -16,7 +16,10 @@ public class PlayerObject : NetworkBehaviour
 
     // プレイヤーが生成され次第、プレイヤーを登録する
     public override void Spawned(){
-        if(HasStateAuthority)GameManager.singleton.AddPlayerObject_Rpc(GetComponent<NetworkObject>());
+        if(HasStateAuthority){
+            GameManager.singleton.AddPlayerObject_Rpc(GetComponent<NetworkObject>());
+            Debug.Log("Yeeee");
+        }
     }
 
     /// <summary>

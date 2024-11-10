@@ -24,12 +24,12 @@ public class MatchingManager : MonoBehaviour
     public async void StartGame()
     {
         // NetworkRunnerを立ち上げる
-        _runnerInstance = FindObjectOfType<NetworkRunner>();
+        _runnerInstance = FindFirstObjectByType<NetworkRunner>();
         if(_runnerInstance == null){
             _runnerInstance = Instantiate(_networkRunnerPrefab);
         }
 
-        // _runnerInstance.ProvideInput = true;
+        _runnerInstance.ProvideInput = true;
 
         Debug.Log(_roomnameField.text);
 
