@@ -12,4 +12,5 @@ public abstract class PieceObject : NetworkBehaviour
     public void RenderName(){
         GetComponentInChildren<TextMeshPro>().text = GetName();
     }
+    public abstract PieceType GetPieceType();
 }

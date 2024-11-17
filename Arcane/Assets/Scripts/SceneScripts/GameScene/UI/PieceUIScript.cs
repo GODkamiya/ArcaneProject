@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PieceUIScript : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PieceUIScript : MonoBehaviour
 {
     private RectTransform rectTransform;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
+
+    public PieceType pieceType{ get; set; }
 
     private void Awake()
     {
@@ -14,29 +16,7 @@ public class PieceUIScript : MonoBehaviour,IBeginDragHandler, IDragHandler, IEnd
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (canvasGroup != null)
-        {
-            canvasGroup.alpha = 0.6f; // 半透明にする
-            canvasGroup.blocksRaycasts = false; // ドラッグ中にレイキャストを無効にする
-        }
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (canvas != null)
-        {
-            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-        }
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (canvasGroup != null)
-        {
-            canvasGroup.alpha = 1f; // 元に戻す
-            canvasGroup.blocksRaycasts = true; // レイキャストを有効に戻す
-        }
+    public void OnClick(){
+        GameManager.singleton.SetSelectedPieceFromHand(pieceType);
     }
 }

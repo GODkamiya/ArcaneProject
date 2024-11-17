@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -21,6 +22,8 @@ public class BoardManager : MonoBehaviour
             for (int y = 0; y < BOARD_SIZE; y++)
             {
                 GameObject tile = Instantiate(tilePrefab);
+                tile.GetComponent<BoardBlock>().x = x;
+                tile.GetComponent<BoardBlock>().y = y;
                 Vector3 pos = new Vector3(x, 0, y);
                 tile.transform.position = pos;
             }

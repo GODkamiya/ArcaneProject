@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3416839938898371157}
   - component: {fileID: 6885820696331810997}
   - component: {fileID: 1733053332918467377}
+  - component: {fileID: -527372903299621110}
   m_Layer: 5
   m_Name: PieceUI
   m_TagString: Untagged
@@ -89,6 +90,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4232356ce787049b8d29f99aa39879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-527372903299621110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620846639008013647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1733053332918467377}
+          m_TargetAssemblyTypeName: PieceUIScript, Assembly-CSharp
+          m_MethodName: OnClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4040143408367731035
 GameObject:
   m_ObjectHideFlags: 0

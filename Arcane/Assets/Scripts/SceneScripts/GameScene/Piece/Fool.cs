@@ -8,4 +8,9 @@ public class Fool : PieceObject
     {
         return "Fool";
     }
+
+    public override PieceType GetPieceType()
+    {
+        return PieceType.Fool;
+    }
 }

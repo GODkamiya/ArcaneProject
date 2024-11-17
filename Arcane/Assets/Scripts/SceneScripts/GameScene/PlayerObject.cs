@@ -44,6 +44,7 @@ public class PlayerObject : NetworkBehaviour
             count++;
         }
         //シャッフル処理
+        // TODO worldは初期手札に入らない
         PieceType[] shuffle = pieceTypes.OrderBy(i => Guid.NewGuid()).ToArray();
         count = 0;
         foreach(PieceType pieceType in shuffle){
@@ -79,10 +80,18 @@ public class PlayerObject : NetworkBehaviour
         if(!HasStateAuthority){
             return;
         }
+        foreach(Transform child in handPanel.transform){
+            Destroy(child.gameObject);
+        }
         foreach(PieceType pieceType in hand) {
             GameObject pieceUI = Instantiate(pieceUIPrefab);
+            pieceUI.GetComponent<PieceUIScript>().pieceType = pieceType;
             pieceUI.GetComponentInChildren<TextMeshProUGUI>().text = pieceType.ToString();
             pieceUI.transform.SetParent(handPanel.transform, false);
         }
+    }
+
+    public void RemoveHand(PieceType pieceType){
+        hand.Remove(pieceType);
     }
 }

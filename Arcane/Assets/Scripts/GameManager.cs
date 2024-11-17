@@ -24,6 +24,10 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Networked,Capacity(2)]
     NetworkArray<NetworkObject> playerObjects => default;
 
+    public PieceType? selectedPiece{ get; set; }
+
+    private bool isHandPiece = false;
+
     private void Awake(){
         singleton = this;
     }
@@ -72,8 +76,39 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     void Start()
     {
         boardManager.SetBoard();
-        var piece = Instantiate(pieceSpawner.GetPiecePrefab(PieceType.Fool));
+    }
+
+    void Update(){
+        if(Input.GetMouseButtonDown(0)){
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit raycastHithit = new RaycastHit();
+            if(Physics.Raycast(ray,out raycastHithit)){
+                GameObject hitObject = raycastHithit.collider.gameObject;
+                if(hitObject.tag == "Board" && selectedPiece != null){
+                    BoardBlock bb = hitObject.GetComponent<BoardBlock>();
+                    if(bb.y <= 2){
+                        SetPiece(selectedPiece ?? PieceType.Fool,bb.x,bb.y); // TODO nullの対処
+                        PlayerObject po = playerObjects[HasStateAuthority?0:1].GetComponent<PlayerObject>();
+                        if(isHandPiece)po.RemoveHand(selectedPiece ?? PieceType.Fool); // TODO nullの対処
+                        selectedPiece = null;
+                    }
+                }
+                else if(hitObject.tag == "Piece"){
+                    selectedPiece = hitObject.GetComponent<PieceObject>().GetPieceType();
+                    isHandPiece = false;
+                }
+            }
+        }
+
+    }
+    public void SetPiece(PieceType pieceType,int posX,int posY){
+        var piece = Instantiate(pieceSpawner.GetPiecePrefab(pieceType));
         piece.GetComponent<PieceObject>().RenderName();
-        boardManager.SetPiece(piece,0,0);
+        boardManager.SetPiece(piece,posX,posY);
+    }
+
+    public void SetSelectedPieceFromHand(PieceType pieceType){
+        selectedPiece = pieceType;
+        isHandPiece = true;
     }
 }
