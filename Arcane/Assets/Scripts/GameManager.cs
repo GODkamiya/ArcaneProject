@@ -24,11 +24,16 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Networked,Capacity(2)]
     NetworkArray<NetworkObject> playerObjects => default;
 
+    [Networked,Capacity(2),OnChangedRender(nameof(DoneReady))]
+    NetworkArray<int> isReady{ get;} = MakeInitializer(new int[]{0, 0});
+
     public PieceType? selectedPiece{ get; set; }
 
     private bool isHandPiece = false;
 
     private GameObject selectedPieceObject;
+
+    private List<GameObject> localPieces = new List<GameObject>();
 
     private void Awake(){
         singleton = this;
@@ -94,6 +99,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
                         if(isHandPiece){
                             po.RemoveHand(selectedPiece ?? PieceType.Fool); // TODO nullの対処
                         }else{
+                            localPieces.Remove(selectedPieceObject);
                             Destroy(selectedPieceObject);
                         }
                         selectedPiece = null;
@@ -111,6 +117,11 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public void SetPiece(PieceType pieceType,int posX,int posY){
         var piece = Instantiate(pieceSpawner.GetPiecePrefab(pieceType));
         piece.GetComponent<PieceObject>().RenderName();
+        piece.GetComponent<PieceObject>().SetLocalPosition(posX, posY);
+        SetPieceOnBoard(piece,posX,posY);
+        localPieces.Add(piece);
+    }
+    public void SetPieceOnBoard(GameObject piece,int posX,int posY){
         boardManager.SetPiece(piece,posX,posY);
     }
 
@@ -118,5 +129,22 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         selectedPiece = pieceType;
         isHandPiece = true;
         selectedPieceObject = null;
+    }
+
+    public void SwitchIsReady(){
+        isReady.Set(HasStateAuthority?0:1,1);
+    }
+    public void DoneReady(){
+        for(int i = 0; i < 2; i++){
+            if(isReady.Get(i) == 0){
+                return;
+            }
+        }
+        foreach(GameObject piece in localPieces){
+            PieceObject po = piece.GetComponent<PieceObject>();
+            NetworkObject netWorkPiece = Runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
+            netWorkPiece.gameObject.GetComponent<PieceObject>().SetPosition(po.x,po.y);
+            Destroy(piece);
+        }
     }
 }
