@@ -1120,27 +1120,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foolPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  magicianPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  highpriestessPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  empressPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  emperorPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  hierophantPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  loversPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  chariotPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  strengthPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  hermitPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  wheelOfFortunePrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  justicePrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  hangedManPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  deathPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  temperancePrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  devilPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  towerPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  starPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  sunPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  moonPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  JudgementPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
-  worldPrefab: {fileID: 1544669507261657927, guid: c9c439f9a803bf14c88ae3c019656f89, type: 3}
+  magicianPrefab: {fileID: 1544669507261657927, guid: 63792d49eb5c8ac4b9abdaed90ee98a0, type: 3}
+  highpriestessPrefab: {fileID: 1544669507261657927, guid: b4cd5c3ba09fe9b499aee8ccd694db51, type: 3}
+  empressPrefab: {fileID: 1544669507261657927, guid: d22a611e9a8b192418328a8eadfd0378, type: 3}
+  emperorPrefab: {fileID: 1544669507261657927, guid: 7c0b49afb12351747a9baeb831765f1d, type: 3}
+  hierophantPrefab: {fileID: 1544669507261657927, guid: 99449d42d269b0c448b604063a2e9dcb, type: 3}
+  loversPrefab: {fileID: 1544669507261657927, guid: a678b0475431353419e2c232970c467b, type: 3}
+  chariotPrefab: {fileID: 1544669507261657927, guid: 272df2b32da2a6e4daff24317caed16c, type: 3}
+  strengthPrefab: {fileID: 1544669507261657927, guid: 645cceae90896874a8093385bfaf9129, type: 3}
+  hermitPrefab: {fileID: 1544669507261657927, guid: 04c5e9095b9725a4698be65973eeef87, type: 3}
+  wheelOfFortunePrefab: {fileID: 1544669507261657927, guid: 5ac3ca16210266445a54cb8b7f84eb54, type: 3}
+  justicePrefab: {fileID: 1544669507261657927, guid: 16a9dce4e7275ea46b0a9adb0e0c1fab, type: 3}
+  hangedManPrefab: {fileID: 1544669507261657927, guid: 1807b3ad8d7f3c44391743fc4ac0ce5e, type: 3}
+  deathPrefab: {fileID: 1544669507261657927, guid: a17be1d6f2dd0e94492f18325b944fec, type: 3}
+  temperancePrefab: {fileID: 1544669507261657927, guid: b019d9aea006ec841891d5e4130070c8, type: 3}
+  devilPrefab: {fileID: 1544669507261657927, guid: c9f6a6a2d000085489bb5641f0de376a, type: 3}
+  towerPrefab: {fileID: 1544669507261657927, guid: 7774fb6f0493a234cb6848d35adef783, type: 3}
+  starPrefab: {fileID: 1544669507261657927, guid: c7f0f3323fdaa98409abe30a6a77e717, type: 3}
+  sunPrefab: {fileID: 1544669507261657927, guid: 7e40edbb23f9d044da2607e628c2cf5b, type: 3}
+  moonPrefab: {fileID: 1544669507261657927, guid: 92131361f9b70d041957a34ca8e0fb65, type: 3}
+  JudgementPrefab: {fileID: 1544669507261657927, guid: c97abc31a698d89458502da881fd9b22, type: 3}
+  worldPrefab: {fileID: 1544669507261657927, guid: b233b984ebeb1be4c9e301b9c9af2bb5, type: 3}
 --- !u!4 &1836417348
 Transform:
   m_ObjectHideFlags: 0
