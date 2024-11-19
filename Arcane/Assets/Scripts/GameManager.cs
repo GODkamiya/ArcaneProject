@@ -28,6 +28,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     private bool isHandPiece = false;
 
+    private GameObject selectedPieceObject;
+
     private void Awake(){
         singleton = this;
     }
@@ -89,13 +91,18 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
                     if(bb.y <= 2){
                         SetPiece(selectedPiece ?? PieceType.Fool,bb.x,bb.y); // TODO nullの対処
                         PlayerObject po = playerObjects[HasStateAuthority?0:1].GetComponent<PlayerObject>();
-                        if(isHandPiece)po.RemoveHand(selectedPiece ?? PieceType.Fool); // TODO nullの対処
+                        if(isHandPiece){
+                            po.RemoveHand(selectedPiece ?? PieceType.Fool); // TODO nullの対処
+                        }else{
+                            Destroy(selectedPieceObject);
+                        }
                         selectedPiece = null;
                     }
                 }
                 else if(hitObject.tag == "Piece"){
                     selectedPiece = hitObject.GetComponent<PieceObject>().GetPieceType();
                     isHandPiece = false;
+                    selectedPieceObject = hitObject;
                 }
             }
         }
@@ -110,5 +117,6 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public void SetSelectedPieceFromHand(PieceType pieceType){
         selectedPiece = pieceType;
         isHandPiece = true;
+        selectedPieceObject = null;
     }
 }
