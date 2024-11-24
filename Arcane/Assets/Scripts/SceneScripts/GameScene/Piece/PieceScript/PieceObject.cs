@@ -8,6 +8,12 @@ using UnityEngine;
 public abstract class PieceObject : NetworkBehaviour
 {
     public int x,y;
+
+    public override void Spawned()
+    {
+        RenderName();
+    }
+
     public void SetLocalPosition(int newX,int newY){
         x = newX;
         y = newY;
