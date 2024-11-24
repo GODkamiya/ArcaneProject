@@ -23,9 +23,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     // プレイヤーのデータ
     [Networked,Capacity(2)]
     NetworkArray<NetworkObject> playerObjects => default;
-
-    [Networked,Capacity(2),OnChangedRender(nameof(DoneReady))]
-    NetworkArray<int> isReady{ get;} = MakeInitializer(new int[]{0, 0});
+    private bool[] isReady = new bool[2]{false,false};
 
     public PieceType? selectedPiece{ get; set; }
 
@@ -132,14 +130,22 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
 
     public void SwitchIsReady(){
-        isReady.Set(HasStateAuthority?0:1,1);
+        SwitchIsReady_Rpc(HasStateAuthority?0:1);
+    }
+
+    [Rpc(RpcSources.All,RpcTargets.All)]
+    public void SwitchIsReady_Rpc(int index){
+        isReady[index] = true;
+        DoneReady();
     }
     public void DoneReady(){
         for(int i = 0; i < 2; i++){
-            if(isReady.Get(i) == 0){
+            if(!isReady[i]){
+                print($"{i} is not ready");
                 return;
             }
         }
+        print("call");
         foreach(GameObject piece in localPieces){
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = Runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
