@@ -94,4 +94,7 @@ public class PlayerObject : NetworkBehaviour
     public void RemoveHand(PieceType pieceType){
         hand.Remove(pieceType);
     }
+    public bool HasSelectedKing(){
+        return PlayerClickHandler.singleton.kingPieceType != null;
+    }
 }

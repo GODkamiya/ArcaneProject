@@ -5,7 +5,8 @@ public class PlayerClickHandler : MonoBehaviour
     public static PlayerClickHandler singleton;
     public PieceType? selectedPieceType { get; set; }
     private bool isPieceFromHand = false;
-
+    private bool isKingSelect = false;
+    public PieceType? kingPieceType = null;
     private GameObject selectedPieceObject;
     private void Awake(){
         singleton = this;
@@ -34,9 +35,13 @@ public class PlayerClickHandler : MonoBehaviour
         }
         else if (hitObject.tag == "Piece")
         {
-            selectedPieceType = hitObject.GetComponent<PieceObject>().GetPieceType();
-            isPieceFromHand = false;
-            selectedPieceObject = hitObject;
+            if(isKingSelect){
+                kingPieceType = hitObject.GetComponent<PieceObject>().GetPieceType();
+            }else{
+                selectedPieceType = hitObject.GetComponent<PieceObject>().GetPieceType();
+                isPieceFromHand = false;
+                selectedPieceObject = hitObject;
+            }
         }
     }
     void ClickBoard(GameObject hitObject)
@@ -63,5 +68,8 @@ public class PlayerClickHandler : MonoBehaviour
         selectedPieceType = pieceType;
         isPieceFromHand = true;
         selectedPieceObject = null;
+    }
+    public void SwitchIsSelectKing(){
+        isKingSelect = true;
     }
 }

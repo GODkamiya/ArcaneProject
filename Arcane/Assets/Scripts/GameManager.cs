@@ -87,7 +87,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void SwitchIsReady()
     {
-        SwitchIsReady_Rpc(HasStateAuthority ? 0 : 1);
+        if (GetLocalPlayerObject().HasSelectedKing())
+        {
+            BoardManager.singleton.SetKing();
+            SwitchIsReady_Rpc(HasStateAuthority ? 0 : 1);
+        }else{
+            PlayerClickHandler.singleton.SwitchIsSelectKing();
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]

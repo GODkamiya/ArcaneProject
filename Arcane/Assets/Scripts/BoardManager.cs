@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -17,7 +18,8 @@ public class BoardManager : MonoBehaviour
     const int BOARD_SIZE = 10;
     private List<GameObject> localPieces = new List<GameObject>();
 
-    private void Awake(){
+    private void Awake()
+    {
         singleton = this;
     }
 
@@ -63,11 +65,30 @@ public class BoardManager : MonoBehaviour
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
             netWorkPiece.gameObject.GetComponent<PieceObject>().SetPosition(po.x, po.y);
+            netWorkPiece.gameObject.GetComponent<PieceObject>().SetKing(po.isKing);
             Destroy(piece);
         }
     }
-    public void RemoveLocalPiece(GameObject selectedPieceObject){
+    public void RemoveLocalPiece(GameObject selectedPieceObject)
+    {
         localPieces.Remove(selectedPieceObject);
         Destroy(selectedPieceObject);
+    }
+    public List<GameObject> GetLocalPieces()
+    {
+        return localPieces;
+    }
+    public void SetKing()
+    {
+        foreach (GameObject piece in localPieces)
+        {
+            PieceObject pieceObject = piece.GetComponent<PieceObject>();
+            if (pieceObject.GetPieceType().Equals(PlayerClickHandler.singleton.kingPieceType))
+            {
+                pieceObject.isKing = true;
+                return;
+            }
+        }
+
     }
 }
