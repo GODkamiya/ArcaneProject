@@ -16,6 +16,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     [SerializeField]
     GameObject playerObjectPrefab;
+    [SerializeField]
+    GameObject drawOrSummonPanel;
 
     // プレイヤー数のカウント
     private int playerCount = 0;
@@ -23,6 +25,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Networked, Capacity(2)]
     NetworkArray<NetworkObject> playerObjects => default;
     private bool[] isReady = new bool[2] { false, false };
+
+    private bool is1pTurn = true;
 
     public PlayerObject GetLocalPlayerObject() => playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
     public PlayerObject GetEnemyPlayerObject() => playerObjects[HasStateAuthority ? 1 : 0].GetComponent<PlayerObject>();
@@ -91,7 +95,9 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         {
             BoardManager.singleton.SetKing();
             SwitchIsReady_Rpc(HasStateAuthority ? 0 : 1);
-        }else{
+        }
+        else
+        {
             PlayerClickHandler.singleton.SwitchIsSelectKing();
         }
     }
@@ -114,5 +120,26 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         }
         print("call");
         boardManager.AsyncPiece(Runner);
+        TurnStart();
+    }
+    public void TurnStart()
+    {
+        if (is1pTurn == HasStateAuthority) {
+            DrawOrSummonPhase();
+         }
+    }
+    /// <summary>
+    /// ドローか召喚かを問う時間
+    /// </summary>
+    public void DrawOrSummonPhase()
+    {
+        drawOrSummonPanel.SetActive(true);
+    }
+    public void DrawPhase(){
+        GetLocalPlayerObject().DrawDeck();
+        drawOrSummonPanel.SetActive(false);
+    }
+    public void SummonPhase(){
+
     }
 }

@@ -7,6 +7,11 @@ public class WheelOfFortune : PieceObject
         return "WheelOfFortune";
     }
 
+    public override PieceMovement GetPieceMovement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override PieceType GetPieceType()
     {
         return PieceType.WheelOfFortune;

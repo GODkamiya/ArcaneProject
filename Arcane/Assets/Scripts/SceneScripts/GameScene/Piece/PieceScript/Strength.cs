@@ -7,6 +7,11 @@ public class Strength : PieceObject
         return "Strength";
     }
 
+    public override PieceMovement GetPieceMovement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override PieceType GetPieceType()
     {
         return PieceType.Strength;

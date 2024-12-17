@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Fusion;
 using TMPro;
 using UnityEngine;
@@ -50,4 +51,5 @@ public abstract class PieceObject : NetworkBehaviour
             gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
     }
+    public abstract PieceMovement GetPieceMovement();
 }

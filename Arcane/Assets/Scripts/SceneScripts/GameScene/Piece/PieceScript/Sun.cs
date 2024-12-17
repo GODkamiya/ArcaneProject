@@ -7,6 +7,11 @@ public class Sun : PieceObject
         return "Sun";
     }
 
+    public override PieceMovement GetPieceMovement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override PieceType GetPieceType()
     {
         return PieceType.Sun;

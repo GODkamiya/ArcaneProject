@@ -7,6 +7,11 @@ public class Hierophant : PieceObject
         return "Hierophant";
     }
 
+    public override PieceMovement GetPieceMovement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override PieceType GetPieceType()
     {
         return PieceType.Hierophant;

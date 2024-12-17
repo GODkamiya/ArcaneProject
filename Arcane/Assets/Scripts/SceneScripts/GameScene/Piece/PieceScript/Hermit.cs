@@ -7,6 +7,11 @@ public class Hermit : PieceObject
         return "Hermit";
     }
 
+    public override PieceMovement GetPieceMovement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override PieceType GetPieceType()
     {
         return PieceType.Hermit;

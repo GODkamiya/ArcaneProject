@@ -7,6 +7,11 @@ public class HighPriestess : PieceObject
         return "HighPriestess";
     }
 
+    public override PieceMovement GetPieceMovement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override PieceType GetPieceType()
     {
         return PieceType.HighPriestess;
