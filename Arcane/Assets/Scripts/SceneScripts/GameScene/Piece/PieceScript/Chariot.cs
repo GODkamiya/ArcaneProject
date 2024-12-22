@@ -7,7 +7,7 @@ public class Chariot : PieceObject
         return "Chariot";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovement(int x, int y)
     {
         throw new System.NotImplementedException();
     }

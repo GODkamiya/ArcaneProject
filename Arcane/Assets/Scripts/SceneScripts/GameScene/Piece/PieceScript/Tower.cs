@@ -7,7 +7,7 @@ public class Tower : PieceObject
         return "Tower";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovement(int x, int y)
     {
         throw new System.NotImplementedException();
     }
