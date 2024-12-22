@@ -6,9 +6,11 @@ public class PlayerClickHandler : MonoBehaviour
     public PieceType? selectedPieceType { get; set; }
     private bool isPieceFromHand = false;
     private bool isKingSelect = false;
+    public bool isPieceMovementPhase = false;
     public PieceType? kingPieceType = null;
     private GameObject selectedPieceObject;
-    private void Awake(){
+    private void Awake()
+    {
         singleton = this;
     }
     // Update is called once per frame
@@ -35,13 +37,7 @@ public class PlayerClickHandler : MonoBehaviour
         }
         else if (hitObject.tag == "Piece")
         {
-            if(isKingSelect){
-                kingPieceType = hitObject.GetComponent<PieceObject>().GetPieceType();
-            }else{
-                selectedPieceType = hitObject.GetComponent<PieceObject>().GetPieceType();
-                isPieceFromHand = false;
-                selectedPieceObject = hitObject;
-            }
+            ClickPiece(hitObject);
         }
     }
     void ClickBoard(GameObject hitObject)
@@ -50,7 +46,7 @@ public class PlayerClickHandler : MonoBehaviour
         if (bb.y >= 3) return;
 
         BoardManager.singleton.SetPiece(selectedPieceType ?? PieceType.Fool, bb.x, bb.y); // TODO nullの対処
-        
+
         if (isPieceFromHand)
         {
             PlayerObject po = GameManager.singleton.GetLocalPlayerObject();
@@ -63,13 +59,37 @@ public class PlayerClickHandler : MonoBehaviour
         selectedPieceType = null;
 
     }
+    public void ClickPiece(GameObject pieceObject)
+    {
+        PieceObject piece = pieceObject.GetComponent<PieceObject>();
+        if (isPieceMovementPhase)
+        {
+            PieceMovement move = piece.GetPieceMovement();
+            BoardManager.singleton.ShowMovement(move);
+        }
+        else
+        {
+            if (isKingSelect)
+            {
+                kingPieceType = piece.GetPieceType();
+            }
+            else
+            {
+                selectedPieceType = piece.GetPieceType();
+                isPieceFromHand = false;
+                selectedPieceObject = pieceObject;
+            }
+
+        }
+    }
     public void SetSelectedPieceFromHand(PieceType pieceType)
     {
         selectedPieceType = pieceType;
         isPieceFromHand = true;
         selectedPieceObject = null;
     }
-    public void SwitchIsSelectKing(){
+    public void SwitchIsSelectKing()
+    {
         isKingSelect = true;
     }
 }

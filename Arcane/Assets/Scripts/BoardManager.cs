@@ -17,6 +17,7 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     const int BOARD_SIZE = 10;
     private List<GameObject> localPieces = new List<GameObject>();
+    private GameObject[,] board = new GameObject[BOARD_SIZE, BOARD_SIZE];
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class BoardManager : MonoBehaviour
                 tile.GetComponent<BoardBlock>().y = y;
                 Vector3 pos = new Vector3(x, 0, y);
                 tile.transform.position = pos;
+                board[x, y] = tile;
             }
         }
     }
@@ -90,5 +92,18 @@ public class BoardManager : MonoBehaviour
             }
         }
 
+    }
+    public void ShowMovement(PieceMovement pieceMovement)
+    {
+        for (int x = 0; x < 10; x++)
+        {
+            for (int y = 0; y < 10; y++)
+            {
+                if (pieceMovement.range[x, y])
+                {
+                    board[x,y].GetComponent<Renderer>().material.color = Color.green;
+                }
+            }
+        }
     }
 }

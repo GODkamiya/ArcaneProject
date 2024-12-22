@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class PieceMovement
 {
-    private bool[,] range = new bool[10,10];
+    public bool[,] range = new bool[10,10];
 }

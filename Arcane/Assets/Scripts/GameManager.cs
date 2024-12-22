@@ -124,9 +124,10 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void TurnStart()
     {
-        if (is1pTurn == HasStateAuthority) {
+        if (is1pTurn == HasStateAuthority)
+        {
             DrawOrSummonPhase();
-         }
+        }
     }
     /// <summary>
     /// ドローか召喚かを問う時間
@@ -135,11 +136,14 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
         drawOrSummonPanel.SetActive(true);
     }
-    public void DrawPhase(){
+    public void DrawPhase()
+    {
         GetLocalPlayerObject().DrawDeck();
         drawOrSummonPanel.SetActive(false);
+        PlayerClickHandler.singleton.isPieceMovementPhase = true;
     }
-    public void SummonPhase(){
+    public void SummonPhase()
+    {
 
     }
 }
