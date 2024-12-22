@@ -146,4 +146,14 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
 
     }
+    public void TurnEnd()
+    {
+        TurnEnd_RPC();
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void TurnEnd_RPC()
+    {
+        is1pTurn = !is1pTurn;
+        TurnStart();
+    }
 }

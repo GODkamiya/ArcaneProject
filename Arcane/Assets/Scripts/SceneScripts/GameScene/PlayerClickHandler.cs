@@ -7,8 +7,10 @@ public class PlayerClickHandler : MonoBehaviour
     private bool isPieceFromHand = false;
     private bool isKingSelect = false;
     public bool isPieceMovementPhase = false;
+    public bool isMovementTilePhase = false;
     public PieceType? kingPieceType = null;
     private GameObject selectedPieceObject;
+    private GameObject latestPiece;
     private void Awake()
     {
         singleton = this;
@@ -31,7 +33,7 @@ public class PlayerClickHandler : MonoBehaviour
     void ClickObject(RaycastHit clickedObject)
     {
         GameObject hitObject = clickedObject.collider.gameObject;
-        if (hitObject.tag == "Board" && selectedPieceType != null)
+        if (hitObject.tag == "Board")
         {
             ClickBoard(hitObject);
         }
@@ -43,7 +45,12 @@ public class PlayerClickHandler : MonoBehaviour
     void ClickBoard(GameObject hitObject)
     {
         BoardBlock bb = hitObject.GetComponent<BoardBlock>();
-        if (bb.y >= 3) return;
+        if(isMovementTilePhase){
+            latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y);
+            isMovementTilePhase = false;
+            GameManager.singleton.TurnEnd();
+        }
+        if (bb.y >= 3 || selectedPieceType == null) return;
 
         BoardManager.singleton.SetPiece(selectedPieceType ?? PieceType.Fool, bb.x, bb.y); // TODO nullの対処
 
@@ -61,11 +68,14 @@ public class PlayerClickHandler : MonoBehaviour
     }
     public void ClickPiece(GameObject pieceObject)
     {
+        latestPiece = pieceObject;
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
         if (isPieceMovementPhase)
         {
             PieceMovement move = piece.GetPieceMovement();
             BoardManager.singleton.ShowMovement(move);
+            isPieceMovementPhase = false;
+            isMovementTilePhase = true;
         }
         else
         {

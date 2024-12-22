@@ -31,6 +31,8 @@ public abstract class PieceObject : NetworkBehaviour
             newX = 9 - newX;
             newY = 9 - newY;
         }
+        x = newX;
+        y = newY;
         BoardManager.singleton.SetPieceOnBoard(gameObject, newX,newY);
     }
     public abstract String GetName();
