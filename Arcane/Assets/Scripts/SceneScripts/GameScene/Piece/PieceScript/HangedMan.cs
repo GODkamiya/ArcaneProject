@@ -9,7 +9,9 @@ public class HangedMan : PieceObject
 
     public override PieceMovement GetPieceMovement()
     {
-        throw new System.NotImplementedException();
+        PieceMovement pm = new PieceMovement();
+        pm.range[x, y + 1] = true;
+        return pm;
     }
 
     public override PieceType GetPieceType()
