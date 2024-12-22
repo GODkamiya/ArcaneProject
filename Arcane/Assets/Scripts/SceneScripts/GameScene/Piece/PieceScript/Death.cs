@@ -7,7 +7,7 @@ public class Death : PieceObject
         return "Death";
     }
 
-    public override PieceMovement GetPieceMovement(int x, int y)
+    public override PieceMovement GetPieceMovement()
     {
         throw new System.NotImplementedException();
     }

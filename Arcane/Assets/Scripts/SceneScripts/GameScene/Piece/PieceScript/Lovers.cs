@@ -7,7 +7,7 @@ public class Lovers : PieceObject
         return "Lovers";
     }
 
-    public override PieceMovement GetPieceMovement(int x, int y)
+    public override PieceMovement GetPieceMovement()
     {
         throw new System.NotImplementedException();
     }

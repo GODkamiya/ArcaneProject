@@ -7,7 +7,7 @@ public class HangedMan : PieceObject
         return "HangedMan";
     }
 
-    public override PieceMovement GetPieceMovement(int x, int y)
+    public override PieceMovement GetPieceMovement()
     {
         throw new System.NotImplementedException();
     }

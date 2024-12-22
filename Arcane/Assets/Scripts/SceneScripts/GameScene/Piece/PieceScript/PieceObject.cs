@@ -51,5 +51,5 @@ public abstract class PieceObject : NetworkBehaviour
             gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
     }
-    public abstract PieceMovement GetPieceMovement(int x, int y);
+    public abstract PieceMovement GetPieceMovement();
 }

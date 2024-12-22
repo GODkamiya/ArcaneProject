@@ -7,7 +7,7 @@ public class Sun : PieceObject
         return "Sun";
     }
 
-    public override PieceMovement GetPieceMovement(int x, int y)
+    public override PieceMovement GetPieceMovement()
     {
         throw new System.NotImplementedException();
     }
