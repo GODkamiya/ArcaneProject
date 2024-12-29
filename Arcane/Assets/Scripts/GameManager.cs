@@ -4,6 +4,7 @@ using Fusion;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class GameManager : NetworkBehaviour, IPlayerJoined
@@ -16,7 +17,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     [SerializeField]
     GameObject playerObjectPrefab;
-    
+
 
     // プレイヤー数のカウント
     private int playerCount = 0;
@@ -84,18 +85,18 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
         boardManager.SetBoard();
     }
-    public void SwitchIsReady()
+    public void DoneSummon()
     {
-        if (GetLocalPlayerObject().HasSelectedKing())
-        {
-            BoardManager.singleton.SetKing();
-            SwitchIsReady_Rpc(HasStateAuthority ? 0 : 1);
-        }
-        else
-        {
-            PlayerClickHandler.singleton.SwitchIsSelectKing();
-            phaseMachine.TransitionTo(new InitialSelectKingPhase());
-        }
+        if (BoardManager.singleton.GetLocalPieces().Count != 5) return;
+
+        phaseMachine.TransitionTo(new InitialSelectKingPhase());
+    }
+    public void DoneSelectKing()
+    {
+        if (!GetLocalPlayerObject().HasSelectedKing()) return;
+        phaseMachine.TransitionTo(new WaitPhase());
+        BoardManager.singleton.SetKing();
+        SwitchIsReady_Rpc(HasStateAuthority ? 0 : 1);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -130,14 +131,11 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     /// </summary>
     public void DrawOrSummonPhase()
     {
-        
         phaseMachine.TransitionTo(new DrawOrSummonPhase());
     }
     public void DrawPhase()
     {
         GetLocalPlayerObject().DrawDeck();
-        
-        PlayerClickHandler.singleton.isPieceMovementPhase = true;
         phaseMachine.TransitionTo(new ActionPhase());
     }
     public void SummonPhase()
@@ -146,6 +144,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void TurnEnd()
     {
+        phaseMachine.TransitionTo(new WaitPhase());
         TurnEnd_RPC();
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -153,5 +152,10 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
         is1pTurn = !is1pTurn;
         TurnStart();
+    }
+    public void ShutDown()
+    {
+        SceneManager.LoadScene("Matching");
+        Runner.Shutdown();
     }
 }

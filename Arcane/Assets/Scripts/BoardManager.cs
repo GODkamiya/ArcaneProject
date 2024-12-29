@@ -18,6 +18,7 @@ public class BoardManager : MonoBehaviour
     const int BOARD_SIZE = 10;
     private List<GameObject> localPieces = new List<GameObject>();
     private GameObject[,] board = new GameObject[BOARD_SIZE, BOARD_SIZE];
+    public GameObject[,] onlinePieces = new GameObject[BOARD_SIZE, BOARD_SIZE];
 
     private void Awake()
     {
@@ -48,16 +49,21 @@ public class BoardManager : MonoBehaviour
     /// <param name="piece">配置したい駒</param>
     /// <param name="x">駒の座標</param>
     /// <param name="y">駒の座標</param>
-    public void SetPieceOnBoard(GameObject piece, int x, int y)
+    public void SetPieceOnBoard(GameObject piece, int x, int y, bool isOnline)
     {
         piece.transform.position = new Vector3(x, 0.5f, y);
+        if(isOnline)onlinePieces[x, y] = piece;
+    }
+    public void RemovePieceOnBoard(int x, int y)
+    {
+        onlinePieces[x, y] = null;
     }
     public void SetPiece(PieceType pieceType, int posX, int posY)
     {
         var piece = Instantiate(pieceSpawner.GetPiecePrefab(pieceType));
         piece.GetComponent<PieceObject>().RenderName();
         piece.GetComponent<PieceObject>().SetLocalPosition(posX, posY);
-        SetPieceOnBoard(piece, posX, posY);
+        SetPieceOnBoard(piece, posX, posY,false);
         localPieces.Add(piece);
     }
     public void AsyncPiece(NetworkRunner runner)
@@ -85,7 +91,7 @@ public class BoardManager : MonoBehaviour
         foreach (GameObject piece in localPieces)
         {
             PieceObject pieceObject = piece.GetComponent<PieceObject>();
-            if (pieceObject.GetPieceType().Equals(PlayerClickHandler.singleton.kingPieceType))
+            if (pieceObject.GetPieceType().Equals(GameManager.singleton.GetLocalPlayerObject().kingPieceType))
             {
                 pieceObject.isKing = true;
                 return;
@@ -95,14 +101,25 @@ public class BoardManager : MonoBehaviour
     }
     public void ShowMovement(PieceMovement pieceMovement)
     {
+        ClearMovement();
         for (int x = 0; x < 10; x++)
         {
             for (int y = 0; y < 10; y++)
             {
                 if (pieceMovement.range[x, y])
                 {
-                    board[x,y].GetComponent<Renderer>().material.color = Color.green;
+                    board[x, y].GetComponent<Renderer>().material.color = Color.green;
                 }
+            }
+        }
+    }
+    public void ClearMovement()
+    {
+        for (int x = 0; x < 10; x++)
+        {
+            for (int y = 0; y < 10; y++)
+            {
+                board[x, y].GetComponent<Renderer>().material.color = Color.white;
             }
         }
     }

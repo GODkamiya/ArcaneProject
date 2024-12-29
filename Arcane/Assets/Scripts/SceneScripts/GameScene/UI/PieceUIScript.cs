@@ -17,6 +17,6 @@ public class PieceUIScript : MonoBehaviour
     }
 
     public void OnClick(){
-        PlayerClickHandler.singleton.SetSelectedPieceFromHand(pieceType);
+        PlayerClickHandler.singleton.ClickHand(pieceType);
     }
 }

@@ -20,6 +20,7 @@ public class PlayerObject : NetworkBehaviour
     // 自分から見て、どちらかが入り、同期されない。
     private PlayerPanel responsePanel;
     private GameObject handPanel;
+    public PieceType? kingPieceType{ get; set; }
     // プレイヤーが生成され次第、プレイヤーを登録する
     public override void Spawned(){
         GameObject allyPanel = GameObject.Find("Canvas/AllyPanel");
@@ -95,6 +96,6 @@ public class PlayerObject : NetworkBehaviour
         hand.Remove(pieceType);
     }
     public bool HasSelectedKing(){
-        return PlayerClickHandler.singleton.kingPieceType != null;
+        return kingPieceType != null;
     }
 }

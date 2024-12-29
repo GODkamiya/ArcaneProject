@@ -8,6 +8,7 @@ public class PhaseMachine
         currentPhase.Enter();
     }
     public void TransitionTo(IPhase nextPhase){
+        if(currentPhase is GameEndPhase)return;
         currentPhase.Exit();
         this.currentPhase = nextPhase;
         currentPhase.Enter();
