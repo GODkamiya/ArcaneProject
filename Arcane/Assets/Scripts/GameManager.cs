@@ -16,8 +16,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     [SerializeField]
     GameObject playerObjectPrefab;
-    [SerializeField]
-    GameObject drawOrSummonPanel;
+    
 
     // プレイヤー数のカウント
     private int playerCount = 0;
@@ -30,7 +29,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     public PlayerObject GetLocalPlayerObject() => playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
     public PlayerObject GetEnemyPlayerObject() => playerObjects[HasStateAuthority ? 1 : 0].GetComponent<PlayerObject>();
-
+    public PhaseMachine phaseMachine = new PhaseMachine();
     private void Awake()
     {
         singleton = this;
@@ -72,17 +71,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void GameStart_Rpc()
     {
-        StartCoroutine(DelayGameStart());
-    }
-    IEnumerator DelayGameStart()
-    {
-        yield return new WaitForSeconds(3);
         PlayerObject po = playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
         po.SetDeck();
         for (int i = 0; i < 5; i++)
         {
             po.DrawDeck();
         }
+        phaseMachine.Initialize(new InitialSummonPhase());
     }
 
     void Start()
@@ -99,6 +94,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         else
         {
             PlayerClickHandler.singleton.SwitchIsSelectKing();
+            phaseMachine.TransitionTo(new InitialSelectKingPhase());
         }
     }
 
@@ -134,13 +130,15 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     /// </summary>
     public void DrawOrSummonPhase()
     {
-        drawOrSummonPanel.SetActive(true);
+        
+        phaseMachine.TransitionTo(new DrawOrSummonPhase());
     }
     public void DrawPhase()
     {
         GetLocalPlayerObject().DrawDeck();
-        drawOrSummonPanel.SetActive(false);
+        
         PlayerClickHandler.singleton.isPieceMovementPhase = true;
+        phaseMachine.TransitionTo(new ActionPhase());
     }
     public void SummonPhase()
     {
