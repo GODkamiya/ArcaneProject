@@ -35,6 +35,7 @@ public abstract class PieceObject : NetworkBehaviour
         {
             newX = 9 - newX;
             newY = 9 - newY;
+            gameObject.GetComponent<Renderer>().material.color = Color.gray;
         }
         x = newX;
         y = newY;
@@ -63,10 +64,11 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetKing_RPC(int value)
     {
         isKing = value == 1;
-        if (isKing)
+        if(isKing && HasStateAuthority)
         {
             gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
+
     }
     public abstract PieceMovement GetPieceMovement();
     public void Death()
