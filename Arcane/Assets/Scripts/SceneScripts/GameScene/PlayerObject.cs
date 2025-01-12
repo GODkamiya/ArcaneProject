@@ -21,6 +21,7 @@ public class PlayerObject : NetworkBehaviour
     private PlayerPanel responsePanel;
     private GameObject handPanel;
     public PieceType? kingPieceType { get; set; }
+    public GameObject? kingPieceObject { get; set; }
     // プレイヤーが生成され次第、プレイヤーを登録する
     public override void Spawned()
     {
@@ -132,5 +133,13 @@ public class PlayerObject : NetworkBehaviour
     }
     public bool HasSelectedKing(){
         return kingPieceType != null;
+    }
+    public void SetKingPieceType(GameObject pieceObject){
+        if(kingPieceObject != null){
+            kingPieceObject.GetComponent<Renderer>().material.color = Color.white;
+        }
+        kingPieceType = pieceObject.GetComponent<PieceObject>().GetPieceType();
+        kingPieceObject = pieceObject;
+        pieceObject.GetComponent<Renderer>().material.color = Color.red;
     }
 }

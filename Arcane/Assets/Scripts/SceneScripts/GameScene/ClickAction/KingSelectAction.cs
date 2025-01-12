@@ -9,6 +9,7 @@ public class KingSelectAction : IClickAction
 
     public void OnClickPiece(GameObject pieceObject)
     {
-        GameManager.singleton.GetLocalPlayerObject().kingPieceType = pieceObject.GetComponent<PieceObject>().GetPieceType();
+        GameManager.singleton.GetLocalPlayerObject().SetKingPieceType(pieceObject);
+        
     }
 }
