@@ -130,6 +130,9 @@ public class PlayerObject : NetworkBehaviour
     public void AddHand(PieceType pieceType){
         hand.Add(pieceType);
     }
+    public bool HasOneCard(){
+        return hand.Count > 0;
+    }
     public bool HasSelectedKing(){
         return kingPieceType != null;
     }
