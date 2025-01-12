@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     public void ShowDrawOrSummonPanel()
     {
         drawOrSummonPanel.SetActive(true);
+        drawOrSummonPanel.transform.Find("SummonButton").gameObject.SetActive(GameManager.singleton.GetLocalPlayerObject().HasOneCard());
     }
     public void HideDrawOrSummonPanel()
     {
