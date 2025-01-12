@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 .vscode/
 UpgradeLog.htm
+
+/Assets/Photon/FusionDemos/Photon-Fusion-Intro-Sample-2.0.3-Stable-858.unitypackage.meta
+/Assets/Photon/FusionMenu/Photon-Fusion-Menu-2.0.3-Stable-858.unitypackage.meta

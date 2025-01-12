@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject initSelectKingPanel;
     [SerializeField]
+    GameObject summonPanel;
+    [SerializeField]
     GameObject gameEndPanel;
 
     private void Awake()
@@ -40,6 +42,12 @@ public class UIManager : MonoBehaviour
     public void HideInitSelectKingPanel()
     {
         initSelectKingPanel.SetActive(false);
+    }
+    public void ShowSummonPanel(){
+        summonPanel.SetActive(true);
+    }
+    public void HideSummonPanel(){
+        summonPanel.SetActive(false);
     }
     public void ShowGameEndPanel(bool is1pWin)
     {

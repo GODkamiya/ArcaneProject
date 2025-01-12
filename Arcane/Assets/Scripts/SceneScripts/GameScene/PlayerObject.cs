@@ -127,8 +127,10 @@ public class PlayerObject : NetworkBehaviour
     {
         hand.Remove(pieceType);
     }
-    public bool HasSelectedKing()
-    {
+    public void AddHand(PieceType pieceType){
+        hand.Add(pieceType);
+    }
+    public bool HasSelectedKing(){
         return kingPieceType != null;
     }
 }

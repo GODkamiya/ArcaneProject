@@ -2,36 +2,55 @@ using UnityEngine;
 
 public class SummonClickAction : IClickAction, IClickHand
 {
-    private GameObject latestSelectPiece;
-    private PieceType? latestSelectHandPieceType;
+    private PieceType? latestSelectedPieceType;
+    private GameObject putLocalPiece;
+    private PieceType putLocalPieceType;
+    private bool hasPut = false;
     public void OnClickBoard(BoardBlock bb)
     {
-        if(bb.y >= 3)return;
-        if (latestSelectPiece != null)
+        if (bb.y >= 3) return;
+
+        PieceType pt = latestSelectedPieceType ?? PieceType.Fool;
+        // 既に置いてあるにも関わらず、新たなコマを召喚しようとする場合、既存のコマをしまい、新たなコマを召喚する
+        if (hasPut && latestSelectedPieceType != null)
         {
-            BoardManager.singleton.SetPiece(latestSelectPiece.GetComponent<PieceObject>().GetPieceType(), bb.x, bb.y);
-            BoardManager.singleton.RemoveLocalPiece(latestSelectPiece);
-            latestSelectPiece = null;
-        }
-        else if (latestSelectHandPieceType != null)
-        {
-            PieceType pt = latestSelectHandPieceType ?? PieceType.Fool; // TODO nullの対処
+            // 既存のコマを削除し、手札に戻す
+            BoardManager.singleton.RemoveLocalPiece(putLocalPiece);
             PlayerObject po = GameManager.singleton.GetLocalPlayerObject();
-            po.RemoveHand(pt);
-            BoardManager.singleton.SetPiece(pt, bb.x, bb.y);
-            latestSelectHandPieceType = null;
+            po.AddHand(putLocalPieceType);
+            // 新たなコマの設置
+            PutNewPiece(pt,bb.x,bb.y);
         }
+        // 既に置いてあり、ただ盤をクリックしただけの場合は、コマを移動する。
+        else if (hasPut)
+        {
+            BoardManager.singleton.RemoveLocalPiece(putLocalPiece);
+            putLocalPiece = BoardManager.singleton.SetPiece(putLocalPieceType, bb.x, bb.y);
+        }
+        // まだコマを置いてない場合は、コマを設置する
+        else if(latestSelectedPieceType != null)
+        {
+            PutNewPiece(pt, bb.x, bb.y);
+        }
+    }
+
+    // 手札から新たなコマを召喚する
+    private void PutNewPiece(PieceType pt, int x, int y)
+    {
+        PlayerObject po = GameManager.singleton.GetLocalPlayerObject();
+        po.RemoveHand(pt);
+        putLocalPiece = BoardManager.singleton.SetPiece(pt, x, y);
+        putLocalPieceType = pt;
+        latestSelectedPieceType = null;
+        hasPut = true;
     }
 
     public void OnClickHand(PieceType pieceType)
     {
-        latestSelectHandPieceType = pieceType;
-        latestSelectPiece = null;
+        latestSelectedPieceType = pieceType;
     }
 
     public void OnClickPiece(GameObject pieceObject)
     {
-        latestSelectPiece = pieceObject;
-        latestSelectHandPieceType = null;
     }
 }

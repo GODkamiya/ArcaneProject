@@ -140,7 +140,14 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void SummonPhase()
     {
-
+        phaseMachine.TransitionTo(new SummonPhase());
+    }
+    public void DoneSummonPhase(){
+        // ちゃんと召喚したかの確認
+        if(BoardManager.singleton.GetLocalPieces().Count == 0)return;
+        // コマの共有
+        BoardManager.singleton.AsyncPiece(Runner);
+        phaseMachine.TransitionTo(new ActionPhase());
     }
     public void TurnEnd()
     {
