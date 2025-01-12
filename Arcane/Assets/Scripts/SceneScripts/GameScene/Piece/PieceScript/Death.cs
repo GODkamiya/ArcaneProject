@@ -10,7 +10,9 @@ public class Death : PieceObject
     public override PieceMovement GetPieceMovement()
     {
         PieceMovement pm = new PieceMovement();
-        pm.range[x, y + 1] = true;
+        for(int addY = 1; addY < 10;addY++){
+            pm.AddRange(x,y + addY);
+        }
         return pm;
     }
 

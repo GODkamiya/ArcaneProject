@@ -10,7 +10,14 @@ public class Emperor : PieceObject
     public override PieceMovement GetPieceMovement()
     {
         PieceMovement pm = new PieceMovement();
-        pm.range[x, y + 1] = true;
+        for (int addX = -1; addX < 2; addX++)
+        {
+            for (int addY = -1; addY < 2; addY++)
+            {
+                if(addX == 0 && addY == 0)continue;
+                pm.AddRange(x + addX, y + addY);
+            }
+        }
         return pm;
     }
 

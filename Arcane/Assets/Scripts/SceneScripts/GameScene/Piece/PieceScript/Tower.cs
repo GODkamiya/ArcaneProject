@@ -10,7 +10,7 @@ public class Tower : PieceObject
     public override PieceMovement GetPieceMovement()
     {
         PieceMovement pm = new PieceMovement();
-        pm.range[x, y + 1] = true;
+        //移動しないよ
         return pm;
     }
 
