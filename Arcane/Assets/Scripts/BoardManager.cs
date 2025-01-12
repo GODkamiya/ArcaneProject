@@ -58,13 +58,14 @@ public class BoardManager : MonoBehaviour
     {
         onlinePieces[x, y] = null;
     }
-    public void SetPiece(PieceType pieceType, int posX, int posY)
+    public GameObject SetPiece(PieceType pieceType, int posX, int posY)
     {
         var piece = Instantiate(pieceSpawner.GetPiecePrefab(pieceType));
         piece.GetComponent<PieceObject>().RenderName();
         piece.GetComponent<PieceObject>().SetLocalPosition(posX, posY);
         SetPieceOnBoard(piece, posX, posY,false);
         localPieces.Add(piece);
+        return piece;
     }
     public void AsyncPiece(NetworkRunner runner)
     {
@@ -76,6 +77,7 @@ public class BoardManager : MonoBehaviour
             netWorkPiece.gameObject.GetComponent<PieceObject>().SetKing(po.isKing);
             Destroy(piece);
         }
+        localPieces.Clear();
     }
     public void RemoveLocalPiece(GameObject selectedPieceObject)
     {

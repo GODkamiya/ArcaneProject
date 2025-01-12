@@ -5,7 +5,7 @@ public class InitialSummonPhase : IPhase
     public void Enter()
     {
         UIManager.singleton.ShowInitSummonPanel();
-        PlayerClickHandler.singleton.clickAction = new SummonClickAction();
+        PlayerClickHandler.singleton.clickAction = new InitialSummonClickAction();
     }
 
     public void Exit()

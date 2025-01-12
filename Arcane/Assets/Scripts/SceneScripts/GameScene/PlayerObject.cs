@@ -95,6 +95,9 @@ public class PlayerObject : NetworkBehaviour
     public void RemoveHand(PieceType pieceType){
         hand.Remove(pieceType);
     }
+    public void AddHand(PieceType pieceType){
+        hand.Add(pieceType);
+    }
     public bool HasSelectedKing(){
         return kingPieceType != null;
     }
