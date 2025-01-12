@@ -35,6 +35,7 @@ public abstract class PieceObject : NetworkBehaviour
         {
             newX = 9 - newX;
             newY = 9 - newY;
+            gameObject.GetComponent<Renderer>().material.color = Color.gray;
         }
         x = newX;
         y = newY;
