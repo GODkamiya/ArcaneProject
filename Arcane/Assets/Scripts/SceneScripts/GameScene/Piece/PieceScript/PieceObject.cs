@@ -63,13 +63,9 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetKing_RPC(int value)
     {
         isKing = value == 1;
-        if (HasStateAuthority)
+        if(isKing && HasStateAuthority)
         {
-            if (isKing)
-            {
-                gameObject.GetComponent<Renderer>().material.color = Color.red;
-            }
-
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
 
     }
