@@ -76,7 +76,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         po.SetDeck();
         for (int i = 0; i < 5; i++)
         {
-            po.DrawDeck();
+            //po.DrawDeck();
+            po.DrawFilterDeck();
         }
         phaseMachine.Initialize(new InitialSummonPhase());
     }

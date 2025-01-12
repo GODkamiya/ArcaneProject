@@ -63,6 +63,18 @@ public class PlayerObject : NetworkBehaviour
         hand.Add(result);
         Debug.Log(result);
     }
+    /// <summary>
+    /// Worldを初期手札に追加しないための処理
+    /// </summary>
+    public void DrawFilterDeck(){
+        PieceType result;
+        do{
+            result = deck.Get(drawCount);
+            drawCount++;
+        }while(result == PieceType.World);
+        hand.Add(result);
+        Debug.Log(result);
+    }
     
     /// <summary>
     /// 手持ちのコマをDebugLogに表示するデバッグ用
