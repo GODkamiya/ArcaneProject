@@ -9,7 +9,7 @@ public class PieceMoveClickAction : IClickAction
         if(latestPiece == null)return;
         if(!latestMove.range[bb.x, bb.y])return;
         BoardManager.singleton.RemovePieceOnBoard(latestPiece.GetComponent<PieceObject>().x, latestPiece.GetComponent<PieceObject>().y);
-        latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y);
+        latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y,true);
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }
@@ -22,5 +22,10 @@ public class PieceMoveClickAction : IClickAction
         PieceMovement move = piece.GetPieceMovement();
         latestMove = move;
         BoardManager.singleton.ShowMovement(move);
+        if(piece is ActivePieceObject activePiece && activePiece.canActive){
+            UIManager.singleton.ShowAbilityButton(() => activePiece.ActiveEffect());
+        }else{
+            UIManager.singleton.HideAbilityButton();
+        }
     }
 }

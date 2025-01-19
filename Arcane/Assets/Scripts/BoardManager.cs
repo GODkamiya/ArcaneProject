@@ -73,7 +73,7 @@ public class BoardManager : MonoBehaviour
         {
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
-            netWorkPiece.gameObject.GetComponent<PieceObject>().SetPosition(po.x, po.y);
+            netWorkPiece.gameObject.GetComponent<PieceObject>().SetPosition(po.x, po.y,true);
             netWorkPiece.gameObject.GetComponent<PieceObject>().SetKing(po.isKing);
             Destroy(piece);
         }
