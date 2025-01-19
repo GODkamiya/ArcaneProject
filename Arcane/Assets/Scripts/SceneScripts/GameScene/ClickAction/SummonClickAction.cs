@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class SummonClickAction : IClickAction, IClickHand
@@ -9,7 +10,7 @@ public class SummonClickAction : IClickAction, IClickHand
     public void OnClickBoard(BoardBlock bb)
     {
         if (bb.y >= 3) return;
-
+        if(BoardManager.singleton.onlinePieces[bb.x,bb.y])return;
         PieceType pt = latestSelectedPieceType ?? PieceType.Fool;
         // 既に置いてあるにも関わらず、新たなコマを召喚しようとする場合、既存のコマをしまい、新たなコマを召喚する
         if (hasPut && latestSelectedPieceType != null)
