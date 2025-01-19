@@ -10,5 +10,7 @@ public class ActionPhase : IPhase
     public void Exit()
     {
         PlayerClickHandler.singleton.clickAction = new NoneAction();
+        UIManager.singleton.HideAbilityButton();
+        BoardManager.singleton.ClearMovement();
     }
 }

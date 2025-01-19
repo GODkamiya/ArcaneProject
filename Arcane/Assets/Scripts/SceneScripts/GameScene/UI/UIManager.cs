@@ -1,5 +1,9 @@
+using System;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,7 +17,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject summonPanel;
     [SerializeField]
+    GameObject abilityButton;
+    [SerializeField]
     GameObject gameEndPanel;
+
+    [SerializeField]
+    GameObject wheelOfFortunePanel;
 
     private void Awake()
     {
@@ -50,6 +59,14 @@ public class UIManager : MonoBehaviour
     public void HideSummonPanel(){
         summonPanel.SetActive(false);
     }
+    public void ShowAbilityButton(UnityAction action){
+        abilityButton.SetActive(true);
+        abilityButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        abilityButton.GetComponent<Button>().onClick.AddListener(action);
+    }
+    public void HideAbilityButton(){
+        abilityButton.SetActive(false);
+    }
     public void ShowGameEndPanel(bool is1pWin)
     {
         gameEndPanel.SetActive(true);
@@ -58,5 +75,14 @@ public class UIManager : MonoBehaviour
     public void HideGameEndPanel()
     {
         gameEndPanel.SetActive(false);
+    }
+    public void ShowWheelOfFortunePanel(WheelOfFortuneAction action){
+        wheelOfFortunePanel.SetActive(true);
+        var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action.OnPressButton);
+    }
+    public void HideWheelOfFortunePanel(){
+        wheelOfFortunePanel.SetActive(false);
     }
 }

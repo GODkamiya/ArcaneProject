@@ -124,6 +124,11 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         if (is1pTurn == HasStateAuthority)
         {
             DrawOrSummonPhase();
+            foreach(GameObject piece in BoardManager.singleton.onlinePieces){
+                if(piece != null && piece.GetComponent<PieceObject>() is ActivePieceObject activePiece){
+                    activePiece.canActive = true;
+                }
+            }
         }
     }
     /// <summary>

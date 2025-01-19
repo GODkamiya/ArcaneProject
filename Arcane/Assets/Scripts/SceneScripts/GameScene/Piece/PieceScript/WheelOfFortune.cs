@@ -1,7 +1,13 @@
+using Fusion;
 using UnityEngine;
 
-public class WheelOfFortune : PieceObject
+public class WheelOfFortune : ActivePieceObject
 {
+    public override void ActiveEffect()
+    {
+        GameManager.singleton.phaseMachine.TransitionTo(new WheelOfFortunePhase(this));
+    }
+
     public override string GetName()
     {
         return "WheelOfFortune";
@@ -25,4 +31,14 @@ public class WheelOfFortune : PieceObject
     {
         return PieceType.WheelOfFortune;
     }
+
+    public void ExchangePiece(PieceObject target){
+        canActive = false;
+        int targetX = target.x;
+        int targetY = target.y;
+        target.SetPosition(x, y,false);
+        SetPosition(targetX, targetY,false);
+        GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
+    }
+
 }

@@ -23,13 +23,20 @@ public abstract class PieceObject : NetworkBehaviour
         x = newX;
         y = newY;
     }
-    public void SetPosition(int newX, int newY)
+
+    /// <summary>
+    /// オンライン上で共有するコマの設置関数
+    /// </summary>
+    /// <param name="newX"></param>
+    /// <param name="newY"></param>
+    /// <param name="isAttack">これがfalseの場合、コマを取れない。WheelOfFortune用の引数</param>
+    public void SetPosition(int newX, int newY,bool isAttack)
     {
-        SetPosition_RPC(newX, newY);
+        SetPosition_RPC(newX, newY,isAttack);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void SetPosition_RPC(int newX, int newY)
+    public void SetPosition_RPC(int newX, int newY,NetworkBool isAttack)
     {
         if (!HasStateAuthority)
         {
@@ -44,7 +51,7 @@ public abstract class PieceObject : NetworkBehaviour
         x = newX;
         y = newY;
 
-        if (BoardManager.singleton.onlinePieces[x, y] != null)
+        if (BoardManager.singleton.onlinePieces[x, y] != null && isAttack)
         {
             PieceObject piece = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
             piece.Death();
