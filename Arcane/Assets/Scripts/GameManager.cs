@@ -31,6 +31,9 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public PlayerObject GetLocalPlayerObject() => playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
     public PlayerObject GetEnemyPlayerObject() => playerObjects[HasStateAuthority ? 1 : 0].GetComponent<PlayerObject>();
     public PhaseMachine phaseMachine = new PhaseMachine();
+
+    public List<TurnEndEvent> turnEndEvents = new List<TurnEndEvent>();
+
     private void Awake()
     {
         singleton = this;
@@ -156,6 +159,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void TurnEnd()
     {
+        turnEndEvents.ForEach(turnEndEvent => turnEndEvent.Do());
         phaseMachine.TransitionTo(new WaitPhase());
         TurnEnd_RPC();
     }

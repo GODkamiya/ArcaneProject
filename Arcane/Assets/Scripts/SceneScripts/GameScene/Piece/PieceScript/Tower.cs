@@ -7,7 +7,7 @@ public class Tower : PieceObject
         return "Tower";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovementOrigin()
     {
         PieceMovement pm = new PieceMovement();
         //移動しないよ

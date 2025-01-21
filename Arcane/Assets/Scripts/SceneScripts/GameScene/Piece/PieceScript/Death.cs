@@ -7,7 +7,7 @@ public class Death : PieceObject
         return "Death";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovementOrigin()
     {
         PieceMovement pm = new PieceMovement();
         for(int addY = 1; addY < 10;addY++){

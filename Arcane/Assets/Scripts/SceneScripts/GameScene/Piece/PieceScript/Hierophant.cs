@@ -1,13 +1,18 @@
 using UnityEngine;
 
-public class Hierophant : PieceObject
+public class Hierophant : ActivePieceObject
 {
+    public override void ActiveEffect()
+    {
+        GameManager.singleton.phaseMachine.TransitionTo(new HierophantPhase(this));
+    }
+
     public override string GetName()
     {
         return "Hierophant";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovementOrigin()
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
@@ -24,5 +29,15 @@ public class Hierophant : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Hierophant;
+    }
+
+    public void AddMovement(GameObject target){
+        canActive = false;
+        var buff = new UDLRAddPieceMovement(1);
+        target.GetComponent<PieceObject>().AddAddPieceMovement(buff);
+        GameManager.singleton.turnEndEvents.Add(
+            new TurnEndEvent(1,()=>target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))
+        );
+        GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 }
