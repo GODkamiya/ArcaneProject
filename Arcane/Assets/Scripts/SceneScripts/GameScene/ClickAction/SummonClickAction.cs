@@ -10,6 +10,8 @@ public class SummonClickAction : IClickAction, IClickHand
     private bool CanMovement(int x, int y)
     {
         if (BoardManager.singleton.onlinePieces[x, y]) return false;
+        if(latestSelectedPieceType == PieceType.World) return true;
+        if(latestSelectedPieceType == null && putLocalPieceType == PieceType.World) return true; //TODO コードをリファクタしたい
         foreach (GameObject gameObject in BoardManager.singleton.onlinePieces)
         {
             if(gameObject == null) continue;
