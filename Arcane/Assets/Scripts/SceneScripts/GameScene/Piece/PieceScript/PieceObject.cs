@@ -13,6 +13,8 @@ public abstract class PieceObject : NetworkBehaviour
     public bool isKing = false;
     public bool isMine => HasStateAuthority;
 
+    List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
+
     public override void Spawned()
     {
         RenderName();
@@ -81,7 +83,15 @@ public abstract class PieceObject : NetworkBehaviour
         }
 
     }
-    public abstract PieceMovement GetPieceMovement();
+    public abstract PieceMovement GetPieceMovementOrigin();
+
+    public PieceMovement GetPieceMovement(){
+        PieceMovement pieceMove = GetPieceMovementOrigin();
+        foreach(AddPieceMovement adder in addPieceMovementList){
+            pieceMove = adder.Add(x,y,pieceMove);
+        }
+        return pieceMove;
+    }
     public void Death()
     {
         BoardManager.singleton.RemovePieceOnBoard(x, y);
@@ -91,5 +101,12 @@ public abstract class PieceObject : NetworkBehaviour
             GameManager.singleton.phaseMachine.TransitionTo(new GameEndPhase(GameManager.singleton.HasStateAuthority != HasStateAuthority));
 
         }
+    }
+
+    public void AddAddPieceMovement(AddPieceMovement adder){
+        addPieceMovementList.Add(adder);
+    }
+    public void RemoveAddPieceMovement(AddPieceMovement adder){
+        addPieceMovementList.Remove(adder);
     }
 }

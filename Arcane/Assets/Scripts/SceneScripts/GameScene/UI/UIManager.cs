@@ -76,13 +76,13 @@ public class UIManager : MonoBehaviour
     {
         gameEndPanel.SetActive(false);
     }
-    public void ShowWheelOfFortunePanel(WheelOfFortuneAction action){
+    public void ShowChooseOneClickPanel(ChooseOneClickAction action){
         wheelOfFortunePanel.SetActive(true);
         var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(action.OnPressButton);
     }
-    public void HideWheelOfFortunePanel(){
+    public void HideChooseOneClickPanel(){
         wheelOfFortunePanel.SetActive(false);
     }
 }

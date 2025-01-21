@@ -7,7 +7,7 @@ public class Strength : PieceObject
         return "Strength";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovementOrigin()
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)

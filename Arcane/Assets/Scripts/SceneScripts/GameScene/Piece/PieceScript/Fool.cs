@@ -9,7 +9,7 @@ public class Fool : PieceObject
         return "Fool";
     }
 
-    public override PieceMovement GetPieceMovement()
+    public override PieceMovement GetPieceMovementOrigin()
     {
         PieceMovement pm = new PieceMovement();
         pm.AddRange(x,y + 1);

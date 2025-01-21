@@ -1,22 +1,21 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class WheelOfFortunePhase : IPhase
+public class HierophantPhase : IPhase
 {
-    WheelOfFortune masterPiece;
+    Hierophant masterPiece;
 
-    public WheelOfFortunePhase(WheelOfFortune masterPiece)
-    {
+    public HierophantPhase(Hierophant masterPiece){
         this.masterPiece = masterPiece;
     }
 
     public void Enter()
     {
         List<TargetFilter> filterList = new List<TargetFilter>(){
-            new WithoutSpecificObjectFilter(masterPiece.gameObject),
-            new WithoutEnemyFilter(),
+            new WithoutEnemyFilter()
         };
         var action = new ChooseOneClickAction(
-            filterList,(choosen) => masterPiece.ExchangePiece(choosen.GetComponent<PieceObject>())
+            filterList,(choosen) => masterPiece.AddMovement(choosen)
         );
         PlayerClickHandler.singleton.clickAction = action;
         UIManager.singleton.ShowChooseOneClickPanel(action);
