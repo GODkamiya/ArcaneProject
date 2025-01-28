@@ -9,7 +9,6 @@ public class PieceMoveClickAction : IClickAction
         if (latestPiece == null) return;
         if (!latestMove.range[bb.x, bb.y]) return;
         if (BoardManager.singleton.onlinePieces[bb.x, bb.y] != null && BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().isMine) return;
-        BoardManager.singleton.RemovePieceOnBoard(latestPiece.GetComponent<PieceObject>().x, latestPiece.GetComponent<PieceObject>().y);
         latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y, true);
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
