@@ -40,6 +40,8 @@ public abstract class PieceObject : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void SetPosition_RPC(int newX, int newY,NetworkBool isAttack)
     {
+        // 以前いた位置のコマ情報を削除
+        BoardManager.singleton.RemovePieceOnBoard(x, y);
         if (!HasStateAuthority)
         {
             newX = 9 - newX;
@@ -52,7 +54,6 @@ public abstract class PieceObject : NetworkBehaviour
         }
         x = newX;
         y = newY;
-
         if (BoardManager.singleton.onlinePieces[x, y] != null && isAttack)
         {
             PieceObject piece = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
