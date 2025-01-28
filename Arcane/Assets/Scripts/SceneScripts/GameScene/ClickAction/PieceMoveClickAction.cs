@@ -6,10 +6,11 @@ public class PieceMoveClickAction : IClickAction
     private PieceMovement latestMove;
     public void OnClickBoard(BoardBlock bb)
     {
-        if(latestPiece == null)return;
-        if(!latestMove.range[bb.x, bb.y])return;
+        if (latestPiece == null) return;
+        if (!latestMove.range[bb.x, bb.y]) return;
+        if (BoardManager.singleton.onlinePieces[bb.x, bb.y] != null && BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().isMine) return;
         BoardManager.singleton.RemovePieceOnBoard(latestPiece.GetComponent<PieceObject>().x, latestPiece.GetComponent<PieceObject>().y);
-        latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y,true);
+        latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y, true);
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }
@@ -17,14 +18,17 @@ public class PieceMoveClickAction : IClickAction
     public void OnClickPiece(GameObject pieceObject)
     {
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
-        if(!piece.isMine)return;
+        if (!piece.isMine) return;
         latestPiece = pieceObject;
         PieceMovement move = piece.GetPieceMovement();
         latestMove = move;
         BoardManager.singleton.ShowMovement(move);
-        if(piece is ActivePieceObject activePiece && activePiece.canActive){
+        if (piece is ActivePieceObject activePiece && activePiece.canActive)
+        {
             UIManager.singleton.ShowAbilityButton(() => activePiece.ActiveEffect());
-        }else{
+        }
+        else
+        {
             UIManager.singleton.HideAbilityButton();
         }
     }
