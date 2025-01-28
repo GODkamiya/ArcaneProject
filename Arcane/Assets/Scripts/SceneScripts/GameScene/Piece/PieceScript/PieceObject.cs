@@ -32,13 +32,13 @@ public abstract class PieceObject : NetworkBehaviour
     /// <param name="newX"></param>
     /// <param name="newY"></param>
     /// <param name="isAttack">これがfalseの場合、コマを取れない。WheelOfFortune用の引数</param>
-    public void SetPosition(int newX, int newY,bool isAttack)
+    public void SetPosition(int newX, int newY, bool isAttack)
     {
-        SetPosition_RPC(newX, newY,isAttack);
+        SetPosition_RPC(newX, newY, isAttack);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void SetPosition_RPC(int newX, int newY,NetworkBool isAttack)
+    public void SetPosition_RPC(int newX, int newY, NetworkBool isAttack)
     {
         // 以前いた位置のコマ情報を削除
         BoardManager.singleton.RemovePieceOnBoard(x, y);
@@ -47,7 +47,8 @@ public abstract class PieceObject : NetworkBehaviour
             newX = 9 - newX;
             newY = 9 - newY;
             gameObject.GetComponent<Renderer>().material.color = Color.gray;
-            if(GetPieceType() == PieceType.Hermit){
+            if (GetPieceType() == PieceType.Hermit)
+            {
                 gameObject.GetComponent<Renderer>().enabled = false;
                 gameObject.GetComponentInChildren<TextMeshPro>().text = "";
             }
@@ -58,7 +59,25 @@ public abstract class PieceObject : NetworkBehaviour
         {
             PieceObject piece = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
             piece.Death();
+            if (GetPieceType() == PieceType.Chariot)
+            {
+                PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement();
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (pieceMovement.range[i, j])
+                        {
+                            GameObject target = BoardManager.singleton.onlinePieces[i, j];
+                            if (target != null){
+                                target.GetComponent<PieceObject>().Death();
+                            }
+                        }
+                    }
+                }
+            }
         }
+
         BoardManager.singleton.SetPieceOnBoard(gameObject, newX, newY, true);
     }
     public abstract String GetName();
@@ -78,7 +97,7 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetKing_RPC(int value)
     {
         isKing = value == 1;
-        if(isKing && HasStateAuthority)
+        if (isKing && HasStateAuthority)
         {
             gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
@@ -86,10 +105,12 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public abstract PieceMovement GetPieceMovementOrigin();
 
-    public PieceMovement GetPieceMovement(){
+    public PieceMovement GetPieceMovement()
+    {
         PieceMovement pieceMove = GetPieceMovementOrigin();
-        foreach(AddPieceMovement adder in addPieceMovementList){
-            pieceMove = adder.Add(x,y,pieceMove);
+        foreach (AddPieceMovement adder in addPieceMovementList)
+        {
+            pieceMove = adder.Add(x, y, pieceMove);
         }
         return pieceMove;
     }
@@ -104,10 +125,12 @@ public abstract class PieceObject : NetworkBehaviour
         }
     }
 
-    public void AddAddPieceMovement(AddPieceMovement adder){
+    public void AddAddPieceMovement(AddPieceMovement adder)
+    {
         addPieceMovementList.Add(adder);
     }
-    public void RemoveAddPieceMovement(AddPieceMovement adder){
+    public void RemoveAddPieceMovement(AddPieceMovement adder)
+    {
         addPieceMovementList.Remove(adder);
     }
 }
