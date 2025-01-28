@@ -13,6 +13,9 @@ public abstract class PieceObject : NetworkBehaviour
     public bool isKing = false;
     public bool isMine => HasStateAuthority;
 
+    // 逆位置かどうか
+    public bool isReverse = false;
+
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     public override void Spawned()
@@ -58,6 +61,7 @@ public abstract class PieceObject : NetworkBehaviour
         {
             PieceObject piece = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
             piece.Death();
+            SetReverse(true);
         }
         BoardManager.singleton.SetPieceOnBoard(gameObject, newX, newY, true);
     }
@@ -109,5 +113,9 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void RemoveAddPieceMovement(AddPieceMovement adder){
         addPieceMovementList.Remove(adder);
+    }
+
+    public void SetReverse(bool isReverse){
+        this.isReverse = isReverse;
     }
 }
