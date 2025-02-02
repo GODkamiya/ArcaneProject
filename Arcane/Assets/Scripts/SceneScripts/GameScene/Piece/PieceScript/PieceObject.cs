@@ -60,24 +60,11 @@ public abstract class PieceObject : NetworkBehaviour
         y = newY;
         if (BoardManager.singleton.onlinePieces[x, y] != null && isAttack)
         {
-            PieceObject piece = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
-            piece.Death();
-            if (GetPieceType() == PieceType.Chariot)
+            PieceObject enemy = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
+            enemy.Death();
+            if (this is IOnAttackEvent)
             {
-                PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement();
-                for (int i = 0; i < 10; i++)
-                {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        if (pieceMovement.range[i, j])
-                        {
-                            GameObject target = BoardManager.singleton.onlinePieces[i, j];
-                            if (target != null){
-                                target.GetComponent<PieceObject>().Death();
-                            }
-                        }
-                    }
-                }
+                ((IOnAttackEvent)this).OnAttack();
             }
             SetReverse(true);
         }

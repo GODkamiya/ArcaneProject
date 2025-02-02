@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Chariot : PieceObject
+public class Chariot : PieceObject, IOnAttackEvent
 {
     public override string GetName()
     {
@@ -14,7 +14,7 @@ public class Chariot : PieceObject
         {
             for (int addY = -1; addY < 2; addY++)
             {
-                if(addX == 0 && addY == 0)continue;
+                if (addX == 0 && addY == 0) continue;
                 pm.AddRange(x + addX, y + addY);
             }
         }
@@ -24,5 +24,24 @@ public class Chariot : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Chariot;
+    }
+
+    public void OnAttack()
+    {
+        PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement();
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                if (pieceMovement.range[i, j])
+                {
+                    GameObject target = BoardManager.singleton.onlinePieces[i, j];
+                    if (target != null)
+                    {
+                        target.GetComponent<PieceObject>().Death();
+                    }
+                }
+            }
+        }
     }
 }
