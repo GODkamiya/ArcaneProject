@@ -78,10 +78,11 @@ public class BoardManager : MonoBehaviour
             networkPieceObject.SetKing(po.isKing);
             if(isFirstSummon){
                 networkPieceObject.isSickness = false;
+            }else{
+                GameManager.singleton.turnEndEvents.Add(
+                    new TurnEndEvent(1,()=>networkPieceObject.isSickness = false)
+                );
             }
-            GameManager.singleton.turnEndEvents.Add(
-                new TurnEndEvent(1,()=>networkPieceObject.isSickness = false)
-            );
             Destroy(piece);
         }
         localPieces.Clear();
