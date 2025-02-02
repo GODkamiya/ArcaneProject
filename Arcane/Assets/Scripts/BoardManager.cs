@@ -67,14 +67,21 @@ public class BoardManager : MonoBehaviour
         localPieces.Add(piece);
         return piece;
     }
-    public void AsyncPiece(NetworkRunner runner)
+    public void AsyncPiece(NetworkRunner runner,bool isFirstSummon)
     {
         foreach (GameObject piece in localPieces)
         {
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
-            netWorkPiece.gameObject.GetComponent<PieceObject>().SetPosition(po.x, po.y,true);
-            netWorkPiece.gameObject.GetComponent<PieceObject>().SetKing(po.isKing);
+            PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
+            networkPieceObject.SetPosition(po.x, po.y,true);
+            networkPieceObject.SetKing(po.isKing);
+            if(isFirstSummon){
+                networkPieceObject.isSickness = false;
+            }
+            GameManager.singleton.turnEndEvents.Add(
+                new TurnEndEvent(1,()=>networkPieceObject.isSickness = false)
+            );
             Destroy(piece);
         }
         localPieces.Clear();
