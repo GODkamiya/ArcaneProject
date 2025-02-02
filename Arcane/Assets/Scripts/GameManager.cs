@@ -119,7 +119,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
             }
         }
         print("call");
-        boardManager.AsyncPiece(Runner);
+        boardManager.AsyncPiece(Runner,true);
         TurnStart();
     }
     public void TurnStart()
@@ -127,8 +127,10 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         if (is1pTurn == HasStateAuthority)
         {
             DrawOrSummonPhase();
-            foreach(GameObject piece in BoardManager.singleton.onlinePieces){
-                if(piece != null && piece.GetComponent<PieceObject>() is ActivePieceObject activePiece){
+            foreach (GameObject piece in BoardManager.singleton.onlinePieces)
+            {
+                if (piece != null && piece.GetComponent<PieceObject>() is ActivePieceObject activePiece)
+                {
                     activePiece.canActive = true;
                 }
             }
@@ -150,11 +152,12 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
         phaseMachine.TransitionTo(new SummonPhase());
     }
-    public void DoneSummonPhase(){
+    public void DoneSummonPhase()
+    {
         // ちゃんと召喚したかの確認
-        if(BoardManager.singleton.GetLocalPieces().Count == 0)return;
+        if (BoardManager.singleton.GetLocalPieces().Count == 0) return;
         // コマの共有
-        BoardManager.singleton.AsyncPiece(Runner);
+        BoardManager.singleton.AsyncPiece(Runner,false);
         phaseMachine.TransitionTo(new ActionPhase());
     }
     public void TurnEnd()
