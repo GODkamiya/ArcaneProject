@@ -61,6 +61,8 @@ public abstract class PieceObject : NetworkBehaviour
         }
         x = newX;
         y = newY;
+        
+
         if (BoardManager.singleton.onlinePieces[x, y] != null && isAttack)
         {
             PieceObject enemy = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
@@ -71,8 +73,8 @@ public abstract class PieceObject : NetworkBehaviour
             }
             SetReverse(true);
         }
-
         BoardManager.singleton.SetPieceOnBoard(gameObject, newX, newY, true);
+        
     }
     public abstract String GetName();
 
@@ -115,7 +117,16 @@ public abstract class PieceObject : NetworkBehaviour
         if (isKing)
         {
             GameManager.singleton.phaseMachine.TransitionTo(new GameEndPhase(GameManager.singleton.HasStateAuthority != HasStateAuthority));
-
+        }
+        if (GetPieceType() == PieceType.Tower)
+        {
+            for (int addX = -2; addX <= 2; addX++)
+            {
+                for (int addY = -2; addY <= 2; addY++)
+                {
+                    BoardManager.singleton.onlinePieces[x + addX, y + addY]?.GetComponent<PieceObject>().Death();
+                }
+            }
         }
     }
 
@@ -128,7 +139,8 @@ public abstract class PieceObject : NetworkBehaviour
         addPieceMovementList.Remove(adder);
     }
 
-    public void SetReverse(bool isReverse){
+    public void SetReverse(bool isReverse)
+    {
         this.isReverse = isReverse;
     }
 }
