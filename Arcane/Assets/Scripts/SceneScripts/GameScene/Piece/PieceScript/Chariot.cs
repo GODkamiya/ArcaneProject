@@ -38,7 +38,7 @@ public class Chariot : PieceObject, IOnAttackEvent
                     GameObject target = BoardManager.singleton.onlinePieces[i, j];
                     if (target != null)
                     {
-                        if(isReverse && isMine)continue;
+                        if(isReverse && target.GetComponent<PieceObject>().isMine == isMine)continue;
                         target.GetComponent<PieceObject>().Death();
                     }
                 }
