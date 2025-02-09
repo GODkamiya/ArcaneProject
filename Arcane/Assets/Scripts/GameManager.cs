@@ -75,12 +75,6 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void GameStart_Rpc()
     {
-        PlayerObject po = playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
-        po.SetDeck();
-        for (int i = 0; i < 5; i++)
-        {
-            po.DrawDeck();
-        }
         phaseMachine.Initialize(new InitialSummonPhase());
     }
 
