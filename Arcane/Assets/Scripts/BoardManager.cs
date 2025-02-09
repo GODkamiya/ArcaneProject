@@ -15,7 +15,7 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// ボードのサイズ
     /// </summary>
-    const int BOARD_SIZE = 10;
+    public const int BOARD_SIZE = 10;
     private List<GameObject> localPieces = new List<GameObject>();
     private GameObject[,] board = new GameObject[BOARD_SIZE, BOARD_SIZE];
     public GameObject[,] onlinePieces = new GameObject[BOARD_SIZE, BOARD_SIZE];
