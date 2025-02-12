@@ -37,24 +37,30 @@ public class UIManager : MonoBehaviour
     {
         drawOrSummonPanel.SetActive(false);
     }
-    public void ShowInitSummonPanel()
+    public void ShowInitSummonPanel(UnityAction action)
     {
         initSummonPanel.SetActive(true);
+        initSummonPanel.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        initSummonPanel.GetComponentInChildren<Button>().onClick.AddListener(action);
     }
     public void HideInitSummonPanel()
     {
         initSummonPanel.SetActive(false);
     }
-    public void ShowInitSelectKingPanel()
+    public void ShowInitSelectKingPanel(UnityAction action)
     {
         initSelectKingPanel.SetActive(true);
+        initSelectKingPanel.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        initSelectKingPanel.GetComponentInChildren<Button>().onClick.AddListener(action);
     }
     public void HideInitSelectKingPanel()
     {
         initSelectKingPanel.SetActive(false);
     }
-    public void ShowSummonPanel(){
+    public void ShowSummonPanel(UnityAction action){
         summonPanel.SetActive(true);
+        summonPanel.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+        summonPanel.GetComponentInChildren<Button>().onClick.AddListener(action);
     }
     public void HideSummonPanel(){
         summonPanel.SetActive(false);

@@ -31,6 +31,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public PlayerObject GetLocalPlayerObject() => playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
     public PlayerObject GetEnemyPlayerObject() => playerObjects[HasStateAuthority ? 1 : 0].GetComponent<PlayerObject>();
     public PhaseMachine phaseMachine = new PhaseMachine();
+    public TurnMachine turnMachine = new TurnMachine();
 
     public List<TurnEndEvent> turnEndEvents = new List<TurnEndEvent>();
 
@@ -75,31 +76,12 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void GameStart_Rpc()
     {
-        PlayerObject po = playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
-        po.SetDeck();
-        for (int i = 0; i < 5; i++)
-        {
-            po.DrawDeck();
-        }
-        phaseMachine.Initialize(new InitialSummonPhase());
+        turnMachine.Initialize(new PreparationTurn());
     }
 
     void Start()
     {
         boardManager.SetBoard();
-    }
-    public void DoneSummon()
-    {
-        if (BoardManager.singleton.GetLocalPieces().Count != 5) return;
-
-        phaseMachine.TransitionTo(new InitialSelectKingPhase());
-    }
-    public void DoneSelectKing()
-    {
-        if (!GetLocalPlayerObject().HasSelectedKing()) return;
-        phaseMachine.TransitionTo(new WaitPhase());
-        BoardManager.singleton.SetKing();
-        SwitchIsReady_Rpc(HasStateAuthority ? 0 : 1);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -119,7 +101,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
             }
         }
         print("call");
-        boardManager.AsyncPiece(Runner,true);
+        boardManager.AsyncPiece(Runner,true,((PreparationTurn)turnMachine.GetCurrentTurn()).GetLocalBoardManager());
         TurnStart();
     }
     public void TurnStart()
@@ -151,14 +133,6 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public void SummonPhase()
     {
         phaseMachine.TransitionTo(new SummonPhase());
-    }
-    public void DoneSummonPhase()
-    {
-        // ちゃんと召喚したかの確認
-        if (BoardManager.singleton.GetLocalPieces().Count == 0) return;
-        // コマの共有
-        BoardManager.singleton.AsyncPiece(Runner,false);
-        phaseMachine.TransitionTo(new ActionPhase());
     }
     public void TurnEnd()
     {
