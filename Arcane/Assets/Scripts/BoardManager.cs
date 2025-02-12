@@ -16,7 +16,6 @@ public class BoardManager : MonoBehaviour
     /// ボードのサイズ
     /// </summary>
     public const int BOARD_SIZE = 10;
-    private List<GameObject> localPieces = new List<GameObject>();
     private GameObject[,] board = new GameObject[BOARD_SIZE, BOARD_SIZE];
     public GameObject[,] onlinePieces = new GameObject[BOARD_SIZE, BOARD_SIZE];
 
@@ -58,18 +57,15 @@ public class BoardManager : MonoBehaviour
     {
         onlinePieces[x, y] = null;
     }
-    public GameObject SetPiece(PieceType pieceType, int posX, int posY)
+    /// <summary>
+    /// LocalBoardManagerを基に、相手にコマを共有する
+    /// </summary>
+    /// <param name="runner"></param>
+    /// <param name="isFirstSummon"></param>
+    /// <param name="localBoardManager"></param>
+    public void AsyncPiece(NetworkRunner runner,bool isFirstSummon,LocalBoardManager localBoardManager)
     {
-        var piece = Instantiate(pieceSpawner.GetPiecePrefab(pieceType));
-        piece.GetComponent<PieceObject>().RenderName();
-        piece.GetComponent<PieceObject>().SetLocalPosition(posX, posY);
-        SetPieceOnBoard(piece, posX, posY,false);
-        localPieces.Add(piece);
-        return piece;
-    }
-    public void AsyncPiece(NetworkRunner runner,bool isFirstSummon)
-    {
-        foreach (GameObject piece in localPieces)
+        foreach (GameObject piece in localBoardManager.GetPieceList())
         {
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
@@ -85,29 +81,6 @@ public class BoardManager : MonoBehaviour
             }
             Destroy(piece);
         }
-        localPieces.Clear();
-    }
-    public void RemoveLocalPiece(GameObject selectedPieceObject)
-    {
-        localPieces.Remove(selectedPieceObject);
-        Destroy(selectedPieceObject);
-    }
-    public List<GameObject> GetLocalPieces()
-    {
-        return localPieces;
-    }
-    public void SetKing()
-    {
-        foreach (GameObject piece in localPieces)
-        {
-            PieceObject pieceObject = piece.GetComponent<PieceObject>();
-            if (pieceObject.GetPieceType().Equals(GameManager.singleton.GetLocalPlayerObject().kingPieceType))
-            {
-                pieceObject.isKing = true;
-                return;
-            }
-        }
-
     }
     public void ShowMovement(PieceMovement pieceMovement)
     {

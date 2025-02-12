@@ -1,5 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class SummonClickAction : IClickAction, IClickHand
 {
@@ -7,6 +8,13 @@ public class SummonClickAction : IClickAction, IClickHand
     private GameObject putLocalPiece;
     private PieceType putLocalPieceType;
     private bool hasPut = false;
+
+    private LocalBoardManager localBoard;
+
+    public SummonClickAction(LocalBoardManager localBoard){
+        this.localBoard = localBoard;
+    }
+
     private bool CanMovement(int x, int y)
     {
         if (BoardManager.singleton.onlinePieces[x, y]) return false;
@@ -33,7 +41,7 @@ public class SummonClickAction : IClickAction, IClickHand
         if (hasPut && latestSelectedPieceType != null)
         {
             // 既存のコマを削除し、手札に戻す
-            BoardManager.singleton.RemoveLocalPiece(putLocalPiece);
+            localBoard.RemovePiece(putLocalPiece);
             PlayerObject po = GameManager.singleton.GetLocalPlayerObject();
             po.AddHand(putLocalPieceType);
             // 新たなコマの設置
@@ -42,8 +50,9 @@ public class SummonClickAction : IClickAction, IClickHand
         // 既に置いてあり、ただ盤をクリックしただけの場合は、コマを移動する。
         else if (hasPut)
         {
-            BoardManager.singleton.RemoveLocalPiece(putLocalPiece);
-            putLocalPiece = BoardManager.singleton.SetPiece(putLocalPieceType, bb.x, bb.y);
+            localBoard.RemovePiece(putLocalPiece);
+            localBoard.RemovePiece(putLocalPiece);
+            putLocalPiece = localBoard.SetPiece(putLocalPieceType,bb.x,bb.y);
         }
         // まだコマを置いてない場合は、コマを設置する
         else if (latestSelectedPieceType != null)
@@ -57,7 +66,7 @@ public class SummonClickAction : IClickAction, IClickHand
     {
         PlayerObject po = GameManager.singleton.GetLocalPlayerObject();
         po.RemoveHand(pt);
-        putLocalPiece = BoardManager.singleton.SetPiece(pt, x, y);
+        putLocalPiece = localBoard.SetPiece(pt,x,y);
         putLocalPieceType = pt;
         latestSelectedPieceType = null;
         hasPut = true;

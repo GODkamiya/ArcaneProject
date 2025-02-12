@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class PieceSpawner : MonoBehaviour
 {
+    public static PieceSpawner singleton;
+
     [SerializeField]
     private GameObject foolPrefab,magicianPrefab,highpriestessPrefab,empressPrefab,emperorPrefab,hierophantPrefab,loversPrefab,
     chariotPrefab,strengthPrefab,hermitPrefab,wheelOfFortunePrefab,justicePrefab,hangedManPrefab,
     deathPrefab,temperancePrefab,devilPrefab,towerPrefab,starPrefab,sunPrefab,moonPrefab,JudgementPrefab,worldPrefab;
+
+    public PieceSpawner(){
+        singleton = this;
+    }
 
     /// コマのPrefabを返却する
     public GameObject GetPiecePrefab(PieceType pieceType){

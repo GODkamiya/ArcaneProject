@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class KingSelectAction : IClickAction
 {
+    private LocalBoardManager localBoardManager;
+
+    public KingSelectAction(LocalBoardManager localBoardManager){
+        this.localBoardManager=localBoardManager;
+    }
     public void OnClickBoard(BoardBlock bb)
     {
         //null
@@ -9,7 +14,6 @@ public class KingSelectAction : IClickAction
 
     public void OnClickPiece(GameObject pieceObject)
     {
-        GameManager.singleton.GetLocalPlayerObject().SetKingPieceType(pieceObject);
-        
+        localBoardManager.SelectKing(pieceObject);
     }
 }
