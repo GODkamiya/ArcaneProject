@@ -4,6 +4,7 @@ public class Hierophant : ActivePieceObject
 {
     public override void ActiveEffect()
     {
+        if(isReverse)return;
         GameManager.singleton.phaseMachine.TransitionTo(new HierophantPhase(this));
     }
 
