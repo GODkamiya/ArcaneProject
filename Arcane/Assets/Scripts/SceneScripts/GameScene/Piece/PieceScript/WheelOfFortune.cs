@@ -32,12 +32,12 @@ public class WheelOfFortune : ActivePieceObject
         return PieceType.WheelOfFortune;
     }
 
-    public void ExchangePiece(PieceObject target){
+    public void ExchangePiece(PieceObject targetA,PieceObject targetB){
         canActive = false;
-        int targetX = target.x;
-        int targetY = target.y;
-        target.SetPosition(x, y,false);
-        SetPosition(targetX, targetY,false);
+        int targetAX = targetA.x;
+        int targetAY = targetA.y;
+        targetA.SetPosition(targetB.x, targetB.y,false);
+        targetB.SetPosition(targetAX, targetAY,false);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
