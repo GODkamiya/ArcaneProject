@@ -18,6 +18,9 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [SerializeField]
     GameObject playerObjectPrefab;
 
+    [SerializeField]
+    GameObject commandPallet;
+
 
     // プレイヤー数のカウント
     private int playerCount = 0;
@@ -38,6 +41,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     private void Awake()
     {
         singleton = this;
+    }
+
+    public void Update()
+    {
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C)){
+            commandPallet.SetActive(true);
+        }
     }
 
     public void PlayerJoined(PlayerRef player)
