@@ -8,6 +8,7 @@ public class Tower : ActivePieceObject
         if (!isReverse) return;
         canActive = false;
         Deny_RPC();
+        GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Deny_RPC()
