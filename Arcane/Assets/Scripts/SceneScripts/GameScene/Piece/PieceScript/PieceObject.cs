@@ -147,6 +147,7 @@ public abstract class PieceObject : NetworkBehaviour
             {
                 for (int addY = -2; addY <= 2; addY++)
                 {
+                    if(x + addX > 9 || y + addY > 9 || x + addX < 0 || y + addY < 0) continue;
                     BoardManager.singleton.onlinePieces[x + addX, y + addY]?.GetComponent<PieceObject>().Death();
                 }
             }
