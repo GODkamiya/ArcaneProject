@@ -7,7 +7,7 @@ public class Chariot : PieceObject, IOnAttackEvent
         return "Chariot";
     }
 
-    public override PieceMovement GetPieceMovementOrigin()
+    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
@@ -15,7 +15,7 @@ public class Chariot : PieceObject, IOnAttackEvent
             for (int addY = -1; addY < 2; addY++)
             {
                 if (addX == 0 && addY == 0) continue;
-                pm.AddRange(x + addX, y + addY);
+                pm.AddRange(baseX + addX, baseY + addY);
             }
         }
         return pm;
@@ -26,9 +26,10 @@ public class Chariot : PieceObject, IOnAttackEvent
         return PieceType.Chariot;
     }
 
-    public void OnAttack()
+    public void OnAttack(int newX,int newY)
     {
-        PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement();
+        // 移動予定の位置からの移動範囲を求める
+        PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement(newX,newY);
         for (int i = 0; i < 10; i++)
         {
             for (int j = 0; j < 10; j++)

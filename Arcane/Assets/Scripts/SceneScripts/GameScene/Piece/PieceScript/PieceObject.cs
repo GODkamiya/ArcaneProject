@@ -19,6 +19,9 @@ public abstract class PieceObject : NetworkBehaviour
     // 召喚酔いしているかどうか
     public bool isSickness = true;
 
+    // 生きているか
+    public bool isLiving = true;
+
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     public override void Spawned()
@@ -46,8 +49,7 @@ public abstract class PieceObject : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void SetPosition_RPC(int newX, int newY, NetworkBool isAttack)
     {
-        // 以前いた位置のコマ情報を削除
-        BoardManager.singleton.RemovePieceOnBoard(x, y);
+        // 移動先を計算
         if (!HasStateAuthority)
         {
             newX = 9 - newX;
@@ -59,21 +61,27 @@ public abstract class PieceObject : NetworkBehaviour
                 gameObject.GetComponentInChildren<TextMeshPro>().text = "";
             }
         }
-        x = newX;
-        y = newY;
         
-
-        if (BoardManager.singleton.onlinePieces[x, y] != null && isAttack)
+        // 敵がいた場合、攻撃を開始する
+        if (BoardManager.singleton.onlinePieces[newX, newY] != null && isAttack)
         {
-            PieceObject enemy = BoardManager.singleton.onlinePieces[x, y].GetComponent<PieceObject>();
+            PieceObject enemy = BoardManager.singleton.onlinePieces[newX, newY].GetComponent<PieceObject>();
             enemy.Death();
             if (this is IOnAttackEvent)
             {
-                ((IOnAttackEvent)this).OnAttack();
+                ((IOnAttackEvent)this).OnAttack(newX,newY);
             }
             SetReverse(true);
         }
+
+        // 移動前に倒れた場合は、ここで終了 (OnAttackにより)
+        if(!isLiving) return;
+
+        // コマの移動を完了させる
+        BoardManager.singleton.RemovePieceOnBoard(x, y);
         BoardManager.singleton.SetPieceOnBoard(gameObject, newX, newY, true);
+        x = newX;
+        y = newY;
         
     }
     public abstract String GetName();
@@ -99,21 +107,26 @@ public abstract class PieceObject : NetworkBehaviour
         }
 
     }
-    public abstract PieceMovement GetPieceMovementOrigin();
+    public abstract PieceMovement GetPieceMovementOrigin(int baseX,int baseY);
 
-    public PieceMovement GetPieceMovement()
+
+    public PieceMovement GetPieceMovement(){
+        return GetPieceMovement(x,y);
+    }
+    public PieceMovement GetPieceMovement(int baseX,int baseY)
     {
-        PieceMovement pieceMove = GetPieceMovementOrigin();
+        PieceMovement pieceMove = GetPieceMovementOrigin(baseX,baseY);
         foreach (AddPieceMovement adder in addPieceMovementList)
         {
-            pieceMove = adder.Add(x, y, pieceMove);
+            pieceMove = adder.Add(baseX, baseY, pieceMove);
         }
         return pieceMove;
     }
     public void Death()
     {
         BoardManager.singleton.RemovePieceOnBoard(x, y);
-        Destroy(gameObject);
+        // 消すことによって同期処理が意図せず終了することがあるため、表示上で場外に飛ばす
+        gameObject.transform.position = new Vector3(-100,100,-100);
         if (isKing)
         {
             GameManager.singleton.phaseMachine.TransitionTo(new GameEndPhase(GameManager.singleton.HasStateAuthority != HasStateAuthority));

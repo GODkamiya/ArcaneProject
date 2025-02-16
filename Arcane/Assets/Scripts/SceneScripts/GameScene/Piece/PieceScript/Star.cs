@@ -7,7 +7,7 @@ public class Star : PieceObject
         return "Star";
     }
 
-    public override PieceMovement GetPieceMovementOrigin()
+    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
@@ -15,11 +15,11 @@ public class Star : PieceObject
             for (int addY = -1; addY < 2; addY++)
             {
                 if (addX == 0 && addY == 0) continue;
-                pm.AddRange(x + addX, y + addY);
+                pm.AddRange(baseX + addX, baseY + addY);
                 // 逆位置の場合に、移動範囲が増加する
                 if (isReverse && (addX == 0 || addY == 0))
                 {
-                    pm.AddRange(x + addX * 2, y + addY * 2);
+                    pm.AddRange(baseX + addX * 2, baseY + addY * 2);
                 }
             }
         }

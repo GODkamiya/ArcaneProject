@@ -7,7 +7,7 @@ public class Strength : PieceObject
         return "Strength";
     }
 
-    public override PieceMovement GetPieceMovementOrigin()
+    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
@@ -15,7 +15,7 @@ public class Strength : PieceObject
             for (int addY = -1; addY < 2; addY++)
             {
                 if(addX == 0 && addY == 0)continue;
-                pm.AddRange(x + addX, y + addY);
+                pm.AddRange(baseX + addX, baseY + addY);
             }
         }
         return pm;
