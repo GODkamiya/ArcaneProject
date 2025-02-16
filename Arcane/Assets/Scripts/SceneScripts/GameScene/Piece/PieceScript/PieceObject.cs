@@ -61,28 +61,30 @@ public abstract class PieceObject : NetworkBehaviour
                 gameObject.GetComponentInChildren<TextMeshPro>().text = "";
             }
         }
-        
-        // 敵がいた場合、攻撃を開始する
+
+        // 敵の判定
+        PieceObject enemy = null;
         if (BoardManager.singleton.onlinePieces[newX, newY] != null && isAttack)
         {
-            PieceObject enemy = BoardManager.singleton.onlinePieces[newX, newY].GetComponent<PieceObject>();
-            enemy.Death();
-            if (this is IOnAttackEvent)
-            {
-                ((IOnAttackEvent)this).OnAttack(newX,newY);
-            }
-            SetReverse(true);
+            enemy = BoardManager.singleton.onlinePieces[newX, newY].GetComponent<PieceObject>();
         }
 
-        // 移動前に倒れた場合は、ここで終了 (OnAttackにより)
-        if(!isLiving) return;
-
-        // コマの移動を完了させる
+        // 先に移動を完了させる
         BoardManager.singleton.RemovePieceOnBoard(x, y);
         BoardManager.singleton.SetPieceOnBoard(gameObject, newX, newY, true);
         x = newX;
         y = newY;
-        
+
+        // 最後に敵との攻撃処理を実行する
+        if (enemy != null)
+        {
+            enemy.Death();
+            if (this is IOnAttackEvent)
+            {
+                ((IOnAttackEvent)this).OnAttack(newX, newY);
+            }
+            SetReverse(true);
+        }
     }
     public abstract String GetName();
 
@@ -107,15 +109,16 @@ public abstract class PieceObject : NetworkBehaviour
         }
 
     }
-    public abstract PieceMovement GetPieceMovementOrigin(int baseX,int baseY);
+    public abstract PieceMovement GetPieceMovementOrigin(int baseX, int baseY);
 
 
-    public PieceMovement GetPieceMovement(){
-        return GetPieceMovement(x,y);
-    }
-    public PieceMovement GetPieceMovement(int baseX,int baseY)
+    public PieceMovement GetPieceMovement()
     {
-        PieceMovement pieceMove = GetPieceMovementOrigin(baseX,baseY);
+        return GetPieceMovement(x, y);
+    }
+    public PieceMovement GetPieceMovement(int baseX, int baseY)
+    {
+        PieceMovement pieceMove = GetPieceMovementOrigin(baseX, baseY);
         foreach (AddPieceMovement adder in addPieceMovementList)
         {
             pieceMove = adder.Add(baseX, baseY, pieceMove);
@@ -124,13 +127,20 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void Death()
     {
-        BoardManager.singleton.RemovePieceOnBoard(x, y);
+        isLiving = false;
+
+        // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
+        if (BoardManager.singleton.onlinePieces[x, y] == gameObject) BoardManager.singleton.RemovePieceOnBoard(x, y);
+
         // 消すことによって同期処理が意図せず終了することがあるため、表示上で場外に飛ばす
-        gameObject.transform.position = new Vector3(-100,100,-100);
+        gameObject.transform.position = new Vector3(-100, 100, -100);
+
+        // 王の場合、ゲーム終了へ
         if (isKing)
         {
             GameManager.singleton.phaseMachine.TransitionTo(new GameEndPhase(GameManager.singleton.HasStateAuthority != HasStateAuthority));
         }
+
         if (GetPieceType() == PieceType.Tower)
         {
             for (int addX = -2; addX <= 2; addX++)
