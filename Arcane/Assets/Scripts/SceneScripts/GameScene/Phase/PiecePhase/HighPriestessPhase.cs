@@ -26,9 +26,13 @@ public class HighPriestessPhase : IPhase
     {
         // フィルターの定義
         List<TargetFilter> filterList = new List<TargetFilter>(){
-            new WithoutAllyFilter(),
             new RangeFilter(GetEffectRange())
         };
+
+        // 逆位置の場合、味方も指定できる
+        if(!masterPiece.isReverse){
+            filterList.Add(new WithoutAllyFilter());
+        }
 
         return new ChooseOneClickAction(
             filterList, AfterChooseTarget
