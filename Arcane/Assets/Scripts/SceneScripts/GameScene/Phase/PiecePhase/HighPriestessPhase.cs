@@ -15,30 +15,49 @@ public class HighPriestessPhase : IPhase
 
     public void Enter()
     {
-        void AfterChooseTile(GameObject target, BoardBlock bb)
-        {
-            masterPiece.MovePieceByEffect(target.GetComponent<NetworkObject>(), bb);
-        }
-        void AfterChooseTarget(GameObject target)
-        {
-            UIManager.singleton.HideChooseOneClickPanel();
-            var tileAction = new ChooseOneTileAction(
-                (tile) => AfterChooseTile(target, tile), GetEffectRange()
-            );
-            PlayerClickHandler.singleton.clickAction = tileAction;
-            UIManager.singleton.ShowChooseOneTilePanel(tileAction);
-        }
+        // コマを1体選ぶ処理への移行
+        var action = CreateChooseOneClickAction();
+        PlayerClickHandler.singleton.clickAction = action;
+        UIManager.singleton.ShowChooseOneClickPanel(action);
+    }
 
+    // コマを一体選ぶアクションの生成
+    private ChooseOneClickAction CreateChooseOneClickAction()
+    {
+        // フィルターの定義
         List<TargetFilter> filterList = new List<TargetFilter>(){
             new WithoutAllyFilter(),
             new RangeFilter(GetEffectRange())
         };
-        var action = new ChooseOneClickAction(
+
+        return new ChooseOneClickAction(
             filterList, AfterChooseTarget
         );
-        PlayerClickHandler.singleton.clickAction = action;
-        UIManager.singleton.ShowChooseOneClickPanel(action);
     }
+
+    // コマを選んだあと、テレポート先を選ぶ処理への移行
+    private void AfterChooseTarget(GameObject target)
+    {
+        UIManager.singleton.HideChooseOneClickPanel();
+        var action = CreateChooseOneTileAction(target);
+        PlayerClickHandler.singleton.clickAction = action;
+        UIManager.singleton.ShowChooseOneTilePanel(action);
+    }
+
+    // テレポート先を選ぶアクションの生成
+    private ChooseOneTileAction CreateChooseOneTileAction(GameObject target)
+    {
+        return new ChooseOneTileAction(
+            (tile) => AfterChooseTile(target, tile), GetEffectRange()
+        );
+    }
+
+    // コマとテレポート先、どちらも選ばれ終わった後、実際に移動させる
+    private void AfterChooseTile(GameObject target, BoardBlock bb)
+    {
+        masterPiece.MovePieceByEffect(target.GetComponent<NetworkObject>(), bb);
+    }
+
 
     private PieceMovement GetEffectRange()
     {

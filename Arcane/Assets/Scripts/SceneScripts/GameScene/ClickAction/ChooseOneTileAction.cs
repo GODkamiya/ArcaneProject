@@ -19,7 +19,9 @@ public class ChooseOneTileAction : IClickAction
     {
         if(!movementRange.CanMovement(bb.x,bb.y))return;
         if(BoardManager.singleton.onlinePieces[bb.x,bb.y] != null) return;
+        if(latestBlock != null)latestBlock.GetComponent<Renderer>().material.color = Color.white;
         latestBlock = bb;
+        bb.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
     public void OnClickPiece(GameObject pieceObject)
@@ -28,6 +30,7 @@ public class ChooseOneTileAction : IClickAction
 
     public void OnPressButton(){
         if(latestBlock == null) return;
+        latestBlock.GetComponent<Renderer>().material.color = Color.white;
         action(latestBlock);
     }
 }
