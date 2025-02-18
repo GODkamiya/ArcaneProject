@@ -5,12 +5,12 @@ public class Magician : ActivePieceObject
     public int counter = 1;
     public override void ActiveEffect()
     {
-        if (counter != 1) return;
         GameManager.singleton.phaseMachine.TransitionTo(new MagicianPhase(this));
     }
 
     public override bool CanSpellActiveEffect()
     {
+        if(counter == 0 ) return false;
         return canActive;
     }
 
