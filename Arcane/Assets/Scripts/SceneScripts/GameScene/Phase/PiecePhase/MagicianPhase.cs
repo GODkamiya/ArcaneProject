@@ -1,24 +1,23 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrengthPhase : IPhase
+public class MagicianPhase : IPhase
 {
-    Strength strength;
-    public StrengthPhase(Strength strength)
+    Magician magician;
+    public MagicianPhase(Magician magician)
     {
-        this.strength = strength;
+        this.magician = magician;
     }
     public void Enter()
     {
-
-        List<TargetFilter> filters = new List<TargetFilter>(){
-            new WithoutEnemyFilter(),
-            new WithoutReverseFilter(),
-        };
-        if (!strength.isReverse)
+        List<TargetFilter> filters = new List<TargetFilter>() { };
+        if (magician.isReverse)
         {
-            filters.Add(new RangeFilter(strength.GetPieceMovement()));
+            filters.Add(new WithoutReverseFilter());
+        }
+        else
+        {
+            filters.Add(new ReverseFilter());
         }
         var action = new ChooseOneClickAction(filters, Effect);
         PlayerClickHandler.singleton.clickAction = action;
@@ -26,11 +25,11 @@ public class StrengthPhase : IPhase
     }
     private void Effect(GameObject target)
     {
-        target.GetComponent<PieceObject>().isReverse = true;
-        strength.Death();
+        var piece = target.GetComponent<PieceObject>();
+        piece.SetReverse(!piece.isReverse);
+        magician.counter = 0;
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
-
     public void Exit()
     {
         UIManager.singleton.HideChooseOneClickPanel();

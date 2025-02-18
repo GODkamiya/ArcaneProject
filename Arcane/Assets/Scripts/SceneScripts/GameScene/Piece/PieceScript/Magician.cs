@@ -1,20 +1,32 @@
 using UnityEngine;
 
-public class Magician : PieceObject
+public class Magician : ActivePieceObject
 {
+    public int counter = 1;
+    public override void ActiveEffect()
+    {
+        if (counter != 1) return;
+        GameManager.singleton.phaseMachine.TransitionTo(new MagicianPhase(this));
+    }
+
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
+    }
+
     public override string GetName()
     {
         return "Magician";
     }
 
-    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
+    public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)
             {
-                if(addX == 0 && addY == 0)continue;
+                if (addX == 0 && addY == 0) continue;
                 pm.AddRange(baseX + addX, baseY + addY);
             }
         }
