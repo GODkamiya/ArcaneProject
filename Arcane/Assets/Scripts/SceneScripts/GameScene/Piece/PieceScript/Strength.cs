@@ -1,7 +1,17 @@
 using UnityEngine;
 
-public class Strength : PieceObject
+public class Strength : ActivePieceObject
 {
+    public override void ActiveEffect()
+    {
+        GameManager.singleton.phaseMachine.TransitionTo(new StrengthPhase(this));
+    }
+
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
+    }
+
     public override string GetName()
     {
         return "Strength";
