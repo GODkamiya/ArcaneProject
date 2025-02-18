@@ -14,6 +14,7 @@ public abstract class PieceObject : NetworkBehaviour
     public bool isMine => HasStateAuthority;
 
     // 逆位置かどうか
+    
     public bool isReverse = false;
 
     // 召喚酔いしているかどうか
@@ -164,6 +165,11 @@ public abstract class PieceObject : NetworkBehaviour
     }
 
     public void SetReverse(bool isReverse)
+    {
+        SetReverse_RPC(isReverse);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void SetReverse_RPC(bool isReverse)
     {
         this.isReverse = isReverse;
     }
