@@ -41,4 +41,8 @@ public class WheelOfFortune : ActivePieceObject
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
+    }
 }

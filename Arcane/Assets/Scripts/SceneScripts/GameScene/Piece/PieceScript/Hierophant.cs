@@ -41,4 +41,10 @@ public class Hierophant : ActivePieceObject
         );
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
+
+    public override bool CanSpellActiveEffect()
+    {
+        if(isReverse) return false;
+        return canActive;
+    }
 }

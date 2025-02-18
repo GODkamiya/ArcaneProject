@@ -1,20 +1,39 @@
+using Fusion;
 using UnityEngine;
 
-public class HighPriestess : PieceObject
+public class HighPriestess : ActivePieceObject
 {
+    public override void ActiveEffect()
+    {
+        GameManager.singleton.phaseMachine.TransitionTo(new HighPriestessPhase(this));
+    }
+
+    public void MovePieceByEffect(NetworkObject target, BoardBlock bb)
+    {
+        MovePieceByEffect_Rpc(target,bb.x,bb.y);
+        GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void MovePieceByEffect_Rpc(NetworkObject target, int x, int y)
+    {
+        PieceObject po = target.GetComponent<PieceObject>();
+        if(po.isMine)po.SetPosition(9-x, 9-y, false);
+    }
+
     public override string GetName()
     {
         return "HighPriestess";
     }
 
-    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
+    public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)
             {
-                if(addX == 0 && addY == 0)continue;
+                if (addX == 0 && addY == 0) continue;
                 pm.AddRange(baseX + addX, baseY + addY);
             }
         }
@@ -24,5 +43,10 @@ public class HighPriestess : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.HighPriestess;
+    }
+
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
     }
 }

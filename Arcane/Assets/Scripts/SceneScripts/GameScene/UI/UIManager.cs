@@ -91,4 +91,13 @@ public class UIManager : MonoBehaviour
     public void HideChooseOneClickPanel(){
         wheelOfFortunePanel.SetActive(false);
     }
+    public void ShowChooseOneTilePanel(ChooseOneTileAction action){
+        wheelOfFortunePanel.SetActive(true);
+        var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action.OnPressButton);
+    }
+    public void HideChooseOneTilePanel(){
+        wheelOfFortunePanel.SetActive(false);
+    }
 }
