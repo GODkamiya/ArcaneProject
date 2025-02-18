@@ -10,6 +10,13 @@ public class Tower : ActivePieceObject
         Deny_RPC();
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
+
+    public override bool CanSpellActiveEffect()
+    {
+        if(!isReverse) return false;
+        return canActive;
+    }
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Deny_RPC()
     {

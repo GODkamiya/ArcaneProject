@@ -14,6 +14,11 @@ public class Justice : ActivePieceObject
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
+    }
+
     public override string GetName()
     {
         return "Justice";

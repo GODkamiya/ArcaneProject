@@ -44,4 +44,9 @@ public class HighPriestess : ActivePieceObject
     {
         return PieceType.HighPriestess;
     }
+
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
+    }
 }
