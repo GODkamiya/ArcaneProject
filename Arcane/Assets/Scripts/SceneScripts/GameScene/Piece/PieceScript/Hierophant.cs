@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public class Hierophant : ActivePieceObject
@@ -32,7 +33,8 @@ public class Hierophant : ActivePieceObject
         return PieceType.Hierophant;
     }
 
-    public void AddMovement(GameObject target){
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+    public void AddMovement_RPC(NetworkObject target){
         canActive = false;
         var buff = new UDLRAddPieceMovement(1);
         target.GetComponent<PieceObject>().AddAddPieceMovement(buff);
