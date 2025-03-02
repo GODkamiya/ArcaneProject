@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class InitialSummonClickAction : IClickAction, IClickHand
@@ -6,16 +8,17 @@ public class InitialSummonClickAction : IClickAction, IClickHand
     private PieceType? latestSelectHandPieceType;
     private LocalBoardManager localBoardManager;
 
-    public InitialSummonClickAction(LocalBoardManager localBoardManager){
-        this.localBoardManager=localBoardManager;
+    public InitialSummonClickAction(LocalBoardManager localBoardManager)
+    {
+        this.localBoardManager = localBoardManager;
     }
 
     public void OnClickBoard(BoardBlock bb)
     {
-        if(bb.y >= 3)return;
+        if (bb.y >= 3) return;
 
         // コマと重なる場合、早期リターンで置けなくする
-        if(localBoardManager.HasPiece(bb.x, bb.y)) return;
+        if (localBoardManager.HasPiece(bb.x, bb.y)) return;
         // 既に置いてあるコマを選択中の場合、そのコマを移動させる
         if (latestSelectPiece != null)
         {
@@ -29,8 +32,16 @@ public class InitialSummonClickAction : IClickAction, IClickHand
             PieceType pt = latestSelectHandPieceType ?? PieceType.Fool; // TODO nullの対処
             PlayerObject po = GameManager.singleton.GetLocalPlayerObject();
             po.RemoveHand(pt);
-            localBoardManager.SetPiece(pt,bb.x,bb.y);
+            GameObject putLocalPiece = localBoardManager.SetPiece(pt, bb.x, bb.y);
             latestSelectHandPieceType = null;
+            if (pt == PieceType.HangedMan)
+            {
+                void SetPretender(PieceType selectedPretender)
+                {
+                    putLocalPiece.GetComponent<HangedMan>().SetPretender(selectedPretender);
+                }
+                UIManager.singleton.ShowPieceListPanel(Enum.GetValues(typeof(PieceType)).Cast<PieceType>().ToList(), SetPretender);
+            }
         }
     }
 

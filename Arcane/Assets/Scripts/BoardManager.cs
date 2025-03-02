@@ -79,6 +79,11 @@ public class BoardManager : MonoBehaviour
                     new TurnEndEvent(1,()=>networkPieceObject.isSickness = false)
                 );
             }
+            if(po.GetPieceType() == PieceType.HangedMan){
+                HangedMan localHangedman = po.GetComponent<HangedMan>();
+                HangedMan networkHangedman = networkPieceObject.GetComponent<HangedMan>();
+                networkHangedman.AsyncSetPretender(localHangedman.GetPretender() ?? PieceType.HangedMan);
+            }
             Destroy(piece);
         }
     }

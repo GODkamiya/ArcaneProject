@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     GameObject wheelOfFortunePanel;
+
+    [SerializeField]
+    GameObject pieceListPanelPrefab;
+    [SerializeField]
+    GameObject canvas;
 
     private void Awake()
     {
@@ -99,5 +105,12 @@ public class UIManager : MonoBehaviour
     }
     public void HideChooseOneTilePanel(){
         wheelOfFortunePanel.SetActive(false);
+    }
+
+    public void ShowPieceListPanel(List<PieceType> pieceTypes,UnityAction<PieceType> onSelectPieceType){
+        GameObject pieceListPanel = Instantiate(pieceListPanelPrefab);
+        pieceListPanel.transform.SetParent(canvas.transform,false);
+        // pieceListPanel.transform.position = new Vector3(0, 0, 0);
+        pieceListPanel.GetComponent<PieceListPanel>().Initialize(pieceTypes, onSelectPieceType);
     }
 }

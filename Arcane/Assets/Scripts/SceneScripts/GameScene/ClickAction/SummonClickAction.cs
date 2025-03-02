@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
@@ -70,6 +72,12 @@ public class SummonClickAction : IClickAction, IClickHand
         putLocalPieceType = pt;
         latestSelectedPieceType = null;
         hasPut = true;
+        if(pt == PieceType.HangedMan){
+            void SetPretender(PieceType selectedPretender){
+                putLocalPiece.GetComponent<HangedMan>().SetPretender(selectedPretender);
+            }
+            UIManager.singleton.ShowPieceListPanel(Enum.GetValues(typeof(PieceType)).Cast<PieceType>().ToList(),SetPretender);
+        }
     }
 
     public void OnClickHand(PieceType pieceType)
