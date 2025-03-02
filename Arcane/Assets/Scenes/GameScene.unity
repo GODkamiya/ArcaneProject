@@ -3018,6 +3018,8 @@ MonoBehaviour:
   abilityButton: {fileID: 701339372}
   gameEndPanel: {fileID: 718870691}
   wheelOfFortunePanel: {fileID: 1173260347}
+  pieceListPanelPrefab: {fileID: 7073484305448060094, guid: 14048138ef5a6cb498e90d16a832d6ad, type: 3}
+  canvas: {fileID: 1155176357}
 --- !u!4 &1402195799
 Transform:
   m_ObjectHideFlags: 0
