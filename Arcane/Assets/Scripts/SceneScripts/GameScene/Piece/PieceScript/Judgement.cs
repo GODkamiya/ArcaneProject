@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Judgement : PieceObject
+public class Judgement : PieceObject, IOnAttackEvent
 {
     public override string GetName()
     {
@@ -24,5 +24,11 @@ public class Judgement : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Judgement;
+    }
+
+    public void OnAttack(int newX, int newY,PieceObject newTarget)
+    {
+        if(!isMine) return;
+        GameManager.singleton.GetLocalPlayerObject().AddHand(newTarget.GetPieceType());
     }
 }

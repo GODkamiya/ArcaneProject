@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IOnAttackEvent
 {
-    public void OnAttack(int newX, int newY);
+    public void OnAttack(int newX, int newY,PieceObject target);
 }

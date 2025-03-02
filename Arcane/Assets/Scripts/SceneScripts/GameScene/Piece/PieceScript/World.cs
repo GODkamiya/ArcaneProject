@@ -26,7 +26,7 @@ public class World : PieceObject, IOnAttackEvent
         return PieceType.World;
     }
 
-    public void OnAttack(int newX, int newY)
+    public void OnAttack(int newX, int newY,PieceObject target)
     {
         // 既存のコマを削除し、手札に戻す
         Death();

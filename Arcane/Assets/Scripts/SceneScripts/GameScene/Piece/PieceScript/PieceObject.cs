@@ -82,7 +82,7 @@ public abstract class PieceObject : NetworkBehaviour
             enemy.Death();
             if (this is IOnAttackEvent)
             {
-                ((IOnAttackEvent)this).OnAttack(newX, newY);
+                ((IOnAttackEvent)this).OnAttack(newX, newY,enemy);
             }
             SetReverse(true);
         }
