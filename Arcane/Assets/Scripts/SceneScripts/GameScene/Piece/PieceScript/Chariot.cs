@@ -26,7 +26,7 @@ public class Chariot : PieceObject, IOnAttackEvent
         return PieceType.Chariot;
     }
 
-    public void OnAttack(int newX,int newY)
+    public void OnAttack(int newX,int newY,PieceObject target)
     {
         // 移動予定の位置からの移動範囲を求める
         PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement(newX,newY);
@@ -36,11 +36,11 @@ public class Chariot : PieceObject, IOnAttackEvent
             {
                 if (pieceMovement.range[i, j])
                 {
-                    GameObject target = BoardManager.singleton.onlinePieces[i, j];
-                    if (target != null)
+                    GameObject newTarget = BoardManager.singleton.onlinePieces[i, j];
+                    if (newTarget != null)
                     {
-                        if(isReverse && target.GetComponent<PieceObject>().isMine == isMine)continue;
-                        target.GetComponent<PieceObject>().Death();
+                        if(isReverse && newTarget.GetComponent<PieceObject>().isMine == isMine)continue;
+                        newTarget.GetComponent<PieceObject>().Death();
                     }
                 }
             }
