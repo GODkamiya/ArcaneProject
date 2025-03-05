@@ -16,6 +16,11 @@ public class Emperor : PieceObject
             {
                 if(addX == 0 && addY == 0)continue;
                 pm.AddRange(baseX + addX, baseY + addY);
+                // 逆位置の場合に、移動範囲が増加する
+                if (isReverse && (addX == 0 || addY == 0))
+                {
+                    pm.AddRange(baseX + addX * 2, baseY + addY * 2);
+                }
             }
         }
         return pm;

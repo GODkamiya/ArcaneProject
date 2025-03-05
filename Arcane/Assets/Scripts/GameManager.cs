@@ -13,8 +13,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     [SerializeField]
     BoardManager boardManager;
-
-
+    
     [SerializeField]
     GameObject playerObjectPrefab;
 
