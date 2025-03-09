@@ -19,7 +19,13 @@ public class HighPriestess : ActivePieceObject
     public void MovePieceByEffect_Rpc(NetworkObject target, int x, int y)
     {
         PieceObject po = target.GetComponent<PieceObject>();
-        if(po.isMine)po.SetPosition(9-x, 9-y, false);
+        if(po.isMine){
+            if(!isMine){
+                x = 9-x;
+                y = 9-y;
+            }
+            po.SetPosition(x, y, false);
+        }
     }
 
     public override string GetName()

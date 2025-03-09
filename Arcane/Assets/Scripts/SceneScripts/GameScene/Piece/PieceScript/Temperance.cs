@@ -1,7 +1,30 @@
+using Fusion;
 using UnityEngine;
 
-public class Temperance : PieceObject
+public class Temperance : ActivePieceObject, IOnReverse, IOnAfterDeath
 {
+    public GameObject target;
+
+    public int counter = 1;
+
+    public override void ActiveEffect()
+    {
+        GameManager.singleton.phaseMachine.TransitionTo(new TemperancePhase(this));
+    }
+
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+    public void Effect_RPC(NetworkObject target){
+        counter--;
+        this.target = target.gameObject;
+        target.GetComponent<PieceObject>().SetTemperance(gameObject);
+    }
+
+    public override bool CanSpellActiveEffect()
+    {
+        if(counter <= 0) return false;
+        return canActive;
+    }
+
     public override string GetName()
     {
         return "Temperance";
@@ -24,5 +47,15 @@ public class Temperance : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Temperance;
+    }
+
+    public void OnReverse()
+    {
+        counter++;
+    }
+
+    public void OnAfterDeath(int x, int y)
+    {
+        target.GetComponent<PieceObject>().SetTemperance(null);
     }
 }

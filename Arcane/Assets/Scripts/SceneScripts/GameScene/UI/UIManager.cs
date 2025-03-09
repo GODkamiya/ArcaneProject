@@ -99,9 +99,12 @@ public class UIManager : MonoBehaviour
     public void ShowChooseOneClickPanel(ChooseOneClickAction action)
     {
         wheelOfFortunePanel.SetActive(true);
-        var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
+        var button = wheelOfFortunePanel.transform.Find("Button").GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(action.OnPressButton);
+        var cancel = wheelOfFortunePanel.transform.Find("Cancel").GetComponent<Button>();
+        cancel.onClick.RemoveAllListeners();
+        cancel.onClick.AddListener(() => GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase()));
     }
     public void HideChooseOneClickPanel()
     {
@@ -110,9 +113,12 @@ public class UIManager : MonoBehaviour
     public void ShowChooseOneTilePanel(ChooseOneTileAction action)
     {
         wheelOfFortunePanel.SetActive(true);
-        var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
+        var button = wheelOfFortunePanel.transform.Find("Button").GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(action.OnPressButton);
+        var cancel = wheelOfFortunePanel.transform.Find("Cancel").GetComponent<Button>();
+        cancel.onClick.RemoveAllListeners();
+        cancel.onClick.AddListener(() => GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase()));
     }
     public void HideChooseOneTilePanel()
     {

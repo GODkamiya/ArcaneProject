@@ -35,6 +35,9 @@ public class PieceMoveClickAction : IClickAction
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
         if (!piece.isMine) return;
         if (piece.isSickness) return;
+        if(piece.temperance != null)return;
+        if(piece.GetPieceType() == PieceType.Temperance && ((Temperance)piece).target != null) return;
+
         if (latestPiece != null)
         {
             if (latestPiece.GetComponent<PieceObject>().isKing)
