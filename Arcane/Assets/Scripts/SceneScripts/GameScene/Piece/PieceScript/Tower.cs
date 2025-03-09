@@ -25,7 +25,7 @@ public class Tower : ActivePieceObject
 
     public override string GetName()
     {
-        return "Tower";
+        return "塔";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

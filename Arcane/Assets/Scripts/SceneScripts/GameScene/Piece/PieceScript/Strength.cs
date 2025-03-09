@@ -21,7 +21,7 @@ public class Strength : ActivePieceObject
 
     public override string GetName()
     {
-        return "Strength";
+        return "力";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

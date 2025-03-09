@@ -6,7 +6,7 @@ public class Fool : PieceObject
 {
     public override string GetName()
     {
-        return "Fool";
+        return "愚者";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

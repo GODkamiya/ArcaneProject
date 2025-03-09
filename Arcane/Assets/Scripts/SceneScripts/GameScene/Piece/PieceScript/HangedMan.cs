@@ -12,7 +12,7 @@ public class HangedMan : PieceObject, IOnReverse
 
     public override string GetName()
     {
-        return pretender == null ? "HangedMan" : pretender.ToString();
+        return PieceTypeExtension.GetNameFromPieceType(pretender ?? PieceType.HangedMan);
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

@@ -4,7 +4,7 @@ public class Lovers : PieceObject
 {
     public override string GetName()
     {
-        return "Lovers";
+        return "恋人";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

@@ -10,7 +10,7 @@ public class WheelOfFortune : ActivePieceObject
 
     public override string GetName()
     {
-        return "WheelOfFortune";
+        return "運命の輪";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

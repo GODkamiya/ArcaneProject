@@ -11,7 +11,7 @@ public class Hierophant : ActivePieceObject
 
     public override string GetName()
     {
-        return "Hierophant";
+        return "教皇";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

@@ -25,7 +25,7 @@ public class Moon : ActivePieceObject
 
     public override string GetName()
     {
-        return isTransformed ? "Sun" : "Moon";
+        return isTransformed ? "太陽" : "月";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

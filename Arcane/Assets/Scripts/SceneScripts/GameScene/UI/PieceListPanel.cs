@@ -19,7 +19,7 @@ public class PieceListPanel : MonoBehaviour
         foreach(PieceType pieceType in pieceTypes){
             GameObject pieceButton = Instantiate(pieceButtonPrefab);
             pieceButton.transform.SetParent(transform);
-            pieceButton.GetComponentInChildren<TextMeshProUGUI>().text = pieceType.ToString();
+            pieceButton.GetComponentInChildren<TextMeshProUGUI>().text = PieceTypeExtension.GetNameFromPieceType(pieceType);
             pieceButton.GetComponent<Button>().onClick.AddListener(() => Call(pieceType));
         }
     }

@@ -4,7 +4,7 @@ public class Devil : PieceObject
 {
     public override string GetName()
     {
-        return "Devil";
+        return "悪魔";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

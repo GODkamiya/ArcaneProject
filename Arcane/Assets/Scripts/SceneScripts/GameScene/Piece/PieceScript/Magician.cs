@@ -16,7 +16,7 @@ public class Magician : ActivePieceObject
 
     public override string GetName()
     {
-        return "Magician";
+        return "魔術師";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

@@ -19,7 +19,7 @@ public class Empress : ActivePieceObject
 
     public override string GetName()
     {
-        return "Empress";
+        return "女帝";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

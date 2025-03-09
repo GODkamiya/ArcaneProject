@@ -4,7 +4,7 @@ public class Star : PieceObject
 {
     public override string GetName()
     {
-        return "Star";
+        return "星";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

@@ -117,7 +117,7 @@ public class PlayerObject : NetworkBehaviour
         {
             GameObject pieceUI = Instantiate(pieceUIPrefab);
             pieceUI.GetComponent<PieceUIScript>().pieceType = pieceType;
-            pieceUI.GetComponentInChildren<TextMeshProUGUI>().text = pieceType.ToString();
+            pieceUI.GetComponentInChildren<TextMeshProUGUI>().text = PieceTypeExtension.GetNameFromPieceType(pieceType);
             pieceUI.transform.SetParent(handPanel.transform, false);
         }
     }

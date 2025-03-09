@@ -40,7 +40,7 @@ public class Hermit : ActivePieceObject
 
     public override string GetName()
     {
-        return "Hermit";
+        return "隠者";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

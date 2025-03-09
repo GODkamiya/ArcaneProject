@@ -30,7 +30,7 @@ public class HighPriestess : ActivePieceObject
 
     public override string GetName()
     {
-        return "HighPriestess";
+        return "女教皇";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

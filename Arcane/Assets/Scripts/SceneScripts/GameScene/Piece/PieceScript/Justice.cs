@@ -15,7 +15,7 @@ public class Justice : ActivePieceObject
 
     public override string GetName()
     {
-        return "Justice";
+        return "正義";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

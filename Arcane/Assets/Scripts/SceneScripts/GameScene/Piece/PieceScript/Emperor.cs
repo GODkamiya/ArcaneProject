@@ -4,7 +4,7 @@ public class Emperor : PieceObject
 {
     public override string GetName()
     {
-        return "Emperor";
+        return "皇帝";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

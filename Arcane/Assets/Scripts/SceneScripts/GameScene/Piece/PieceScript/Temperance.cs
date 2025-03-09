@@ -27,7 +27,7 @@ public class Temperance : ActivePieceObject, IOnReverse, IOnAfterDeath
 
     public override string GetName()
     {
-        return "Temperance";
+        return "節制";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

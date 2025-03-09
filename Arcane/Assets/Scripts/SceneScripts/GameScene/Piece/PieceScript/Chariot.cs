@@ -4,7 +4,7 @@ public class Chariot : PieceObject, IOnAttackEvent
 {
     public override string GetName()
     {
-        return "Chariot";
+        return "戦車";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

@@ -4,7 +4,7 @@ public class Death : PieceObject
 {
     public override string GetName()
     {
-        return "Death";
+        return "死神";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)

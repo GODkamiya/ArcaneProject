@@ -4,7 +4,7 @@ public class World : PieceObject, IOnAttackEvent
 {
     public override string GetName()
     {
-        return "World";
+        return "世界";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)

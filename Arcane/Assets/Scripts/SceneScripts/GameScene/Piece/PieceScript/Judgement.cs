@@ -4,7 +4,7 @@ public class Judgement : PieceObject, IOnAttackEvent
 {
     public override string GetName()
     {
-        return "Judgement";
+        return "審判";
     }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
