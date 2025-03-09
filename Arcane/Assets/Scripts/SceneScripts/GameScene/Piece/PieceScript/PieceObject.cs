@@ -58,8 +58,15 @@ public abstract class PieceObject : NetworkBehaviour
             gameObject.GetComponent<Renderer>().material.color = Color.gray;
             if (GetPieceType() == PieceType.Hermit)
             {
-                gameObject.GetComponent<Renderer>().enabled = false;
-                gameObject.GetComponentInChildren<TextMeshPro>().text = "";
+                Hermit hermitData = gameObject.GetComponent<Hermit>();
+                hermitData.ToggleTransparent_RPC();
+                if(hermitData.isTransparent){
+                    gameObject.GetComponent<Renderer>().enabled = false;
+                    gameObject.GetComponentInChildren<TextMeshPro>().text = "";
+                }else{
+                    gameObject.GetComponent<Renderer>().enabled = true;
+                    gameObject.GetComponentInChildren<TextMeshPro>().text = hermitData.GetName();
+                }
             }
         }
 

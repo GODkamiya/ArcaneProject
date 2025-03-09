@@ -115,6 +115,14 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void TurnStart()
     {
+        // ターン開始時の処理をコールする
+        foreach(GameObject piece in boardManager.GetAllPieces()){
+            PieceObject data = piece.GetComponent<PieceObject>();
+            if(data is IOnTurnStart){
+                ((IOnTurnStart)data).OnTurnStart();
+            }
+        }
+
         if (is1pTurn == HasStateAuthority)
         {
             DrawOrSummonPhase();
@@ -145,13 +153,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     }
     public void TurnEnd()
     {
-        turnEndEvents.ForEach(turnEndEvent => turnEndEvent.Do());
         phaseMachine.TransitionTo(new WaitPhase());
         TurnEnd_RPC();
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void TurnEnd_RPC()
     {
+        turnEndEvents.ForEach(turnEndEvent => turnEndEvent.Do());
         is1pTurn = !is1pTurn;
         TurnStart();
     }

@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public class Strength : ActivePieceObject
@@ -5,6 +6,12 @@ public class Strength : ActivePieceObject
     public override void ActiveEffect()
     {
         GameManager.singleton.phaseMachine.TransitionTo(new StrengthPhase(this));
+    }
+
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+    public void Effect_RPC(NetworkObject target){
+        target.GetComponent<PieceObject>().isReverse = true;
+        Death();
     }
 
     public override bool CanSpellActiveEffect()
