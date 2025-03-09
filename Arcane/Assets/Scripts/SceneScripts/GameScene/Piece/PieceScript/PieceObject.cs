@@ -23,6 +23,8 @@ public abstract class PieceObject : NetworkBehaviour
     // 生きているか
     public bool isLiving = true;
 
+    //攻撃できるか
+    public bool isAttackable = true;
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     public override void Spawned()
@@ -172,5 +174,14 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetReverse_RPC(bool isReverse)
     {
         this.isReverse = isReverse;
+    }
+    public void SetAttackable(bool isAttackable)
+    {
+        SetAttackable_RPC(isAttackable);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void SetAttackable_RPC(bool isAttackable)
+    {
+        this.isAttackable = isAttackable;
     }
 }

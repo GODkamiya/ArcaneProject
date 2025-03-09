@@ -1,8 +1,20 @@
 using Fusion;
 using UnityEngine;
 
-public class Empress : PieceObject
+public class Empress : ActivePieceObject
 {
+    
+    public GameObject selectedTarget;
+    public override void ActiveEffect()
+    {
+        GameManager.singleton.phaseMachine.TransitionTo(new EmpressPhase(this));
+    }
+
+    public override bool CanSpellActiveEffect()
+    {
+        return canActive;
+    }
+
     public override string GetName()
     {
         return "Empress";
