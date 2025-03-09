@@ -51,7 +51,7 @@ public class PieceMoveClickAction : IClickAction
         PieceMovement move = piece.GetPieceMovement();
         latestMove = move;
         BoardManager.singleton.ShowMovement(move);
-        if (piece is ActivePieceObject activePiece && activePiece.CanSpellActiveEffect() && !activePiece.isSickness)
+        if (piece is ActivePieceObject activePiece && activePiece.CanSpellActiveEffectMaster() && !activePiece.isSickness)
         {
             UIManager.singleton.ShowAbilityButton(() => activePiece.ActiveEffect());
         }
