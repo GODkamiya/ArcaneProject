@@ -1,4 +1,5 @@
 using System;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class ChooseOneTileAction : IClickAction
@@ -29,6 +30,11 @@ public class ChooseOneTileAction : IClickAction
     }
 
     public void OnPressButton(){
+        if(latestBlock == null) return;
+        latestBlock.GetComponent<Renderer>().material.color = Color.white;
+        action(latestBlock);
+    }
+    public void OnPressButton(string buttonName){
         if(latestBlock == null) return;
         latestBlock.GetComponent<Renderer>().material.color = Color.white;
         action(latestBlock);

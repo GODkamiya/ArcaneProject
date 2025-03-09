@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager singleton { get; private set;}
+    public static UIManager singleton { get; private set; }
     [SerializeField]
     GameObject drawOrSummonPanel;
     [SerializeField]
@@ -24,6 +25,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     GameObject wheelOfFortunePanel;
+
+    [SerializeField]
+    GameObject justicePanel;
 
     [SerializeField]
     GameObject pieceListPanelPrefab;
@@ -63,54 +67,92 @@ public class UIManager : MonoBehaviour
     {
         initSelectKingPanel.SetActive(false);
     }
-    public void ShowSummonPanel(UnityAction action){
+    public void ShowSummonPanel(UnityAction action)
+    {
         summonPanel.SetActive(true);
         summonPanel.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
         summonPanel.GetComponentInChildren<Button>().onClick.AddListener(action);
     }
-    public void HideSummonPanel(){
+    public void HideSummonPanel()
+    {
         summonPanel.SetActive(false);
     }
-    public void ShowAbilityButton(UnityAction action){
+    public void ShowAbilityButton(UnityAction action)
+    {
         abilityButton.SetActive(true);
         abilityButton.GetComponent<Button>().onClick.RemoveAllListeners();
         abilityButton.GetComponent<Button>().onClick.AddListener(action);
     }
-    public void HideAbilityButton(){
+    public void HideAbilityButton()
+    {
         abilityButton.SetActive(false);
     }
     public void ShowGameEndPanel(bool is1pWin)
     {
         gameEndPanel.SetActive(true);
-        gameEndPanel.transform.Find("WinLabel").GetComponent<TextMeshProUGUI>().text = is1pWin ? "Player1 WIN!!!" : "Player2 WIN!!!" ;
+        gameEndPanel.transform.Find("WinLabel").GetComponent<TextMeshProUGUI>().text = is1pWin ? "Player1 WIN!!!" : "Player2 WIN!!!";
     }
     public void HideGameEndPanel()
     {
         gameEndPanel.SetActive(false);
     }
-    public void ShowChooseOneClickPanel(ChooseOneClickAction action){
+    public void ShowChooseOneClickPanel(ChooseOneClickAction action)
+    {
         wheelOfFortunePanel.SetActive(true);
         var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(action.OnPressButton);
     }
-    public void HideChooseOneClickPanel(){
+    public void HideChooseOneClickPanel()
+    {
         wheelOfFortunePanel.SetActive(false);
     }
-    public void ShowChooseOneTilePanel(ChooseOneTileAction action){
+    public void ShowChooseOneTilePanel(ChooseOneTileAction action)
+    {
         wheelOfFortunePanel.SetActive(true);
         var button = wheelOfFortunePanel.GetComponentInChildren<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(action.OnPressButton);
     }
-    public void HideChooseOneTilePanel(){
+    public void HideChooseOneTilePanel()
+    {
         wheelOfFortunePanel.SetActive(false);
     }
 
-    public void ShowPieceListPanel(List<PieceType> pieceTypes,UnityAction<PieceType> onSelectPieceType){
+    public void ShowPieceListPanel(List<PieceType> pieceTypes, UnityAction<PieceType> onSelectPieceType)
+    {
         GameObject pieceListPanel = Instantiate(pieceListPanelPrefab);
-        pieceListPanel.transform.SetParent(canvas.transform,false);
+        pieceListPanel.transform.SetParent(canvas.transform, false);
         // pieceListPanel.transform.position = new Vector3(0, 0, 0);
         pieceListPanel.GetComponent<PieceListPanel>().Initialize(pieceTypes, onSelectPieceType);
+    }
+
+    public void HideJusticePanel()
+    {
+        justicePanel.SetActive(false);
+    }
+    public void ShowJusticePanel(UnityAction lineAction, UnityAction pointAction, UnityAction cancelAction, bool isReverse)
+    {
+        justicePanel.SetActive(true);
+        var buttons = justicePanel.GetComponentsInChildren<Button>(true);
+
+        foreach (var button in buttons)
+        {
+
+            button.onClick.RemoveAllListeners();
+            switch (button.gameObject.name)
+            {
+                case "buttonLineSymmetry":
+                    button.onClick.AddListener(lineAction);
+                    break;
+                case "buttonPointSymmetry":
+                    button.gameObject.SetActive(isReverse);
+                    button.onClick.AddListener(pointAction);
+                    break;
+                case "buttonCancel":
+                    button.onClick.AddListener(cancelAction);
+                    break;
+            }
+        }
     }
 }
