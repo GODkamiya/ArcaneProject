@@ -10,6 +10,7 @@ public class HighPriestess : ActivePieceObject
 
     public void MovePieceByEffect(NetworkObject target, BoardBlock bb)
     {
+        canActive = false;
         MovePieceByEffect_Rpc(target,bb.x,bb.y);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }

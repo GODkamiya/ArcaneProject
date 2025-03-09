@@ -16,6 +16,7 @@ public class Hermit : ActivePieceObject
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void TransparentAlly_RPC(NetworkObject target)
     {
+        canActive = false;
         previousTarget = target;
         // コマの所持者は見える状態がキープされる
         if (target.HasStateAuthority) return;

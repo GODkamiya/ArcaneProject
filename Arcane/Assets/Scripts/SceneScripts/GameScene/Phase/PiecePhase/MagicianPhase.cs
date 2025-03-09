@@ -25,6 +25,7 @@ public class MagicianPhase : IPhase
     }
     private void Effect(GameObject target)
     {
+        magician.canActive = false;
         var piece = target.GetComponent<PieceObject>();
         piece.SetReverse(!piece.isReverse);
         magician.counter = 0;
