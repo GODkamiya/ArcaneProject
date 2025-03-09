@@ -172,5 +172,8 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetReverse_RPC(bool isReverse)
     {
         this.isReverse = isReverse;
+        if(isReverse && this is IOnReverse){
+            ((IOnReverse)this).OnReverse();
+        }
     }
 }

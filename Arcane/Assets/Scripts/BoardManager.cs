@@ -72,6 +72,7 @@ public class BoardManager : MonoBehaviour
             PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
             networkPieceObject.SetPosition(po.x, po.y,true);
             networkPieceObject.SetKing(po.isKing);
+            networkPieceObject.SetReverse(po.isReverse);
             if(isFirstSummon){
                 networkPieceObject.isSickness = false;
             }else{
