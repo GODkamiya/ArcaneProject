@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public class StrengthPhase : IPhase
@@ -26,8 +27,7 @@ public class StrengthPhase : IPhase
     }
     private void Effect(GameObject target)
     {
-        target.GetComponent<PieceObject>().isReverse = true;
-        strength.Death();
+        strength.Effect_RPC(target.GetComponent<NetworkObject>());
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 

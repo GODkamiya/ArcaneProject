@@ -112,4 +112,18 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+
+    public List<GameObject> GetAllPieces(){
+        List<GameObject> result = new List<GameObject>();
+        for (int x = 0; x < 10; x++)
+        {
+            for (int y = 0; y < 10; y++)
+            {
+                if(onlinePieces[x,y] != null){
+                    result.Add(onlinePieces[x,y]);
+                }
+            }
+        }
+        return result;
+    }
 }
