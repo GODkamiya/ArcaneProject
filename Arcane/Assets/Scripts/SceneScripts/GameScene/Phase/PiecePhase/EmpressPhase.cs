@@ -19,6 +19,13 @@ public class EmpressPhase : IPhase
         {
             filters.Add(new WithoutAllyFilter());
         }
+        else
+        {
+            foreach (GameObject targetType in masterPiece.selectedTargetList)
+            {
+                filters.Add(new WithoutSpecificObjectFilter(targetType));
+            }
+        }
         var action = new ChooseOneClickAction(filters, Effect);
         PlayerClickHandler.singleton.clickAction = action;
         UIManager.singleton.ShowChooseOneClickPanel(action);
@@ -28,12 +35,19 @@ public class EmpressPhase : IPhase
         var piece = target.GetComponent<PieceObject>();
         if (piece.isMine)
         {
-            //逆位置の実装
+            masterPiece.selectedTargetList.Add(target);
+            piece.SetImmortality(true);
+            GameManager.singleton.turnEndEvents.Add(
+                    new TurnEndEvent(2, () => piece.SetImmortality(false))
+                );
         }
         else
         {
             masterPiece.selectedTarget = target;
             piece.SetAttackable(false);
+            GameManager.singleton.turnEndEvents.Add(
+                    new TurnEndEvent(2, ()=> piece.SetAttackable(true))
+                );
         }
         masterPiece.canActive = false;
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
