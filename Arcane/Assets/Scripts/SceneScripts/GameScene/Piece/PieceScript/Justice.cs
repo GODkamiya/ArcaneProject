@@ -2,16 +2,10 @@ using UnityEngine;
 
 public class Justice : ActivePieceObject
 {
-    const int BOARD_SIZE = 10;
     public override void ActiveEffect()
     {
-        canActive = false;
-        int newX = (BOARD_SIZE - 1) - x;
-        var targetPiece = BoardManager.singleton.onlinePieces[newX, y];
-        //TODO 移動先に味方の駒がいたら発動できないようにする
-        if (targetPiece != null && targetPiece.GetComponent<PieceObject>().isMine) return;
-        SetPosition(newX, y, true);
-        GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
+        GameManager.singleton.phaseMachine.TransitionTo(new JusticePhase(this));
+        
     }
 
     public override bool CanSpellActiveEffect()
