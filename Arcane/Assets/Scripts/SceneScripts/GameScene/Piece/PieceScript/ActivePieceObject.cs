@@ -18,6 +18,7 @@ public abstract class ActivePieceObject : PieceObject
                 if(BoardManager.singleton.onlinePieces[x+i, y+ j] != null){
                     var target = BoardManager.singleton.onlinePieces[x+i,y+j].GetComponent<PieceObject>();
                     if(target.isMine)continue;
+                    if(!target.isReverse)continue;
                     if(target.GetPieceType() == PieceType.Devil) return false;
                 }
             }

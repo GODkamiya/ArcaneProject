@@ -28,6 +28,20 @@ public class ChooseOneClickAction : IClickAction
         {
             if (!filter.filterCondition(pieceObject)) return;
         }
+        // 悪魔の対象になっている場合は選べない
+        for(int i = -2 ; i <= 2; i++){
+            for(int j = -2; j <= 2; j++){
+                PieceObject pieceData = pieceObject.GetComponent<PieceObject>();
+                int x = pieceData.x;
+                int y = pieceData.y;
+                if(x + i < 0 || x + i > 9 || y + j < 0 || y + j > 9)continue;
+                if(BoardManager.singleton.onlinePieces[x+i,y+j] != null){
+                    PieceObject targetData = BoardManager.singleton.onlinePieces[x+i,y+j].GetComponent<PieceObject>();
+                    if(!targetData.isMine && targetData.GetPieceType() == PieceType.Devil)return;
+                }
+            }
+        }
+
         if(latestSelectPiece != null) ChangeOriginalColor(latestSelectPiece);
         latestSelectPiece = pieceObject;
         pieceObject.GetComponent<Renderer>().material.color = Color.yellow;
