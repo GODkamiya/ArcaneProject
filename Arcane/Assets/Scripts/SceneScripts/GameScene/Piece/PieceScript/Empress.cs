@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class Empress : ActivePieceObject
 {
     
     public GameObject selectedTarget;
+    public List<GameObject> selectedTargetList;
     public override void ActiveEffect()
     {
         GameManager.singleton.phaseMachine.TransitionTo(new EmpressPhase(this));

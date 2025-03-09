@@ -14,7 +14,7 @@ public abstract class PieceObject : NetworkBehaviour
     public bool isMine => HasStateAuthority;
 
     // 逆位置かどうか
-    
+
     public bool isReverse = false;
 
     // 召喚酔いしているかどうか
@@ -25,6 +25,9 @@ public abstract class PieceObject : NetworkBehaviour
 
     //攻撃できるか
     public bool isAttackable = true;
+
+    //死なないかどうか
+    public bool isImmortality = false;
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     public override void Spawned()
@@ -62,10 +65,13 @@ public abstract class PieceObject : NetworkBehaviour
             {
                 Hermit hermitData = gameObject.GetComponent<Hermit>();
                 hermitData.ToggleTransparent_RPC();
-                if(hermitData.isTransparent){
+                if (hermitData.isTransparent)
+                {
                     gameObject.GetComponent<Renderer>().enabled = false;
                     gameObject.GetComponentInChildren<TextMeshPro>().text = "";
-                }else{
+                }
+                else
+                {
                     gameObject.GetComponent<Renderer>().enabled = true;
                     gameObject.GetComponentInChildren<TextMeshPro>().text = hermitData.GetName();
                 }
@@ -91,7 +97,7 @@ public abstract class PieceObject : NetworkBehaviour
             enemy.Death();
             if (this is IOnAttackEvent)
             {
-                ((IOnAttackEvent)this).OnAttack(newX, newY,enemy);
+                ((IOnAttackEvent)this).OnAttack(newX, newY, enemy);
             }
             SetReverse(true);
         }
@@ -137,6 +143,7 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void Death()
     {
+        if (isImmortality) return;
         isLiving = false;
 
         // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
@@ -157,7 +164,7 @@ public abstract class PieceObject : NetworkBehaviour
             {
                 for (int addY = -2; addY <= 2; addY++)
                 {
-                    if(x + addX > 9 || y + addY > 9 || x + addX < 0 || y + addY < 0) continue;
+                    if (x + addX > 9 || y + addY > 9 || x + addX < 0 || y + addY < 0) continue;
                     BoardManager.singleton.onlinePieces[x + addX, y + addY]?.GetComponent<PieceObject>().Death();
                 }
             }
@@ -172,7 +179,10 @@ public abstract class PieceObject : NetworkBehaviour
     {
         addPieceMovementList.Remove(adder);
     }
-
+    /// <summary>
+    /// 指定した駒の指定位置（正・逆）を決める
+    /// </summary>
+    /// <param name="isReverse"></param>
     public void SetReverse(bool isReverse)
     {
         SetReverse_RPC(isReverse);
@@ -181,10 +191,15 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetReverse_RPC(bool isReverse)
     {
         this.isReverse = isReverse;
-        if(isReverse && this is IOnReverse){
+        if (isReverse && this is IOnReverse)
+        {
             ((IOnReverse)this).OnReverse();
         }
     }
+    /// <summary>
+    /// 指定した駒の攻撃可否を決める
+    /// </summary>
+    /// <param name="isAttackable"></param>
     public void SetAttackable(bool isAttackable)
     {
         SetAttackable_RPC(isAttackable);
@@ -193,5 +208,18 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetAttackable_RPC(bool isAttackable)
     {
         this.isAttackable = isAttackable;
+    }
+    /// <summary>
+    /// 指定した駒が死なないかどうか決める
+    /// </summary>
+    /// <param name="isImmortality"></param>
+    public void SetImmortality(bool isImmortality)
+    {
+        SetImmortality_RPC(isImmortality);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void SetImmortality_RPC(bool isImmortality)
+    {
+        this.isImmortality= isImmortality;
     }
 }
