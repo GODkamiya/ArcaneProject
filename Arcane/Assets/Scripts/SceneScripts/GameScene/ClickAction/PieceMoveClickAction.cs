@@ -8,6 +8,7 @@ public class PieceMoveClickAction : IClickAction
     {
         if (latestPiece == null) return;
         if (!latestMove.range[bb.x, bb.y]) return;
+        if(!latestPiece.GetComponent<PieceObject>().isAttackable && BoardManager.singleton.onlinePieces[bb.x, bb.y] != null) return;
         if(!(latestPiece.GetComponent<PieceObject>().GetPieceType() == PieceType.Judgement && latestPiece.GetComponent<PieceObject>().isReverse)){
             if (BoardManager.singleton.onlinePieces[bb.x, bb.y] != null && BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().isMine) return;
         }
