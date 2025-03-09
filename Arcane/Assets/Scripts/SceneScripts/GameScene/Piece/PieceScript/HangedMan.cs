@@ -1,7 +1,8 @@
 using Fusion;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
-public class HangedMan : PieceObject
+public class HangedMan : PieceObject, IOnReverse
 {
     private PieceType? pretender;
 
@@ -53,5 +54,23 @@ public class HangedMan : PieceObject
     public void AsyncSetPretender_RPC(PieceType pieceType)
     {
         SetPretender(pieceType);
+    }
+
+    public void OnReverse()
+    {
+        // TODO : ここDeathと共通化できるならしたい。要は消える処理みたいな感じ
+        isLiving = false;
+        // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
+        if (BoardManager.singleton.onlinePieces[x, y] == gameObject) BoardManager.singleton.RemovePieceOnBoard(x, y);
+        // 消すことによって同期処理が意図せず終了することがあるため、表示上で場外に飛ばす
+        gameObject.transform.position = new Vector3(-100, 100, -100);
+
+        // 新しいコマを配置する
+        if(HasStateAuthority){
+            LocalBoardManager localBoard = new LocalBoardManager();
+            GameObject newPiece = localBoard.SetPiece(pretender ?? PieceType.HangedMan,x,y);
+            if(isKing)localBoard.SelectKing(newPiece);
+            BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner,true,localBoard);
+        }
     }
 }
