@@ -10,7 +10,7 @@ public class Strength : ActivePieceObject
 
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
     public void Effect_RPC(NetworkObject target){
-        target.GetComponent<PieceObject>().isReverse = true;
+        target.GetComponent<PieceObject>().SetReverse(true);
         Death();
     }
 

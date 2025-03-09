@@ -56,7 +56,10 @@ public class ChooseOneClickAction : IClickAction
 
     private void ChangeOriginalColor(GameObject piece)
     {
-        if (piece.GetComponent<PieceObject>().isKing)
+        if(!piece.GetComponent<PieceObject>().isMine){
+            piece.GetComponent<Renderer>().material.color = Color.grey;
+        }
+        else if (piece.GetComponent<PieceObject>().isKing)
         {
             piece.GetComponent<Renderer>().material.color = Color.red;
         }

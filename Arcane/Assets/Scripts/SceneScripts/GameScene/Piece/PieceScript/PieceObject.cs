@@ -28,6 +28,10 @@ public abstract class PieceObject : NetworkBehaviour
 
     //死なないかどうか
     public bool isImmortality = false;
+
+    // 節制の効果をうけているかどうか
+    public GameObject temperance = null;
+
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     public override void Spawned()
@@ -152,6 +156,9 @@ public abstract class PieceObject : NetworkBehaviour
         // 消すことによって同期処理が意図せず終了することがあるため、表示上で場外に飛ばす
         gameObject.transform.position = new Vector3(-100, 100, -100);
 
+        // 節制の効果をうけている場合、元の節制を動けるようにする
+        if(temperance != null)temperance.GetComponent<Temperance>().target = null;
+
         // 王の場合、ゲーム終了へ
         if (isKing)
         {
@@ -221,5 +228,10 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetImmortality_RPC(bool isImmortality)
     {
         this.isImmortality= isImmortality;
+    }
+
+    public void SetTemperance(GameObject temperance)
+    {
+        this.temperance = temperance;
     }
 }
