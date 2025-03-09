@@ -132,4 +132,7 @@ public class PlayerObject : NetworkBehaviour
     public bool HasOneCard(){
         return hand.Count > 0;
     }
+    public bool HasRestDeck(){
+        return deck.Length > drawCount;
+    }
 }
