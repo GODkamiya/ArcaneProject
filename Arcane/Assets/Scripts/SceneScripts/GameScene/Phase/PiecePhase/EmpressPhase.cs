@@ -35,6 +35,7 @@ public class EmpressPhase : IPhase
             masterPiece.selectedTarget = target;
             piece.SetAttackable(false);
         }
+        masterPiece.canActive = false;
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
