@@ -13,7 +13,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     [SerializeField]
     BoardManager boardManager;
-    
+
     [SerializeField]
     GameObject playerObjectPrefab;
 
@@ -44,7 +44,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     public void Update()
     {
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C)){
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+        {
             commandPallet.SetActive(true);
         }
     }
@@ -110,22 +111,31 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
             }
         }
         print("call");
-        boardManager.AsyncPiece(Runner,true,((PreparationTurn)turnMachine.GetCurrentTurn()).GetLocalBoardManager());
+        boardManager.AsyncPiece(Runner, true, ((PreparationTurn)turnMachine.GetCurrentTurn()).GetLocalBoardManager());
         TurnStart();
     }
     public void TurnStart()
     {
         // ターン開始時の処理をコールする
-        foreach(GameObject piece in boardManager.GetAllPieces()){
+        foreach (GameObject piece in boardManager.GetAllPieces())
+        {
             PieceObject data = piece.GetComponent<PieceObject>();
-            if(data is IOnTurnStart){
+            if (data is IOnTurnStart)
+            {
                 ((IOnTurnStart)data).OnTurnStart();
             }
         }
 
         if (is1pTurn == HasStateAuthority)
         {
-            DrawOrSummonPhase();
+            if (!GetLocalPlayerObject().HasRestDeck() && !GetLocalPlayerObject().HasOneCard())
+            {
+                phaseMachine.TransitionTo(new ActionPhase());
+            }
+            else
+            {
+                DrawOrSummonPhase();
+            }
             foreach (GameObject piece in BoardManager.singleton.onlinePieces)
             {
                 if (piece != null && piece.GetComponent<PieceObject>() is ActivePieceObject activePiece)
