@@ -10,23 +10,17 @@ public class PlayerObject : NetworkBehaviour
 {
     [Networked, Capacity(22)]
     NetworkArray<PieceType> deck => default;
-    [Networked, OnChangedRender(nameof(RenderPanel))]
+    [Networked]
     int drawCount { get; set; } = 0;
     [Networked, Capacity(22), OnChangedRender(nameof(RenderHand))]
     NetworkLinkedList<PieceType> hand => default;
     [SerializeField]
     GameObject pieceUIPrefab;
-    // このオブジェクトが対応しているパネルが入る。
-    // 自分から見て、どちらかが入り、同期されない。
-    private PlayerPanel responsePanel;
+
     private GameObject handPanel;
     // プレイヤーが生成され次第、プレイヤーを登録する
     public override void Spawned()
     {
-        GameObject allyPanel = GameObject.Find("Canvas/AllyPanel");
-        GameObject enemyPanel = GameObject.Find("Canvas/EnemyPanel");
-
-        responsePanel = HasStateAuthority ? allyPanel.GetComponent<PlayerPanel>() : enemyPanel.GetComponent<PlayerPanel>();
         if (HasStateAuthority)
         {
             handPanel = GameObject.Find("Canvas/HandPanel");
@@ -96,11 +90,6 @@ public class PlayerObject : NetworkBehaviour
         {
             Debug.Log(pieceType);
         }
-    }
-
-    public void RenderPanel()
-    {
-        responsePanel.SetText(deckAmount: 22 - drawCount, handAmount: hand.Count);
     }
 
     public void RenderHand()
