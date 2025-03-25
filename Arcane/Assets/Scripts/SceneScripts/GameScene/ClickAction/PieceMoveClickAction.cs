@@ -12,6 +12,11 @@ public class PieceMoveClickAction : IClickAction
         {
             if (!latestPiece.GetComponent<PieceObject>().isAttackable) return;
             if (BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().isImmortality) return;
+            if (BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().GetPieceType() == PieceType.Emperor)
+            {
+                if (!BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().isReverse && latestPiece.GetComponent<PieceObject>().isReverse) return;
+                if (BoardManager.singleton.onlinePieces[bb.x, bb.y].GetComponent<PieceObject>().isReverse && !latestPiece.GetComponent<PieceObject>().isReverse) return;
+            }
         }
         if (!(latestPiece.GetComponent<PieceObject>().GetPieceType() == PieceType.Judgement && latestPiece.GetComponent<PieceObject>().isReverse))
         {
@@ -35,8 +40,8 @@ public class PieceMoveClickAction : IClickAction
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
         if (!piece.isMine) return;
         if (piece.isSickness) return;
-        if(piece.temperance != null)return;
-        if(piece.GetPieceType() == PieceType.Temperance && ((Temperance)piece).target != null) return;
+        if (piece.temperance != null) return;
+        if (piece.GetPieceType() == PieceType.Temperance && ((Temperance)piece).target != null) return;
 
         if (latestPiece != null)
         {

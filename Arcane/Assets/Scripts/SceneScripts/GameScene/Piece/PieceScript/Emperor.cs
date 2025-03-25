@@ -1,7 +1,20 @@
 using UnityEngine;
 
-public class Emperor : PieceObject
+public class Emperor : ActivePieceObject
 {
+    public override void ActiveEffect()
+    {
+        canActive = false;
+        isReverse = false;
+        GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
+    }
+
+    public override bool CanSpellActiveEffect()
+    {
+        if(!isReverse) return false;
+        return canActive;
+    }
+
     public override string GetName()
     {
         return "皇帝";
@@ -16,11 +29,6 @@ public class Emperor : PieceObject
             {
                 if(addX == 0 && addY == 0)continue;
                 pm.AddRange(baseX + addX, baseY + addY);
-                // 逆位置の場合に、移動範囲が増加する
-                if (isReverse && (addX == 0 || addY == 0))
-                {
-                    pm.AddRange(baseX + addX * 2, baseY + addY * 2);
-                }
             }
         }
         return pm;
