@@ -7,13 +7,6 @@ public class Strength : ActivePieceObject
     {
         GameManager.singleton.phaseMachine.TransitionTo(new StrengthPhase(this));
     }
-
-    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
-    public void Effect_RPC(NetworkObject target){
-        target.GetComponent<PieceObject>().SetReverse(true);
-        Death();
-    }
-
     public override bool CanSpellActiveEffect()
     {
         return canActive;

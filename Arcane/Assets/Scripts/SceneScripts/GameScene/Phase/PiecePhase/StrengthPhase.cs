@@ -12,14 +12,15 @@ public class StrengthPhase : IPhase
     }
     public void Enter()
     {
-
         List<TargetFilter> filters = new List<TargetFilter>(){
-            new WithoutEnemyFilter(),
-            new WithoutReverseFilter(),
+            new RangeFilter(strength.GetPieceMovement())
         };
-        if (!strength.isReverse)
+        if (strength.isReverse)
         {
-            filters.Add(new RangeFilter(strength.GetPieceMovement()));
+            filters.Add(new WithoutReverseFilter());
+        }else{
+            filters.Add(new WithoutAllyFilter());
+            filters.Add(new ReverseFilter());
         }
         var action = new ChooseOneClickAction(filters, Effect);
         PlayerClickHandler.singleton.clickAction = action;
@@ -27,7 +28,9 @@ public class StrengthPhase : IPhase
     }
     private void Effect(GameObject target)
     {
-        strength.Effect_RPC(target.GetComponent<NetworkObject>());
+        var piece = target.GetComponent<PieceObject>();
+        piece.SetReverse(!piece.isReverse);
+        strength.SetReverse(!strength.isReverse);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
