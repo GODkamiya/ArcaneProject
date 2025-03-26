@@ -4,6 +4,13 @@ public class PlayerClickHandler : MonoBehaviour
 {
     public static PlayerClickHandler singleton;
     public IClickAction clickAction{ get; set; }
+
+    /// <summary>
+    /// クリックしたコマの詳細を見るために
+    /// </summary>
+    [SerializeField]
+    private DiscriptionPanel discriptionPanel;
+
     private void Awake()
     {
         singleton = this;
@@ -33,6 +40,7 @@ public class PlayerClickHandler : MonoBehaviour
         }
         else if (hitObject.tag == "Piece")
         {
+            discriptionPanel.SetTargetPiece(hitObject.GetComponent<PieceObject>());
             clickAction.OnClickPiece(hitObject);
         }
     }

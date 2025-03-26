@@ -13,6 +13,9 @@ public abstract class PieceObject : NetworkBehaviour
     public bool isKing = false;
     public bool isMine => HasStateAuthority;
 
+    // このコマに関する情報が変更した際に発火されるイベント
+    public Action onChangeInformation;
+
     // 逆位置かどうか
 
     public bool isReverse = false;
@@ -201,6 +204,7 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetReverse_RPC(bool isReverse)
     {
         this.isReverse = isReverse;
+        onChangeInformation?.Invoke();
         if (isReverse && this is IOnReverse)
         {
             ((IOnReverse)this).OnReverse();
