@@ -37,4 +37,14 @@ public class Magician : ActivePieceObject
     {
         return PieceType.Magician;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "カウンターを消費して、好きな正位置のコマ1体を逆位置にする。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "カウンターを消費して、好きな逆位置のコマ1体を正位置にする。";
+    }
 }

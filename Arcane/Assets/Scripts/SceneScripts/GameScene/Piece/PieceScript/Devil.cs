@@ -25,4 +25,14 @@ public class Devil : PieceObject
     {
         return PieceType.Devil;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "このコマを中心にした5×5の範囲内にいる敵コマは効果の発動ができない。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマを中心にした5×5の範囲内にいる味方コマは、敵コマの効果の対象にならない。";
+    }
 }

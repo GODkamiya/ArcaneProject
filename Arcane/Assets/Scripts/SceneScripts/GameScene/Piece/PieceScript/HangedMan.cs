@@ -73,4 +73,14 @@ public class HangedMan : PieceObject, IOnReverse
             BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner,true,localBoard);
         }
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマは召喚する際に、「吊るされた男」以外のコマ１体に偽装する。動きや効果は変わらない。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "偽装しているコマに変身する。";
+    }
 }

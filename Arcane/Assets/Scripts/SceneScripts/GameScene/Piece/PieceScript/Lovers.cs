@@ -25,4 +25,14 @@ public class Lovers : PieceObject
     {
         return PieceType.Lovers;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "もう一方のコマを、このコマの移動範囲内の好きなところに移動させる。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマは2体同時に召喚する。片方のコマが移動する場合、もう片方のコマも移動する。また、片方のコマが倒れたとき、もう片方のコマも倒れる。";
+    }
 }

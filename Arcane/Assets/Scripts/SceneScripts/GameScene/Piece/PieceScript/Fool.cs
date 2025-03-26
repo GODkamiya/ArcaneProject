@@ -20,4 +20,14 @@ public class Fool : PieceObject
     {
         return PieceType.Fool;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "";
+    }
 }

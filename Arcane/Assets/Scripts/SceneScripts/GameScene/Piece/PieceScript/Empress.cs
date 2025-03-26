@@ -40,4 +40,14 @@ public class Empress : ActivePieceObject
     {
         return PieceType.Empress;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "味方コマ1体を、次の相手のターンの終わりまで倒れない状態にする。同じコマを2回指定することはできない。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "敵コマ1体を、次の相手のターンの終わりまで攻撃できない状態にする。同じ敵コマを2連続で指定することはできない。";
+    }
 }

@@ -58,4 +58,14 @@ public class Temperance : ActivePieceObject, IOnReverse, IOnAfterDeath
     {
         target.GetComponent<PieceObject>().SetTemperance(null);
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "カウンターを1つ消費して、指定したコマ１体とこのコマの動きや効果を封じる。どちらかのコマが倒れたとき、再び動くこと・効果を使用することが可能になる。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "カウンターを1つ増やす。";
+    }
 }

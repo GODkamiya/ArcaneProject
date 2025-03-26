@@ -106,7 +106,10 @@ public abstract class PieceObject : NetworkBehaviour
             SetReverse(true);
         }
     }
-    public abstract String GetName();
+    public abstract string GetName();
+    public abstract string GetUprightEffectDescription();
+
+    public abstract string GetReverseEffectDescription();
 
     public void RenderName()
     {

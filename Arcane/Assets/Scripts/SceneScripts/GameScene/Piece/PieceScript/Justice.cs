@@ -36,4 +36,14 @@ public class Justice : ActivePieceObject
     {
         return PieceType.Justice;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "盤の中心を基準に、点対象な位置に移動する。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "盤の中心を基準に、横に線対称な位置に移動する。";
+    }
 }
