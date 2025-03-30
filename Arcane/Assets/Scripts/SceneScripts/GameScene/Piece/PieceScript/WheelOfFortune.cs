@@ -45,4 +45,14 @@ public class WheelOfFortune : ActivePieceObject
     {
         return canActive;
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "指定した味方コマ1体とこのコマの位置を入れ替える。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "指定した味方コマ2体の位置を入れ替える。";
+    }
 }

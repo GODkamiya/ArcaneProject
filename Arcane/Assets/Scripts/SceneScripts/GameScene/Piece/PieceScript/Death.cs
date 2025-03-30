@@ -32,4 +32,14 @@ public class Death : PieceObject
     {
         return PieceType.Death;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "移動範囲が広がる。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "";
+    }
 }

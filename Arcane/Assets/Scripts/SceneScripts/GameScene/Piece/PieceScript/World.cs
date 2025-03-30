@@ -26,6 +26,16 @@ public class World : PieceObject, IOnAttackEvent
         return PieceType.World;
     }
 
+    public override string GetReverseEffectDescription()
+    {
+        return "このコマは持ち主の手札に戻る。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマは好きな位置に召喚することができる。";
+    }
+
     public void OnAttack(int newX, int newY,PieceObject target)
     {
         // 既存のコマを削除し、手札に戻す

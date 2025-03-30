@@ -49,4 +49,14 @@ public class Hierophant : ActivePieceObject
         if(isReverse) return false;
         return canActive;
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマと同じ列、もしくは同じ行にいる味方コマ1体の移動範囲を、このターンの終わりまで上下左右+1する。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "このコマは効果を使用できなくなる。";
+    }
 }

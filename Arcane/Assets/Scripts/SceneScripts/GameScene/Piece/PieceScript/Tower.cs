@@ -39,4 +39,14 @@ public class Tower : ActivePieceObject
     {
         return PieceType.Tower;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "自爆することができる。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマが倒れたとき、このコマを中心にした5×5の範囲内にいるすべてのコマを取る。";
+    }
 }

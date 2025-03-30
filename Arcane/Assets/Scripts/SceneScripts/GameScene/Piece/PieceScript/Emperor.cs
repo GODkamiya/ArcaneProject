@@ -38,4 +38,14 @@ public class Emperor : ActivePieceObject
     {
         return PieceType.Emperor;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "";
+    }
 }

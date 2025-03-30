@@ -26,6 +26,16 @@ public class Judgement : PieceObject, IOnAttackEvent
         return PieceType.Judgement;
     }
 
+    public override string GetReverseEffectDescription()
+    {
+        return "味方コマを倒せるようになる。味方コマも同様に、倒すことで手札に加えられる。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "敵コマを倒したとき、その敵コマを手札に加える。";
+    }
+
     public void OnAttack(int newX, int newY,PieceObject newTarget)
     {
         if(!isMine) return;

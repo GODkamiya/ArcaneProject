@@ -109,4 +109,14 @@ public class Moon : ActivePieceObject
     {
         return isTransformed ? PieceType.Sun : PieceType.Moon;
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "正位置の太陽のコマに変身する。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "";
+    }
 }

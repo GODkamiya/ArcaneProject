@@ -35,4 +35,14 @@ public class Strength : ActivePieceObject
     {
         return PieceType.Strength;
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "自分の移動範囲内にいる逆位置の敵コマ1体を正位置にする。その後、このコマは逆位置になる。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "自分の移動範囲内にいる正位置のコマ1体を逆位置にする。その後、このコマは正位置になる。";
+    }
 }

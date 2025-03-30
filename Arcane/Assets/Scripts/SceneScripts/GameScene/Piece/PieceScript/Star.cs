@@ -30,4 +30,14 @@ public class Star : PieceObject
     {
         return PieceType.Star;
     }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "移動範囲が広がる。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマの移動範囲内に、コマを召喚できる。";
+    }
 }

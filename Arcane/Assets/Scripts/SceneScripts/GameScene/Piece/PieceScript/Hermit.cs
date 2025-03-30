@@ -67,4 +67,14 @@ public class Hermit : ActivePieceObject
     {
         isTransparent = !isTransparent;
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマは召喚されてから2ターン、透明状態になる。その後、1ターンだけ透明状態が解除される。このサイクルを繰り返し続ける。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "味方のコマ1体を、次の相手のターンの終わりまで透明状態にする。";
+    }
 }

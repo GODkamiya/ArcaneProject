@@ -56,4 +56,14 @@ public class HighPriestess : ActivePieceObject
     {
         return canActive;
     }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマを中心にした5×5の範囲内にいる敵コマ1体を、その範囲内の好きな位置に移動させる。";
+    }
+
+    public override string GetReverseEffectDescription()
+    {
+        return "";
+    }
 }

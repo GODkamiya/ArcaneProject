@@ -26,6 +26,16 @@ public class Chariot : PieceObject, IOnAttackEvent
         return PieceType.Chariot;
     }
 
+    public override string GetReverseEffectDescription()
+    {
+        return "正位置の効果で倒す対象が敵のコマだけになる。";
+    }
+
+    public override string GetUprightEffectDescription()
+    {
+        return "このコマが敵コマを倒した後、その位置から移動範囲内にいる全てのコマを倒す。";
+    }
+
     public void OnAttack(int newX,int newY,PieceObject target)
     {
         // 移動予定の位置からの移動範囲を求める

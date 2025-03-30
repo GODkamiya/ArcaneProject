@@ -1,9 +1,17 @@
+using System;
 using UnityEngine;
 
 public class PlayerClickHandler : MonoBehaviour
 {
     public static PlayerClickHandler singleton;
     public IClickAction clickAction{ get; set; }
+
+    /// <summary>
+    /// クリックしたコマの詳細を見るために
+    /// </summary>
+    [SerializeField]
+    private DiscriptionPanel discriptionPanel;
+
     private void Awake()
     {
         singleton = this;
@@ -33,11 +41,17 @@ public class PlayerClickHandler : MonoBehaviour
         }
         else if (hitObject.tag == "Piece")
         {
+            discriptionPanel.SetTargetPiece(hitObject.GetComponent<PieceObject>());
             clickAction.OnClickPiece(hitObject);
         }
     }
     public void ClickHand(PieceType pieceType)
     {
         if(clickAction is IClickHand clickHand)clickHand.OnClickHand(pieceType);
+    }
+    
+    [Obsolete("DescriptionPanelに関しては、極力この関数を頼ってはいけない")]
+    public DiscriptionPanel GetDescriptionPanel(){
+        return discriptionPanel;
     }
 }
