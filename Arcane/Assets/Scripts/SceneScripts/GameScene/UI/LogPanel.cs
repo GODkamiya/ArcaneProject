@@ -15,5 +15,6 @@ public class LogPanel : MonoBehaviour
     public void AddLog(LogBase log){
         GameObject logObject = Instantiate(logPrefab);
         logObject.GetComponentInChildren<TextMeshProUGUI>().text = log.GetLogMessage();
+        logObject.transform.SetParent(logFolder.transform);
     }
 }
