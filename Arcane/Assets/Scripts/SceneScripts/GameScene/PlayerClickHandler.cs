@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerClickHandler : MonoBehaviour
@@ -47,5 +48,10 @@ public class PlayerClickHandler : MonoBehaviour
     public void ClickHand(PieceType pieceType)
     {
         if(clickAction is IClickHand clickHand)clickHand.OnClickHand(pieceType);
+    }
+    
+    [Obsolete("DescriptionPanelに関しては、極力この関数を頼ってはいけない")]
+    public DiscriptionPanel GetDescriptionPanel(){
+        return discriptionPanel;
     }
 }

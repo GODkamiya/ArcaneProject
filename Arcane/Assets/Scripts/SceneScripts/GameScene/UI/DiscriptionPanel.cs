@@ -31,6 +31,15 @@ public class DiscriptionPanel : MonoBehaviour
     }
 
     /// <summary>
+    /// PieceTypeを基に描画する対象のコマを設定する。
+    /// PieceTypeのため、仮のインスタンスを作成して描画する。
+    /// </summary>
+    /// <param name="pieceType"></param>
+    public void SetTargetPiece(PieceType pieceType){
+        SetTargetPiece(PieceSpawner.singleton.GetPiecePrefab(pieceType).GetComponent<PieceObject>());
+    }
+
+    /// <summary>
     /// 対象にしているコマの内容をUIに描画する。
     /// </summary>
     public void Render(){
