@@ -5,6 +5,9 @@ using UnityEngine;
 /// </summary>
 public class InformationPanel : MonoBehaviour
 {
+    public static InformationPanel singleton;
+    void Awake() => singleton = this;
+
     [SerializeField]
     private GameObject descriptionPanel,logPanel;
 
@@ -25,4 +28,6 @@ public class InformationPanel : MonoBehaviour
         descriptionPanel.SetActive(false);
         logPanel.SetActive(true);
     }
+
+    public LogPanel GetLogPanel() => logPanel.GetComponent<LogPanel>();
 }
