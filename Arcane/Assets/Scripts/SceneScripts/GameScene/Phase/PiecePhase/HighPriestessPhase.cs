@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Fusion;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 
@@ -26,13 +29,27 @@ public class HighPriestessPhase : IPhase
     {
         // フィルターの定義
         List<TargetFilter> filterList = new List<TargetFilter>(){
-            new SpecificYFilter(masterPiece.y),
+            new SpecificXFilter(masterPiece.x),
             new WithoutAllyFilter()
         };
-
+        if (!masterPiece.isReverse)
+        {
+            filterList.Add(new CustomFilter(HighPriestessFilter));
+        }
         return new ChooseOneClickAction(
-            filterList, AfterChooseTarget
+        filterList, AfterChooseTarget
         );
+    }
+    private bool HighPriestessFilter(GameObject gameObject)
+    {
+        if (BoardManager.singleton.onlinePieces[gameObject.GetComponent<PieceObject>().x, gameObject.GetComponent<PieceObject>().y - 1])
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     // コマを選んだあと、テレポート先を選ぶ処理への移行
@@ -62,13 +79,21 @@ public class HighPriestessPhase : IPhase
     private PieceMovement GetEffectRange(GameObject target)
     {
         var pm = new PieceMovement();
-        for (int addX = -1; addX < 2; addX++)
+        if (masterPiece.isReverse)
         {
-            for (int addY = -1; addY < 2; addY++)
+            for (int addX = -1; addX < 2; addX++)
             {
-                if(addX == 0 && addY == 0)continue;
-                pm.AddRange(target.GetComponent<PieceObject>().x + addX, target.GetComponent<PieceObject>().y + addY);
+                for (int addY = -1; addY < 2; addY++)
+                {
+                    if (addX == 0 && addY == 0) continue;
+                    pm.AddRange(target.GetComponent<PieceObject>().x + addX, target.GetComponent<PieceObject>().y + addY);
+                }
             }
+        }
+        else
+        {
+            int addY = -1;
+            pm.AddRange(target.GetComponent<PieceObject>().x, target.GetComponent<PieceObject>().y + addY);
         }
         return pm;
     }
