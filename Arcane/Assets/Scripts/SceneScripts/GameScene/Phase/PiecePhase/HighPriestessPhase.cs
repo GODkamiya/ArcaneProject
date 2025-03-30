@@ -26,13 +26,9 @@ public class HighPriestessPhase : IPhase
     {
         // フィルターの定義
         List<TargetFilter> filterList = new List<TargetFilter>(){
-            new RangeFilter(GetEffectRange())
+            new SpecificYFilter(masterPiece.y),
+            new WithoutAllyFilter()
         };
-
-        // 逆位置の場合、味方も指定できる
-        if(!masterPiece.isReverse){
-            filterList.Add(new WithoutAllyFilter());
-        }
 
         return new ChooseOneClickAction(
             filterList, AfterChooseTarget
@@ -52,7 +48,7 @@ public class HighPriestessPhase : IPhase
     private ChooseOneTileAction CreateChooseOneTileAction(GameObject target)
     {
         return new ChooseOneTileAction(
-            (tile) => AfterChooseTile(target, tile), GetEffectRange()
+            (tile) => AfterChooseTile(target, tile), GetEffectRange(target)
         );
     }
 
@@ -63,18 +59,18 @@ public class HighPriestessPhase : IPhase
     }
 
 
-    private PieceMovement GetEffectRange()
+    private PieceMovement GetEffectRange(GameObject target)
     {
-        var range = new PieceMovement();
-        for (int i = -2; i <= 2; i++)
+        var pm = new PieceMovement();
+        for (int addX = -1; addX < 2; addX++)
         {
-            for (int j = -2; j <= 2; j++)
+            for (int addY = -1; addY < 2; addY++)
             {
-                if (i == 0 && j == 0) continue;
-                range.AddRange(masterPiece.x + i, masterPiece.y + j);
+                if(addX == 0 && addY == 0)continue;
+                pm.AddRange(target.GetComponent<PieceObject>().x + addX, target.GetComponent<PieceObject>().y + addY);
             }
         }
-        return range;
+        return pm;
     }
 
     public void Exit()
