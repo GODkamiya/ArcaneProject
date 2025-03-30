@@ -31,6 +31,7 @@ public class PieceMoveClickAction : IClickAction
             latestPiece.GetComponent<Renderer>().material.color = Color.white;
         }
         latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y, true);
+        GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(),latestPiece.GetComponent<PieceObject>().GetName()));
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }

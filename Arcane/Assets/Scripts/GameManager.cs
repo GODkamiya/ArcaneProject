@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Fusion;
 using TMPro;
 using Unity.VisualScripting;
@@ -30,6 +32,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     private bool is1pTurn = true;
 
+    public bool GetIs1P() => HasStateAuthority;
     public PlayerObject GetLocalPlayerObject() => playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
     public PlayerObject GetEnemyPlayerObject() => playerObjects[HasStateAuthority ? 1 : 0].GetComponent<PlayerObject>();
     public PhaseMachine phaseMachine = new PhaseMachine();
@@ -155,6 +158,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public void DrawPhase()
     {
         GetLocalPlayerObject().DrawDeck();
+        Log_RPC(SerializeLog(new DrawLog(GetIs1P())));
         phaseMachine.TransitionTo(new ActionPhase());
     }
     public void SummonPhase()
@@ -177,5 +181,37 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
         SceneManager.LoadScene("Matching");
         Runner.Shutdown();
+    }
+
+    // TODO これより下にあるログ関連の機能は、絶対にGameManagerにあるべきではない。
+
+    /// <summary>
+    /// ログを送信する
+    /// </summary>
+    /// <param name="log"></param>
+    public void SendLog(LogBase log){
+        Log_RPC(SerializeLog(log));
+    }
+
+    [Rpc(RpcSources.All,RpcTargets.All)]
+    public void Log_RPC(byte[] serializedLog){
+        var log = DeserializeLog(serializedLog);
+        Debug.Log(log.GetLogMessage());
+        InformationPanel.singleton.GetLogPanel().AddLog(log);
+    }
+
+    public byte[] SerializeLog(LogBase log){
+        using(var ms = new MemoryStream()){
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(ms, log);
+            return ms.ToArray();
+        }
+    }
+
+    private LogBase DeserializeLog(byte[] data){
+        using(var ms = new MemoryStream(data)){
+            var formatter = new BinaryFormatter();
+            return (LogBase)formatter.Deserialize(ms);
+        }
     }
 }

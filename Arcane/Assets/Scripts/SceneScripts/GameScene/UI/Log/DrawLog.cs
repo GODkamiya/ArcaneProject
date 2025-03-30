@@ -1,13 +1,15 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class DrawLog : LogBase
 {
-    public DrawLog(bool isEnemyLog) : base(isEnemyLog)
+    public DrawLog(bool is1P) : base(is1P)
     {
     }
 
     public override string GetLogMessage()
     {
-        throw new System.NotImplementedException();
+        return $"{GetSubjective()}がコマを1枚ドローしました。";
     }
 }
