@@ -24,7 +24,7 @@ public class HighPriestess : ActivePieceObject
                 x = 9-x;
                 y = 9-y;
             }
-            po.SetPosition(x, y, false);
+            po.SetPosition(x, y, false,false);
         }
     }
 
