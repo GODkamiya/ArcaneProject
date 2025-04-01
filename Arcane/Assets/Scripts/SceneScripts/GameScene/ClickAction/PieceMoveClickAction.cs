@@ -47,7 +47,12 @@ public class PieceMoveClickAction : IClickAction
         bool CheckPiece(int x, int y, bool? reverse)
         {
             var piece = BoardManager.singleton.onlinePieces[x, y];
-            return (piece != null) && (!piece.GetComponent<PieceObject>().isMine) && (piece.GetComponent<PieceObject>().GetPieceType() == PieceType.Temperance) && (reverse == null || piece.GetComponent<PieceObject>().isReverse == reverse);
+            //近くに節制がいるとき
+            if (piece == null) return false; 
+            if (piece.GetComponent<PieceObject>().isMine) return false;
+            if (piece.GetComponent<PieceObject>().GetPieceType() != PieceType.Temperance) return false;
+            //発動条件を満たしていれば移動・効果を封じる
+            return reverse == null || piece.GetComponent<PieceObject>().isReverse;
         }
 
         if (CheckPiece(poX, poY + 1, null) || CheckPiece(poX, poY - 1, true) || CheckPiece(poX - 1, poY, true) || CheckPiece(poX + 1, poY, true)) return;
