@@ -17,7 +17,7 @@ public class JusticePhase : IPhase
             var targetPiece = BoardManager.singleton.onlinePieces[newX, masterPiece.y];
             //TODO 移動先に味方の駒がいたら発動できないようにする
             if (targetPiece != null && targetPiece.GetComponent<PieceObject>().isMine) return;
-            masterPiece.SetPosition(newX, masterPiece.y, true);
+            masterPiece.SetPosition(newX, masterPiece.y, true,false);
             masterPiece.canActive = false;
             GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
         }
@@ -28,7 +28,7 @@ public class JusticePhase : IPhase
             var targetPiece = BoardManager.singleton.onlinePieces[newX, newY];
             //TODO 移動先に味方の駒がいたら発動できないようにする
             if (targetPiece != null && targetPiece.GetComponent<PieceObject>().isMine) return;
-            masterPiece.SetPosition(newX, newY, true);
+            masterPiece.SetPosition(newX, newY, true,false);
             masterPiece.canActive = false;
             GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
         }

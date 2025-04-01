@@ -36,8 +36,8 @@ public class WheelOfFortune : ActivePieceObject
         canActive = false;
         int targetAX = targetA.x;
         int targetAY = targetA.y;
-        targetA.SetPosition(targetB.x, targetB.y,false);
-        targetB.SetPosition(targetAX, targetAY,false);
+        targetA.SetPosition(targetB.x, targetB.y,false,false);
+        targetB.SetPosition(targetAX, targetAY,false,false);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
