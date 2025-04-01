@@ -30,7 +30,7 @@ public class PieceMoveClickAction : IClickAction
         {
             latestPiece.GetComponent<Renderer>().material.color = Color.white;
         }
-        latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y, true);
+        latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y, true,false);
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }

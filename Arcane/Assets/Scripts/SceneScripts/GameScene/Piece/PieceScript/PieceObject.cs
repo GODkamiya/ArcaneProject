@@ -54,8 +54,9 @@ public abstract class PieceObject : NetworkBehaviour
     /// <param name="newX"></param>
     /// <param name="newY"></param>
     /// <param name="isAttack">これがfalseの場合、コマを取れない。WheelOfFortune用の引数</param>
-    public void SetPosition(int newX, int newY, bool isAttack)
+    public void SetPosition(int newX, int newY, bool isAttack,bool isSummon)
     {
+        if(isSummon)GameManager.singleton.SendLog(new SummonLog(GameManager.singleton.GetIs1P(),GetName()));
         SetPosition_RPC(newX, newY, isAttack);
     }
 

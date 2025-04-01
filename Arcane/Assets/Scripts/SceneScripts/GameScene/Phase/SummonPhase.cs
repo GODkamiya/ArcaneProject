@@ -13,7 +13,6 @@ public class SummonPhase : IPhase
             if (localBoardManager.GetPieceCount() == 0) return;
             // コマの共有
             BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner, false, localBoardManager); // TODO : LocalBoardManagerが空だよ！
-            GameManager.singleton.SendLog(new SummonLog(GameManager.singleton.GetIs1P(),localBoardManager.GetPieceList()[0].GetComponent<PieceObject>().GetName()));
             GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
         }
         UIManager.singleton.ShowSummonPanel(afterSummon);

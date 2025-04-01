@@ -70,7 +70,7 @@ public class BoardManager : MonoBehaviour
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
             PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
-            networkPieceObject.SetPosition(po.x, po.y,true);
+            networkPieceObject.SetPosition(po.x, po.y,true,true);
             networkPieceObject.SetKing(po.isKing);
             networkPieceObject.SetReverse(po.isReverse);
             if(isFirstSummon){
