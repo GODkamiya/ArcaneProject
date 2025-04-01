@@ -57,11 +57,11 @@ public abstract class PieceObject : NetworkBehaviour
     public void SetPosition(int newX, int newY, bool isAttack,bool isSummon)
     {
         if(isSummon)GameManager.singleton.SendLog(new SummonLog(GameManager.singleton.GetIs1P(),GetName()));
-        SetPosition_RPC(newX, newY, isAttack);
+        SetPosition_RPC(newX, newY, isAttack,isSummon);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void SetPosition_RPC(int newX, int newY, NetworkBool isAttack)
+    public void SetPosition_RPC(int newX, int newY, NetworkBool isAttack,NetworkBool isSummon)
     {
         // 移動先を計算
         if (!HasStateAuthority)
@@ -110,7 +110,7 @@ public abstract class PieceObject : NetworkBehaviour
             }
             SetReverse(true);
         }else{
-            if(isMine)GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(),GetName()));
+            if(!isSummon && isMine)GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(),GetName()));
         }
     }
     public abstract string GetName();
