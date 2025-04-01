@@ -101,12 +101,15 @@ public abstract class PieceObject : NetworkBehaviour
         // 最後に敵との攻撃処理を実行する
         if (enemy != null)
         {
+            if(isMine)GameManager.singleton.SendLog(new AttackLog(GameManager.singleton.GetIs1P(),GetName(),enemy.GetName(),!enemy.isMine));
             enemy.Death();
             if (this is IOnAttackEvent)
             {
                 ((IOnAttackEvent)this).OnAttack(newX, newY, enemy);
             }
             SetReverse(true);
+        }else{
+            if(isMine)GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(),GetName()));
         }
     }
     public abstract string GetName();
