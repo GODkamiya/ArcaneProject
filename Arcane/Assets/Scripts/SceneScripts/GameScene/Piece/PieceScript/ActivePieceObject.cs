@@ -24,9 +24,6 @@ public abstract class ActivePieceObject : PieceObject
             }
         }
 
-        // 節制に制御されている場合は、技を発動できない
-        if(temperance != null) return false;
-
         return CanSpellActiveEffect();
     }
 

@@ -1,29 +1,10 @@
 using Fusion;
 using UnityEngine;
 
-public class Temperance : ActivePieceObject, IOnReverse, IOnAfterDeath
+public class Temperance : PieceObject
 {
     public GameObject target;
 
-    public int counter = 1;
-
-    public override void ActiveEffect()
-    {
-        GameManager.singleton.phaseMachine.TransitionTo(new TemperancePhase(this));
-    }
-
-    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
-    public void Effect_RPC(NetworkObject target){
-        counter--;
-        this.target = target.gameObject;
-        target.GetComponent<PieceObject>().SetTemperance(gameObject);
-    }
-
-    public override bool CanSpellActiveEffect()
-    {
-        if(counter <= 0) return false;
-        return canActive;
-    }
 
     public override string GetName()
     {
@@ -49,23 +30,13 @@ public class Temperance : ActivePieceObject, IOnReverse, IOnAfterDeath
         return PieceType.Temperance;
     }
 
-    public void OnReverse()
-    {
-        counter++;
-    }
-
-    public void OnAfterDeath(int x, int y)
-    {
-        target.GetComponent<PieceObject>().SetTemperance(null);
-    }
-
     public override string GetUprightEffectDescription()
     {
-        return "カウンターを1つ消費して、指定したコマ１体とこのコマの動きや効果を封じる。どちらかのコマが倒れたとき、再び動くこと・効果を使用することが可能になる。";
+        return "このコマから一歩前にいるコマは移動も効果も使用できない。";
     }
 
     public override string GetReverseEffectDescription()
     {
-        return "カウンターを1つ増やす。";
+        return "このコマから上下左右1の範囲内にいるコマは移動も効果も使用できない。";
     }
 }

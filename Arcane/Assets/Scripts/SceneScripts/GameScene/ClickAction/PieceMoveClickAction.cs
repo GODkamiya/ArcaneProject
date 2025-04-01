@@ -31,7 +31,7 @@ public class PieceMoveClickAction : IClickAction
             latestPiece.GetComponent<Renderer>().material.color = Color.white;
         }
         latestPiece.GetComponent<PieceObject>().SetPosition(bb.x, bb.y, true);
-        GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(),latestPiece.GetComponent<PieceObject>().GetName()));
+        GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(), latestPiece.GetComponent<PieceObject>().GetName()));
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }
@@ -41,8 +41,16 @@ public class PieceMoveClickAction : IClickAction
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
         if (!piece.isMine) return;
         if (piece.isSickness) return;
-        if (piece.temperance != null) return;
-        if (piece.GetPieceType() == PieceType.Temperance && ((Temperance)piece).target != null) return;
+        int poX = pieceObject.GetComponent<PieceObject>().x;
+        int poY = pieceObject.GetComponent<PieceObject>().y;
+
+        bool CheckPiece(int x, int y, bool? reverse)
+        {
+            var piece = BoardManager.singleton.onlinePieces[x, y];
+            return (piece != null) && (!piece.GetComponent<PieceObject>().isMine) && (piece.GetComponent<PieceObject>().GetPieceType() == PieceType.Temperance) && (reverse == null || piece.GetComponent<PieceObject>().isReverse == reverse);
+        }
+
+        if (CheckPiece(poX, poY + 1, null) || CheckPiece(poX, poY - 1, true) || CheckPiece(poX - 1, poY, true) || CheckPiece(poX + 1, poY, true)) return;
 
         if (latestPiece != null)
         {
