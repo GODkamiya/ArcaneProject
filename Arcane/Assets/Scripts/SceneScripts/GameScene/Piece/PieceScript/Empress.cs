@@ -2,20 +2,11 @@ using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
-public class Empress : ActivePieceObject
+public class Empress : PieceObject
 {
     
     public GameObject selectedTarget;
     public List<GameObject> selectedTargetList;
-    public override void ActiveEffect()
-    {
-        GameManager.singleton.phaseMachine.TransitionTo(new EmpressPhase(this));
-    }
-
-    public override bool CanSpellActiveEffect()
-    {
-        return canActive;
-    }
 
     public override string GetName()
     {
@@ -43,11 +34,11 @@ public class Empress : ActivePieceObject
 
     public override string GetReverseEffectDescription()
     {
-        return "味方コマ1体を、次の相手のターンの終わりまで倒れない状態にする。同じコマを2回指定することはできない。";
+        return "自分から王範囲にいる別の味方コマが倒れるとき、代わりにこのコマが倒れる。(敵のコマは、女帝の位置に移動する)";
     }
 
     public override string GetUprightEffectDescription()
     {
-        return "敵コマ1体を、次の相手のターンの終わりまで攻撃できない状態にする。同じ敵コマを2連続で指定することはできない。";
+        return "範囲を縦横2の5x5範囲に拡大する。";
     }
 }
