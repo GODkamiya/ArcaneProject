@@ -113,12 +113,15 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
                 return;
             }
         }
-        print("call");
         boardManager.AsyncPiece(Runner, true, ((PreparationTurn)turnMachine.GetCurrentTurn()).GetLocalBoardManager());
+        PhasePanel.singleton.Initialize(is1pTurn == HasStateAuthority);
         TurnStart();
     }
     public void TurnStart()
     {
+        // フェーズUIの切り替え
+        PhasePanel.singleton.SwitchPlayer();
+
         // ターン開始時の処理をコールする
         foreach (GameObject piece in boardManager.GetAllPieces())
         {
@@ -159,6 +162,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     {
         GetLocalPlayerObject().DrawDeck();
         Log_RPC(SerializeLog(new DrawLog(GetIs1P())));
+        ChangeActionPhaseUI_RPC();
         phaseMachine.TransitionTo(new ActionPhase());
     }
     public void SummonPhase()
@@ -213,5 +217,11 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
             var formatter = new BinaryFormatter();
             return (LogBase)formatter.Deserialize(ms);
         }
+    }
+
+    // TODO アクションに変更させるだけのRPC、絶対にここにあるべきではない。
+    [Rpc(RpcSources.All,RpcTargets.All)]
+    public void ChangeActionPhaseUI_RPC(){
+        PhasePanel.singleton.ChangePhase("アクション");
     }
 }
