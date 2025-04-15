@@ -53,8 +53,13 @@ public class SummonClickAction : IClickAction, IClickHand
         else if (hasPut)
         {
             localBoard.RemovePiece(putLocalPiece);
-            localBoard.RemovePiece(putLocalPiece);
-            putLocalPiece = localBoard.SetPiece(putLocalPieceType,bb.x,bb.y);
+            GameObject newPutLocalPiece = localBoard.SetPiece(putLocalPieceType,bb.x,bb.y);
+            
+            // TODO 吊るされた男の専用処理をなんとかしたい
+            if(putLocalPiece.GetComponent<PieceObject>().GetPieceType() == PieceType.HangedMan){
+                newPutLocalPiece.GetComponent<HangedMan>().SetPretender(putLocalPiece.GetComponent<HangedMan>().GetPretender() ?? PieceType.HangedMan); // TODO nullの対処
+            }
+            putLocalPiece = newPutLocalPiece;
         }
         // まだコマを置いてない場合は、コマを設置する
         else if (latestSelectedPieceType != null)

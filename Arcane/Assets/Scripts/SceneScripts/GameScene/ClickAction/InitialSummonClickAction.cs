@@ -22,7 +22,11 @@ public class InitialSummonClickAction : IClickAction, IClickHand
         // 既に置いてあるコマを選択中の場合、そのコマを移動させる
         if (latestSelectPiece != null)
         {
-            localBoardManager.SetPiece(latestSelectPiece.GetComponent<PieceObject>().GetPieceType(), bb.x, bb.y);
+            GameObject putLocalPiece = localBoardManager.SetPiece(latestSelectPiece.GetComponent<PieceObject>().GetPieceType(), bb.x, bb.y);
+            // TODO 吊るされた男の専用処理をなんとかしたい
+            if(latestSelectPiece.GetComponent<PieceObject>().GetPieceType() == PieceType.HangedMan){
+                putLocalPiece.GetComponent<HangedMan>().SetPretender(latestSelectPiece.GetComponent<HangedMan>().GetPretender() ?? PieceType.HangedMan); // TODO nullの対処
+            }
             localBoardManager.RemovePiece(latestSelectPiece);
             latestSelectPiece = null;
         }
@@ -34,6 +38,7 @@ public class InitialSummonClickAction : IClickAction, IClickHand
             po.RemoveHand(pt);
             GameObject putLocalPiece = localBoardManager.SetPiece(pt, bb.x, bb.y);
             latestSelectHandPieceType = null;
+            // TODO そもそも、ここに吊るされた男の専用処理があるのは何とかするべき
             if (pt == PieceType.HangedMan)
             {
                 void SetPretender(PieceType selectedPretender)
