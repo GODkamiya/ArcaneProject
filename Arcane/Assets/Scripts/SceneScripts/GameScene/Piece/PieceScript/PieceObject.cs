@@ -51,14 +51,14 @@ public abstract class PieceObject : NetworkBehaviour
     /// <param name="newX"></param>
     /// <param name="newY"></param>
     /// <param name="isAttack">これがfalseの場合、コマを取れない。WheelOfFortune用の引数</param>
-    public void SetPosition(int newX, int newY, bool isAttack,bool isSummon)
+    public void SetPosition(int newX, int newY, bool isAttack, bool isSummon)
     {
-        if(isSummon)GameManager.singleton.SendLog(new SummonLog(GameManager.singleton.GetIs1P(),GetName()));
-        SetPosition_RPC(newX, newY, isAttack,isSummon);
+        if (isSummon) GameManager.singleton.SendLog(new SummonLog(GameManager.singleton.GetIs1P(), GetName()));
+        SetPosition_RPC(newX, newY, isAttack, isSummon);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void SetPosition_RPC(int newX, int newY, NetworkBool isAttack,NetworkBool isSummon)
+    public void SetPosition_RPC(int newX, int newY, NetworkBool isAttack, NetworkBool isSummon)
     {
         // 移動先を計算
         if (!HasStateAuthority)
@@ -99,15 +99,17 @@ public abstract class PieceObject : NetworkBehaviour
         // 最後に敵との攻撃処理を実行する
         if (enemy != null)
         {
-            if(isMine)GameManager.singleton.SendLog(new AttackLog(GameManager.singleton.GetIs1P(),GetName(),enemy.GetName(),!enemy.isMine));
+            if (isMine) GameManager.singleton.SendLog(new AttackLog(GameManager.singleton.GetIs1P(), GetName(), enemy.GetName(), !enemy.isMine));
             enemy.Death();
             if (this is IOnAttackEvent)
             {
                 ((IOnAttackEvent)this).OnAttack(newX, newY, enemy);
             }
             SetReverse(true);
-        }else{
-            if(!isSummon && isMine)GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(),GetName()));
+        }
+        else
+        {
+            if (!isSummon && isMine) GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(), GetName()));
         }
     }
     public abstract string GetName();
@@ -233,7 +235,7 @@ public abstract class PieceObject : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void SetImmortality_RPC(bool isImmortality)
     {
-        this.isImmortality= isImmortality;
+        this.isImmortality = isImmortality;
     }
 
 }
