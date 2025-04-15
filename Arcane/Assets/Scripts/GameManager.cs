@@ -193,35 +193,42 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     /// ログを送信する
     /// </summary>
     /// <param name="log"></param>
-    public void SendLog(LogBase log){
+    public void SendLog(LogBase log)
+    {
         Log_RPC(SerializeLog(log));
     }
 
-    [Rpc(RpcSources.All,RpcTargets.All)]
-    public void Log_RPC(byte[] serializedLog){
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Log_RPC(byte[] serializedLog)
+    {
         var log = DeserializeLog(serializedLog);
         Debug.Log(log.GetLogMessage());
         InformationPanel.singleton.GetLogPanel().AddLog(log);
     }
 
-    public byte[] SerializeLog(LogBase log){
-        using(var ms = new MemoryStream()){
+    public byte[] SerializeLog(LogBase log)
+    {
+        using (var ms = new MemoryStream())
+        {
             var formatter = new BinaryFormatter();
             formatter.Serialize(ms, log);
             return ms.ToArray();
         }
     }
 
-    private LogBase DeserializeLog(byte[] data){
-        using(var ms = new MemoryStream(data)){
+    private LogBase DeserializeLog(byte[] data)
+    {
+        using (var ms = new MemoryStream(data))
+        {
             var formatter = new BinaryFormatter();
             return (LogBase)formatter.Deserialize(ms);
         }
     }
 
     // TODO アクションに変更させるだけのRPC、絶対にここにあるべきではない。
-    [Rpc(RpcSources.All,RpcTargets.All)]
-    public void ChangeActionPhaseUI_RPC(){
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void ChangeActionPhaseUI_RPC()
+    {
         PhasePanel.singleton.ChangePhase("アクション");
     }
 }
