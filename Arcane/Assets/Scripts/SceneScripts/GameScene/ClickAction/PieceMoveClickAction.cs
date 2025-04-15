@@ -89,7 +89,7 @@ public class PieceMoveClickAction : IClickAction
                     // Empress の中心から見た中心駒との距離が範囲内ならOK（逆向きチェック）
                     if (Mathf.Abs(tx - center.x) <= requiredRange && Mathf.Abs(ty - center.y) <= requiredRange)
                     {
-                        List<int> bb = new List<int>(){tx,ty};
+                        List<int> bb = new List<int>() { tx, ty };
                         return bb;
                     }
                 }
@@ -111,6 +111,8 @@ public class PieceMoveClickAction : IClickAction
 
         bool CheckPiece(int x, int y, bool? reverse)
         {
+            // 範囲がオーバーしている際はスキップ
+            if (x < 0 || y < 0 || x >= BoardManager.BOARD_SIZE || y >= BoardManager.BOARD_SIZE) return false;
             var piece = BoardManager.singleton.onlinePieces[x, y];
             //近くに節制がいるとき
             if (piece == null) return false;
