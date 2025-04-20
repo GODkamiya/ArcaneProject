@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Fool : PieceObject
 {
+    public List<(int, int)> jumpedEnemies = new List<(int, int)>();
+
     public override string GetName()
     {
         return "愚者";
@@ -51,7 +53,13 @@ public class Fool : PieceObject
             // 駒がいなければそこが最終目的地
             return (x, y);
         }
-
+        // 駒がいた場合、敵か味方かをチェック
+        var pieceObj = piece.GetComponent<PieceObject>();
+        if (pieceObj.isMine != this.isMine)
+        {
+            jumpedEnemies.Add((x, y)); // ここで記録する
+            //駒選択時に追加された敵駒すべてが死んでしまう
+        }
         // 駒がいたらさらに同じ方向にジャンプ
         return FindJumpDestination(x + dx, y + dy, dx, dy);
     }

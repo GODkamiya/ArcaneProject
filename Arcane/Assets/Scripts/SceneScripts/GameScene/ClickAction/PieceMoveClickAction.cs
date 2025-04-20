@@ -49,6 +49,21 @@ public class PieceMoveClickAction : IClickAction
         // 駒を移動させる処理
         latestPiece.GetComponent<Renderer>().material.color = latestPiece.GetComponent<PieceObject>().isKing ? Color.red : Color.white;
         latestPiece.GetComponent<PieceObject>().SetPosition(posX, posY, true, false);
+        // Foolだった場合のみ、jumpedEnemiesを処理
+        var fool = latestPiece.GetComponent<Fool>();
+        if (fool != null)
+        {
+            foreach (var (ex, ey) in fool.jumpedEnemies)
+            {
+                var enemy = BoardManager.singleton.onlinePieces[ex, ey];
+                if (enemy != null)
+                {
+                    enemy.GetComponent<PieceObject>().Death();
+                    //敵にdeathの情報が渡されない
+                }
+            }
+            fool.jumpedEnemies.Clear();
+        }
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }
@@ -89,7 +104,7 @@ public class PieceMoveClickAction : IClickAction
                     // Empress の中心から見た中心駒との距離が範囲内ならOK（逆向きチェック）
                     if (Mathf.Abs(tx - center.x) <= requiredRange && Mathf.Abs(ty - center.y) <= requiredRange)
                     {
-                        List<int> bb = new List<int>(){tx,ty};
+                        List<int> bb = new List<int>() { tx, ty };
                         return bb;
                     }
                 }
