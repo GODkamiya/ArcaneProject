@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using VContainer;
 
 public class PlayerClickHandler : MonoBehaviour
 {
     public static PlayerClickHandler singleton;
-    public IClickAction clickAction{ get; set; }
+    public IClickAction clickAction { get; set; }
 
     /// <summary>
     /// クリックしたコマの詳細を見るために
@@ -47,11 +48,12 @@ public class PlayerClickHandler : MonoBehaviour
     }
     public void ClickHand(PieceType pieceType)
     {
-        if(clickAction is IClickHand clickHand)clickHand.OnClickHand(pieceType);
+        if (clickAction is IClickHand clickHand) clickHand.OnClickHand(pieceType);
     }
-    
+
     [Obsolete("DescriptionPanelに関しては、極力この関数を頼ってはいけない")]
-    public DiscriptionPanel GetDescriptionPanel(){
+    public DiscriptionPanel GetDescriptionPanel()
+    {
         return discriptionPanel;
     }
 }
