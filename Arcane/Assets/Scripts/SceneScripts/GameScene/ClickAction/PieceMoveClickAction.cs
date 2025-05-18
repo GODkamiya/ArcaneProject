@@ -49,6 +49,21 @@ public class PieceMoveClickAction : IClickAction
         // 駒を移動させる処理
         latestPiece.GetComponent<Renderer>().material.color = latestPiece.GetComponent<PieceObject>().isKing ? Color.red : Color.white;
         latestPiece.GetComponent<PieceObject>().SetPosition(posX, posY, true, false);
+        // Foolだった場合のみ、jumpedEnemiesを処理
+        var fool = latestPiece.GetComponent<Fool>();
+        if (fool != null)
+        {
+            foreach (var (ex, ey) in fool.jumpedEnemies)
+            {
+                var enemy = BoardManager.singleton.onlinePieces[ex, ey];
+                if (enemy != null)
+                {
+                    enemy.GetComponent<PieceObject>().Death();
+                    //敵にdeathの情報が渡されない
+                }
+            }
+            fool.jumpedEnemies.Clear();
+        }
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
     }
