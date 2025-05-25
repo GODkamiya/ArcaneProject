@@ -25,9 +25,6 @@ public abstract class PieceObject : NetworkBehaviour
     // 生きているか
     public bool isLiving = true;
 
-    //攻撃できるか
-    public bool isAttackable = true;
-
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     // コマの特殊状態
@@ -208,19 +205,6 @@ public abstract class PieceObject : NetworkBehaviour
         {
             ((IOnReverse)this).OnReverse();
         }
-    }
-    /// <summary>
-    /// 指定した駒の攻撃可否を決める
-    /// </summary>
-    /// <param name="isAttackable"></param>
-    public void SetAttackable(bool isAttackable)
-    {
-        SetAttackable_RPC(isAttackable);
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetAttackable_RPC(bool isAttackable)
-    {
-        this.isAttackable = isAttackable;
     }
 
     /// <summary>

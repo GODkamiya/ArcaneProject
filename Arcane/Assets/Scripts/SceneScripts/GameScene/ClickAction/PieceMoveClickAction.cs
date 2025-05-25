@@ -17,9 +17,6 @@ public class PieceMoveClickAction : IClickAction
         {
             var targetObj = clickedPiece.GetComponent<PieceObject>();
 
-            // 攻撃できないならリターン
-            if (!latestPiece.GetComponent<PieceObject>().isAttackable) return;
-
             // 皇帝の特殊ルール
             if (targetObj.GetPieceType() == PieceType.Emperor)
             {
