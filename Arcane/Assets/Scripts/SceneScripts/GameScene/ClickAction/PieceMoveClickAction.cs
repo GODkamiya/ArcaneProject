@@ -20,9 +20,6 @@ public class PieceMoveClickAction : IClickAction
             // 攻撃できないならリターン
             if (!latestPiece.GetComponent<PieceObject>().isAttackable) return;
 
-            // 不死身の駒は倒せない
-            if (targetObj.isImmortality) return;
-
             // 皇帝の特殊ルール
             if (targetObj.GetPieceType() == PieceType.Emperor)
             {

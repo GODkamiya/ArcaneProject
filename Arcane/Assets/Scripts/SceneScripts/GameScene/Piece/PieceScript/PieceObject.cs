@@ -17,7 +17,6 @@ public abstract class PieceObject : NetworkBehaviour
     public Action onChangeInformation;
 
     // 逆位置かどうか
-
     public bool isReverse = false;
 
     // 召喚酔いしているかどうか
@@ -29,10 +28,10 @@ public abstract class PieceObject : NetworkBehaviour
     //攻撃できるか
     public bool isAttackable = true;
 
-    //死なないかどうか
-    public bool isImmortality = false;
-
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
+
+    // コマの特殊状態
+    private PieceStateData stateData;
 
     public override void Spawned()
     {
@@ -156,7 +155,6 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void Death()
     {
-        if (isImmortality) return;
         isLiving = false;
 
         // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
@@ -224,18 +222,13 @@ public abstract class PieceObject : NetworkBehaviour
     {
         this.isAttackable = isAttackable;
     }
-    /// <summary>
-    /// 指定した駒が死なないかどうか決める
-    /// </summary>
-    /// <param name="isImmortality"></param>
-    public void SetImmortality(bool isImmortality)
-    {
-        SetImmortality_RPC(isImmortality);
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetImmortality_RPC(bool isImmortality)
-    {
-        this.isImmortality = isImmortality;
-    }
 
+    /// <summary>
+    /// コマの情報を更新する
+    /// </summary>
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void SetPieceData_RPC(PieceStateData newData)
+    {
+        stateData = newData;
+    }
 }
