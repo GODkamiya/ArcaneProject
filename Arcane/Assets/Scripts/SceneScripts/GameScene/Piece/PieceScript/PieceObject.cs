@@ -22,9 +22,6 @@ public abstract class PieceObject : NetworkBehaviour
     // 召喚酔いしているかどうか
     public bool isSickness = true;
 
-    // 生きているか
-    public bool isLiving = true;
-
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     // コマの特殊状態
@@ -33,6 +30,7 @@ public abstract class PieceObject : NetworkBehaviour
     public override void Spawned()
     {
         RenderName();
+        stateData = new PieceStateData(isKing: false, isReverse: false, isSickness: true);
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -152,7 +150,6 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void Death()
     {
-        isLiving = false;
 
         // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
         if (BoardManager.singleton.onlinePieces[x, y] == gameObject) BoardManager.singleton.RemovePieceOnBoard(x, y);

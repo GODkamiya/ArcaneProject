@@ -16,24 +16,19 @@ public struct PieceStateData : INetworkStruct
     // 召喚酔いしているかどうか
     public NetworkBool isSickness { get; }
 
-    // 生きているか
-    public NetworkBool isLiving { get; }
-
-    public PieceStateData(bool isKing, bool isReverse, bool isSickness, bool isLiving)
+    public PieceStateData(bool isKing, bool isReverse, bool isSickness)
     {
         this.isKing = isKing;
         this.isReverse = isReverse;
         this.isSickness = isSickness;
-        this.isLiving = isLiving;
     }
 
-    public PieceStateData CopyWith(bool? isKing = null, bool? isReverse = null, bool? isSickness = null, bool? isLiving = null)
+    public PieceStateData CopyWith(bool? isKing = null, bool? isReverse = null, bool? isSickness = null)
     {
         return new PieceStateData(
             isKing ?? this.isKing,
             isReverse ?? this.isReverse,
-            isSickness ?? this.isSickness,
-            isLiving ?? this.isLiving
+            isSickness ?? this.isSickness
         );
     }
 }
