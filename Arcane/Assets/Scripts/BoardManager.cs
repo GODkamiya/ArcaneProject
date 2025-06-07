@@ -51,7 +51,7 @@ public class BoardManager : MonoBehaviour
     public void SetPieceOnBoard(GameObject piece, int x, int y, bool isOnline)
     {
         piece.transform.position = new Vector3(x, 0.5f, y);
-        if(isOnline)onlinePieces[x, y] = piece;
+        if (isOnline) onlinePieces[x, y] = piece;
     }
     public void RemovePieceOnBoard(int x, int y)
     {
@@ -63,24 +63,28 @@ public class BoardManager : MonoBehaviour
     /// <param name="runner"></param>
     /// <param name="isFirstSummon"></param>
     /// <param name="localBoardManager"></param>
-    public void AsyncPiece(NetworkRunner runner,bool isFirstSummon,LocalBoardManager localBoardManager)
+    public void AsyncPiece(NetworkRunner runner, bool isFirstSummon, LocalBoardManager localBoardManager)
     {
         foreach (GameObject piece in localBoardManager.GetPieceList())
         {
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
             PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
-            networkPieceObject.SetPosition(po.x, po.y,true,true);
+            networkPieceObject.SetPosition(po.x, po.y, true, true);
             networkPieceObject.SetKing(po.isKing);
             networkPieceObject.SetReverse(po.isReverse);
-            if(isFirstSummon){
-                networkPieceObject.isSickness = false;
-            }else{
+            if (isFirstSummon)
+            {
+                networkPieceObject.controller.SetSickness(false);
+            }
+            else
+            {
                 GameManager.singleton.turnEndEvents.Add(
-                    new TurnEndEvent(1,()=>networkPieceObject.isSickness = false)
+                    new TurnEndEvent(1, () => networkPieceObject.controller.SetSickness(false))
                 );
             }
-            if(po.GetPieceType() == PieceType.HangedMan){
+            if (po.GetPieceType() == PieceType.HangedMan)
+            {
                 HangedMan localHangedman = po.GetComponent<HangedMan>();
                 HangedMan networkHangedman = networkPieceObject.GetComponent<HangedMan>();
                 networkHangedman.AsyncSetPretender(localHangedman.GetPretender() ?? PieceType.HangedMan);
@@ -113,14 +117,16 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public List<GameObject> GetAllPieces(){
+    public List<GameObject> GetAllPieces()
+    {
         List<GameObject> result = new List<GameObject>();
         for (int x = 0; x < 10; x++)
         {
             for (int y = 0; y < 10; y++)
             {
-                if(onlinePieces[x,y] != null){
-                    result.Add(onlinePieces[x,y]);
+                if (onlinePieces[x, y] != null)
+                {
+                    result.Add(onlinePieces[x, y]);
                 }
             }
         }

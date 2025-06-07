@@ -19,9 +19,6 @@ public abstract class PieceObject : NetworkBehaviour
     // 逆位置かどうか
     public bool isReverse = false;
 
-    // 召喚酔いしているかどうか
-    public bool isSickness = true;
-
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     // コマの振る舞い管理
