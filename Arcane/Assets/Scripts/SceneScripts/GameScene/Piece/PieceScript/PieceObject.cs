@@ -24,13 +24,13 @@ public abstract class PieceObject : NetworkBehaviour
 
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
-    // コマの特殊状態
-    private PieceStateData stateData;
+    // コマの振る舞い管理
+    public PieceController controller { get; private set; }
 
     public override void Spawned()
     {
         RenderName();
-        stateData = new PieceStateData(isKing: false, isReverse: false, isSickness: true);
+        controller = new PieceController(this);
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -202,14 +202,5 @@ public abstract class PieceObject : NetworkBehaviour
         {
             ((IOnReverse)this).OnReverse();
         }
-    }
-
-    /// <summary>
-    /// コマの情報を更新する
-    /// </summary>
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetPieceData_RPC(PieceStateData newData)
-    {
-        stateData = newData;
     }
 }

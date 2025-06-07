@@ -4,17 +4,17 @@ using UnityEngine;
 /// <summary>
 /// コマの特殊状態を管理する
 /// </summary>
-public struct PieceStateData : INetworkStruct
+public struct PieceStateData
 {
 
     // コマが王か
-    public NetworkBool isKing { get; }
+    public bool isKing { get; }
 
     // 逆位置かどうか
-    public NetworkBool isReverse { get; }
+    public bool isReverse { get; }
 
     // 召喚酔いしているかどうか
-    public NetworkBool isSickness { get; }
+    public bool isSickness { get; }
 
     public PieceStateData(bool isKing, bool isReverse, bool isSickness)
     {
@@ -30,5 +30,21 @@ public struct PieceStateData : INetworkStruct
             isReverse ?? this.isReverse,
             isSickness ?? this.isSickness
         );
+    }
+
+    /// <summary>
+    /// コマが技を発動可能かどうか
+    /// </summary>
+    public bool CanSpell()
+    {
+        return !isSickness;
+    }
+
+    /// <summary>
+    /// コマが移動可能かどうか
+    /// </summary>
+    public bool CanMove()
+    {
+        return !isSickness;
     }
 }
