@@ -29,8 +29,8 @@ public class StrengthPhase : IPhase
     private void Effect(GameObject target)
     {
         var piece = target.GetComponent<PieceObject>();
-        piece.SetReverse(!piece.isReverse);
-        strength.SetReverse(!strength.isReverse);
+        piece.SetReverse_RPC(!piece.isReverse);
+        strength.SetReverse_RPC(!strength.isReverse);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 

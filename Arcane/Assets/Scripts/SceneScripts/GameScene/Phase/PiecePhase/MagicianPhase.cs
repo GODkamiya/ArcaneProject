@@ -27,7 +27,7 @@ public class MagicianPhase : IPhase
     {
         magician.canActive = false;
         var piece = target.GetComponent<PieceObject>();
-        piece.SetReverse(!piece.isReverse);
+        piece.SetReverse_RPC(!piece.isReverse);
         magician.counter = 0;
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }

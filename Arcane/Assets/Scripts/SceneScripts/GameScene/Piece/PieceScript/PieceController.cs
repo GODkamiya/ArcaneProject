@@ -10,12 +10,23 @@ public class PieceController
         stateData = new PieceStateData(isKing: false, isReverse: false, isSickness: true);
     }
 
-    // コマが技発動可能か
+    /// <summary>
+    /// コマが技発動可能か
+    /// </summary>
     public bool GetCanSpell => stateData.CanSpell();
 
-    // コマが移動可能か
+    /// <summary>
+    /// コマが移動可能か
+    /// </summary>
     public bool GetCanMove => stateData.CanMove();
 
-    // 召喚酔いの状態を更新する
+    /// <summary>
+    /// 召喚酔いの状態を更新する
+    /// </summary>
     public void SetSickness(bool isSickness) => stateData = stateData.CopyWith(isSickness: isSickness);
+
+    /// <summary>
+    /// 逆位置の状態を更新する
+    /// </summary>
+    public void SetReverse(bool isReverse) => stateData = stateData.CopyWith(isReverse: isReverse);
 }

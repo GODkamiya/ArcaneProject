@@ -96,7 +96,7 @@ public abstract class PieceObject : NetworkBehaviour
             {
                 ((IOnAttackEvent)this).OnAttack(newX, newY, enemy);
             }
-            SetReverse(true);
+            SetReverse_RPC(true);
         }
         else
         {
@@ -182,18 +182,14 @@ public abstract class PieceObject : NetworkBehaviour
     {
         addPieceMovementList.Remove(adder);
     }
+
     /// <summary>
-    /// 指定した駒の指定位置（正・逆）を決める
+    /// 逆位置にするかどうかを設定するRPC
     /// </summary>
-    /// <param name="isReverse"></param>
-    public void SetReverse(bool isReverse)
-    {
-        SetReverse_RPC(isReverse);
-    }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetReverse_RPC(bool isReverse)
+    public void SetReverse_RPC(NetworkBool isReverse)
     {
-        this.isReverse = isReverse;
+        controller.SetReverse(isReverse);
         onChangeInformation?.Invoke();
         if (isReverse && this is IOnReverse)
         {
