@@ -195,15 +195,15 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     /// <param name="log"></param>
     public void SendLog(LogBase log)
     {
-        Log_RPC(SerializeLog(log));
+        //Log_RPC(SerializeLog(log));
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Log_RPC(byte[] serializedLog)
     {
-        var log = DeserializeLog(serializedLog);
-        Debug.Log(log.GetLogMessage());
-        InformationPanel.singleton.GetLogPanel().AddLog(log);
+        // var log = DeserializeLog(serializedLog);
+        // Debug.Log(log.GetLogMessage());
+        // InformationPanel.singleton.GetLogPanel().AddLog(log);
     }
 
     public byte[] SerializeLog(LogBase log)

@@ -17,26 +17,17 @@ public abstract class PieceObject : NetworkBehaviour
     public Action onChangeInformation;
 
     // 逆位置かどうか
-
     public bool isReverse = false;
 
-    // 召喚酔いしているかどうか
-    public bool isSickness = true;
-
-    // 生きているか
-    public bool isLiving = true;
-
-    //攻撃できるか
-    public bool isAttackable = true;
-
-    //死なないかどうか
-    public bool isImmortality = false;
-
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
+
+    // コマの振る舞い管理
+    public PieceController controller { get; private set; }
 
     public override void Spawned()
     {
         RenderName();
+        controller = new PieceController(this);
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -105,7 +96,7 @@ public abstract class PieceObject : NetworkBehaviour
             {
                 ((IOnAttackEvent)this).OnAttack(newX, newY, enemy);
             }
-            SetReverse(true);
+            SetReverse_RPC(true);
         }
         else
         {
@@ -156,8 +147,6 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void Death()
     {
-        if (isImmortality) return;
-        isLiving = false;
 
         // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
         if (BoardManager.singleton.onlinePieces[x, y] == gameObject) BoardManager.singleton.RemovePieceOnBoard(x, y);
@@ -193,49 +182,18 @@ public abstract class PieceObject : NetworkBehaviour
     {
         addPieceMovementList.Remove(adder);
     }
+
     /// <summary>
-    /// 指定した駒の指定位置（正・逆）を決める
+    /// 逆位置にするかどうかを設定するRPC
     /// </summary>
-    /// <param name="isReverse"></param>
-    public void SetReverse(bool isReverse)
-    {
-        SetReverse_RPC(isReverse);
-    }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetReverse_RPC(bool isReverse)
+    public void SetReverse_RPC(NetworkBool isReverse)
     {
-        this.isReverse = isReverse;
+        controller.SetReverse(isReverse);
         onChangeInformation?.Invoke();
         if (isReverse && this is IOnReverse)
         {
             ((IOnReverse)this).OnReverse();
         }
     }
-    /// <summary>
-    /// 指定した駒の攻撃可否を決める
-    /// </summary>
-    /// <param name="isAttackable"></param>
-    public void SetAttackable(bool isAttackable)
-    {
-        SetAttackable_RPC(isAttackable);
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetAttackable_RPC(bool isAttackable)
-    {
-        this.isAttackable = isAttackable;
-    }
-    /// <summary>
-    /// 指定した駒が死なないかどうか決める
-    /// </summary>
-    /// <param name="isImmortality"></param>
-    public void SetImmortality(bool isImmortality)
-    {
-        SetImmortality_RPC(isImmortality);
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetImmortality_RPC(bool isImmortality)
-    {
-        this.isImmortality = isImmortality;
-    }
-
 }
