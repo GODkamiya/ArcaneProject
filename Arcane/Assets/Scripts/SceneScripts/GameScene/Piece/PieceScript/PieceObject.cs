@@ -22,12 +22,12 @@ public abstract class PieceObject : NetworkBehaviour
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
     // コマの振る舞い管理
-    public PieceController controller { get; private set; }
+    private PieceController controller { get; set; }
 
     public override void Spawned()
     {
         RenderName();
-        controller = new PieceController(this);
+        controller = new PieceController();
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -196,4 +196,19 @@ public abstract class PieceObject : NetworkBehaviour
             ((IOnReverse)this).OnReverse();
         }
     }
+
+    /// <summary>
+    /// 移動可能かどうか
+    /// </summary>
+    public bool GetCanMove() => controller.GetCanMove;
+
+    /// <summary>
+    /// コマが技を使用可能かどうか
+    /// </summary>
+    public bool GetCanSpell() => controller.GetCanSpell;
+
+    /// <summary>
+    /// コマを召喚酔い状態にするかどうかを設定する
+    /// </summary>
+    public void SetSickness(bool isSickness) => controller.SetSickness(isSickness);
 }

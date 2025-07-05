@@ -5,7 +5,7 @@ public class PieceController
     // コマの特殊状態
     private PieceStateData stateData;
 
-    public PieceController(PieceObject pieceObject)
+    public PieceController()
     {
         stateData = new PieceStateData(isKing: false, isReverse: false, isSickness: true);
     }

@@ -75,12 +75,12 @@ public class BoardManager : MonoBehaviour
             networkPieceObject.SetReverse_RPC(po.isReverse);
             if (isFirstSummon)
             {
-                networkPieceObject.controller.SetSickness(false);
+                networkPieceObject.SetSickness(false);
             }
             else
             {
                 GameManager.singleton.turnEndEvents.Add(
-                    new TurnEndEvent(1, () => networkPieceObject.controller.SetSickness(false))
+                    new TurnEndEvent(1, () => networkPieceObject.SetSickness(false))
                 );
             }
             if (po.GetPieceType() == PieceType.HangedMan)

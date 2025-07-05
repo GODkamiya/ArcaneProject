@@ -99,7 +99,7 @@ public class PieceMoveClickAction : IClickAction
     {
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
         if (!piece.isMine) return;
-        if (!piece.controller.GetCanMove) return;
+        if (!piece.GetCanMove()) return;
         int poX = pieceObject.GetComponent<PieceObject>().x;
         int poY = pieceObject.GetComponent<PieceObject>().y;
 
@@ -134,7 +134,7 @@ public class PieceMoveClickAction : IClickAction
         PieceMovement move = piece.GetPieceMovement();
         latestMove = move;
         BoardManager.singleton.ShowMovement(move);
-        if (piece is ActivePieceObject activePiece && activePiece.CanSpellActiveEffectMaster() && activePiece.controller.GetCanSpell)
+        if (piece is ActivePieceObject activePiece && activePiece.CanSpellActiveEffectMaster() && activePiece.GetCanSpell())
         {
             UIManager.singleton.ShowAbilityButton(() => activePiece.ActiveEffect());
         }
