@@ -41,7 +41,7 @@ public class PieceMoveClickAction : IClickAction
         }
 
         // 駒を移動させる処理
-        latestPiece.GetComponent<Renderer>().material.color = latestPiece.GetComponent<PieceObject>().isKing ? Color.red : Color.white;
+        latestPiece.GetComponent<Renderer>().material.color = latestPiece.GetComponent<PieceObject>().GetIsKing() ? Color.red : Color.white;
         latestPiece.GetComponent<PieceObject>().SetPosition(posX, posY, true, false);
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
@@ -120,7 +120,7 @@ public class PieceMoveClickAction : IClickAction
 
         if (latestPiece != null)
         {
-            if (latestPiece.GetComponent<PieceObject>().isKing)
+            if (latestPiece.GetComponent<PieceObject>().GetIsKing())
             {
                 latestPiece.GetComponent<Renderer>().material.color = Color.red;
             }

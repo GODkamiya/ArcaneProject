@@ -10,7 +10,6 @@ public abstract class PieceObject : NetworkBehaviour
 {
     public int x, y;
 
-    public bool isKing = false;
     public bool isMine => HasStateAuthority;
 
     // このコマに関する情報が変更した際に発火されるイベント
@@ -24,10 +23,11 @@ public abstract class PieceObject : NetworkBehaviour
     // コマの振る舞い管理
     private PieceController controller { get; set; }
 
-    public override void Spawned()
+    void Awake()
     {
         RenderName();
         controller = new PieceController();
+
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -114,21 +114,6 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public abstract PieceType GetPieceType();
 
-    public void SetKing(bool value)
-    {
-        SetKing_RPC(value ? 1 : 0);
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void SetKing_RPC(int value)
-    {
-        isKing = value == 1;
-        if (isKing && HasStateAuthority)
-        {
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
-        }
-
-    }
     public abstract PieceMovement GetPieceMovementOrigin(int baseX, int baseY);
 
 
@@ -156,7 +141,7 @@ public abstract class PieceObject : NetworkBehaviour
 
 
         // 王の場合、ゲーム終了へ
-        if (isKing)
+        if (GetIsKing())
         {
             GameManager.singleton.phaseMachine.TransitionTo(new GameEndPhase(GameManager.singleton.HasStateAuthority != HasStateAuthority));
         }
@@ -208,7 +193,30 @@ public abstract class PieceObject : NetworkBehaviour
     public bool GetCanSpell() => controller.GetCanSpell;
 
     /// <summary>
+    /// コマが王かどうかを取得する
+    /// </summary>
+    public bool GetIsKing() => controller.GetIsKing;
+
+    /// <summary>
     /// コマを召喚酔い状態にするかどうかを設定する
     /// </summary>
     public void SetSickness(bool isSickness) => controller.SetSickness(isSickness);
+
+    /// <summary>
+    /// コマが王かどうかを同期して設定する
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void SetIsKing_RPC(NetworkBool isKing) => SetIsKing_Local(isKing);
+
+    /// <summary>
+    /// コマが王かどうかをローカルで設定する
+    /// </summary>
+    public void SetIsKing_Local(bool isKing)
+    {
+        controller.SetKing(isKing);
+        if (GetIsKing() && HasStateAuthority)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
 }

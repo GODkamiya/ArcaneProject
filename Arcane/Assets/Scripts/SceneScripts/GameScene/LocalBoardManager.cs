@@ -40,18 +40,22 @@ public class LocalBoardManager
         return GetPieceList().Count;
     }
 
-    public List<GameObject> GetPieceList(){
+    public List<GameObject> GetPieceList()
+    {
         List<GameObject> list = new List<GameObject>();
-        for(int i = 0 ; i < BoardManager.BOARD_SIZE; i++){
-            for(int j = 0 ; j < BoardManager.BOARD_SIZE; j++){
-                if(pieces[i, j] != null) list.Add(pieces[i,j]);
+        for (int i = 0; i < BoardManager.BOARD_SIZE; i++)
+        {
+            for (int j = 0; j < BoardManager.BOARD_SIZE; j++)
+            {
+                if (pieces[i, j] != null) list.Add(pieces[i, j]);
             }
         }
         return list;
     }
 
-    public void SetKing(){
-        kingPieceObject.GetComponent<PieceObject>().isKing = true;
+    public void SetKing()
+    {
+        kingPieceObject.GetComponent<PieceObject>().SetIsKing_Local(true);
     }
 
     public void SelectKing(GameObject pieceObject)
@@ -64,7 +68,8 @@ public class LocalBoardManager
         pieceObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
-    public bool HasKing(){
+    public bool HasKing()
+    {
         return kingPieceObject != null;
     }
 }

@@ -21,6 +21,16 @@ public class PieceController
     public bool GetCanMove => stateData.CanMove();
 
     /// <summary>
+    /// コマが王かどうか
+    /// </summary>
+    public bool GetIsKing => stateData.isKing;
+
+    /// <summary>
+    /// コマが王かどうか設定する
+    /// </summary>
+    public void SetKing(bool isKing) => stateData = stateData.CopyWith(isKing: isKing);
+
+    /// <summary>
     /// 召喚酔いの状態を更新する
     /// </summary>
     public void SetSickness(bool isSickness) => stateData = stateData.CopyWith(isSickness: isSickness);
@@ -29,4 +39,5 @@ public class PieceController
     /// 逆位置の状態を更新する
     /// </summary>
     public void SetReverse(bool isReverse) => stateData = stateData.CopyWith(isReverse: isReverse);
+
 }

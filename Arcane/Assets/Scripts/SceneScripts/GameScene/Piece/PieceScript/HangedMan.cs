@@ -6,10 +6,6 @@ public class HangedMan : PieceObject, IOnReverse
 {
     private PieceType? pretender;
 
-    public override void Spawned()
-    {
-    }
-
     public override string GetName()
     {
         return PieceTypeExtension.GetNameFromPieceType(pretender ?? PieceType.HangedMan);
@@ -65,11 +61,12 @@ public class HangedMan : PieceObject, IOnReverse
         gameObject.transform.position = new Vector3(-100, 100, -100);
 
         // 新しいコマを配置する
-        if(HasStateAuthority){
+        if (HasStateAuthority)
+        {
             LocalBoardManager localBoard = new LocalBoardManager();
-            GameObject newPiece = localBoard.SetPiece(pretender ?? PieceType.HangedMan,x,y);
-            if(isKing)localBoard.SelectKing(newPiece);
-            BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner,true,localBoard);
+            GameObject newPiece = localBoard.SetPiece(pretender ?? PieceType.HangedMan, x, y);
+            if (GetIsKing()) localBoard.SelectKing(newPiece);
+            BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner, true, localBoard);
         }
     }
 
