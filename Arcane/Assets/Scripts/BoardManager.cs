@@ -72,7 +72,7 @@ public class BoardManager : MonoBehaviour
             PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
             networkPieceObject.SetPosition(po.x, po.y, true, true);
             networkPieceObject.SetIsKing_RPC(po.GetIsKing());
-            networkPieceObject.SetReverse_RPC(po.isReverse);
+            networkPieceObject.SetReverse_RPC(po.GetIsReverse());
             if (isFirstSummon)
             {
                 networkPieceObject.SetSickness(false);

@@ -4,6 +4,6 @@ public class WithoutReverseFilter : TargetFilter
 {
     public override bool filterCondition(GameObject target)
     {
-        return !target.GetComponent<PieceObject>().isReverse;
+        return !target.GetComponent<PieceObject>().GetIsReverse();
     }
 }

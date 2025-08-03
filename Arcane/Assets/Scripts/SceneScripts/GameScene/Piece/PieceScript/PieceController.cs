@@ -26,6 +26,11 @@ public class PieceController
     public bool GetIsKing => stateData.isKing;
 
     /// <summary>
+    /// コマが逆位置かどうか
+    /// </summary>
+    public bool GetIsReverse => stateData.isReverse;
+
+    /// <summary>
     /// コマが王かどうか設定する
     /// </summary>
     public void SetKing(bool isKing) => stateData = stateData.CopyWith(isKing: isKing);

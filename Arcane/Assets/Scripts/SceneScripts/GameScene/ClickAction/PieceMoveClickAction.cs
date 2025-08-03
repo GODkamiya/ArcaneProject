@@ -20,13 +20,13 @@ public class PieceMoveClickAction : IClickAction
             // 皇帝の特殊ルール
             if (targetObj.GetPieceType() == PieceType.Emperor)
             {
-                bool attackerRev = latestPiece.GetComponent<PieceObject>().isReverse;
-                bool targetRev = targetObj.isReverse;
+                bool attackerRev = latestPiece.GetComponent<PieceObject>().GetIsReverse();
+                bool targetRev = targetObj.GetIsReverse();
                 if (attackerRev != targetRev) return;
             }
 
             // 審判以外の駒が、自分の駒を攻撃しようとしたらリターン
-            bool isJudgementReverse = latestPiece.GetComponent<PieceObject>().GetPieceType() == PieceType.Judgement && latestPiece.GetComponent<PieceObject>().isReverse;
+            bool isJudgementReverse = latestPiece.GetComponent<PieceObject>().GetPieceType() == PieceType.Judgement && latestPiece.GetComponent<PieceObject>().GetIsReverse();
             if (!isJudgementReverse && targetObj.isMine) return;
         }
 
@@ -79,7 +79,7 @@ public class PieceMoveClickAction : IClickAction
                 // Empress かつ isMain == false の駒だけが対象
                 if (targetObj.GetPieceType() == PieceType.Empress && !targetObj.isMine)
                 {
-                    int requiredRange = targetObj.isReverse ? 2 : 1;
+                    int requiredRange = targetObj.GetIsReverse() ? 2 : 1;
                     // Empress の中心から見た中心駒との距離が範囲内ならOK（逆向きチェック）
                     if (Mathf.Abs(tx - center.x) <= requiredRange && Mathf.Abs(ty - center.y) <= requiredRange)
                     {
@@ -113,7 +113,7 @@ public class PieceMoveClickAction : IClickAction
             if (piece.GetComponent<PieceObject>().isMine) return false;
             if (piece.GetComponent<PieceObject>().GetPieceType() != PieceType.Temperance) return false;
             //発動条件を満たしていれば移動・効果を封じる
-            return reverse == null || piece.GetComponent<PieceObject>().isReverse;
+            return reverse == null || piece.GetComponent<PieceObject>().GetIsReverse();
         }
 
         if (CheckPiece(poX, poY + 1, null) || CheckPiece(poX, poY - 1, true) || CheckPiece(poX - 1, poY, true) || CheckPiece(poX + 1, poY, true)) return;

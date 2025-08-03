@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Fusion;
 using TMPro;
 using UnityEngine;
@@ -14,9 +12,6 @@ public abstract class PieceObject : NetworkBehaviour
 
     // このコマに関する情報が変更した際に発火されるイベント
     public Action onChangeInformation;
-
-    // 逆位置かどうか
-    public bool isReverse = false;
 
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
@@ -196,6 +191,11 @@ public abstract class PieceObject : NetworkBehaviour
     /// コマが王かどうかを取得する
     /// </summary>
     public bool GetIsKing() => controller.GetIsKing;
+
+    /// <summary>
+    /// コマが逆位置かどうかを取得する
+    /// </summary>
+    public bool GetIsReverse() => controller.GetIsReverse;
 
     /// <summary>
     /// コマを召喚酔い状態にするかどうかを設定する

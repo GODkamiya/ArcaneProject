@@ -10,7 +10,7 @@ public class Hermit : ActivePieceObject
 
     public override void ActiveEffect()
     {
-        GameManager.singleton.phaseMachine.TransitionTo(new HermitPhase(this,previousTarget));
+        GameManager.singleton.phaseMachine.TransitionTo(new HermitPhase(this, previousTarget));
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -35,7 +35,7 @@ public class Hermit : ActivePieceObject
 
     public override bool CanSpellActiveEffect()
     {
-        return canActive && isReverse;
+        return canActive && GetIsReverse();
     }
 
     public override string GetName()
