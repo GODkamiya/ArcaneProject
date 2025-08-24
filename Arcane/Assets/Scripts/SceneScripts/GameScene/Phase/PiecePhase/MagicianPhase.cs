@@ -11,7 +11,7 @@ public class MagicianPhase : IPhase
     public void Enter()
     {
         List<TargetFilter> filters = new List<TargetFilter>() { };
-        if (magician.isReverse)
+        if (magician.GetIsReverse())
         {
             filters.Add(new WithoutReverseFilter());
         }
@@ -27,7 +27,7 @@ public class MagicianPhase : IPhase
     {
         magician.canActive = false;
         var piece = target.GetComponent<PieceObject>();
-        piece.SetReverse(!piece.isReverse);
+        piece.SetReverse_RPC(!piece.GetIsReverse());
         magician.counter = 0;
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }

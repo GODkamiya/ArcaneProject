@@ -13,36 +13,40 @@ public class WheelOfFortunePhase : IPhase
     public void Enter()
     {
         // 正位置の実装
-        if(!masterPiece.isReverse){
+        if (!masterPiece.GetIsReverse())
+        {
             List<TargetFilter> filterList = new List<TargetFilter>(){
                 new WithoutSpecificObjectFilter(masterPiece.gameObject),
                 new WithoutEnemyFilter(),
             };
             var action = new ChooseOneClickAction(
-                filterList,(choosen) => masterPiece.ExchangePiece(choosen.GetComponent<PieceObject>(),masterPiece)
+                filterList, (choosen) => masterPiece.ExchangePiece(choosen.GetComponent<PieceObject>(), masterPiece)
             );
             PlayerClickHandler.singleton.clickAction = action;
             UIManager.singleton.ShowChooseOneClickPanel(action);
         }
         // 逆位置の実装
-        else{
+        else
+        {
 
             // 1体目の選択時
-            void firstChoose(GameObject target){
+            void firstChoose(GameObject target)
+            {
                 List<TargetFilter> plusFilterList = new List<TargetFilter>(){
                     new WithoutEnemyFilter(),
                     new WithoutSpecificObjectFilter(target),
                 };
                 var secondAction = new ChooseOneClickAction(
-                    plusFilterList,(targetB) => secondChoose(target, targetB)
+                    plusFilterList, (targetB) => secondChoose(target, targetB)
                 );
                 PlayerClickHandler.singleton.clickAction = secondAction;
                 UIManager.singleton.ShowChooseOneClickPanel(secondAction);
             }
 
             // 2体目の選択時
-            void secondChoose(GameObject targetA,GameObject targetB){
-                masterPiece.ExchangePiece(targetA.GetComponent<PieceObject>(),targetB.GetComponent<PieceObject>());
+            void secondChoose(GameObject targetA, GameObject targetB)
+            {
+                masterPiece.ExchangePiece(targetA.GetComponent<PieceObject>(), targetB.GetComponent<PieceObject>());
             }
 
 
@@ -50,7 +54,7 @@ public class WheelOfFortunePhase : IPhase
                 new WithoutEnemyFilter(),
             };
             var firstAction = new ChooseOneClickAction(
-                filterList,firstChoose
+                filterList, firstChoose
             );
             PlayerClickHandler.singleton.clickAction = firstAction;
             UIManager.singleton.ShowChooseOneClickPanel(firstAction);

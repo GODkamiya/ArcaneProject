@@ -1,42 +1,34 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Fusion;
 using TMPro;
 using UnityEngine;
 
 public abstract class PieceObject : NetworkBehaviour
 {
+    // TODO : x,yはControllerに畳み込まれるべき
     public int x, y;
 
-    public bool isKing = false;
+    /// <summary>
+    /// このコマが自分のものであるかどうか
+    /// </summary>
     public bool isMine => HasStateAuthority;
 
     // このコマに関する情報が変更した際に発火されるイベント
     public Action onChangeInformation;
 
-    // 逆位置かどうか
-
-    public bool isReverse = false;
-
-    // 召喚酔いしているかどうか
-    public bool isSickness = true;
-
-    // 生きているか
-    public bool isLiving = true;
-
-    //攻撃できるか
-    public bool isAttackable = true;
-
-    //死なないかどうか
-    public bool isImmortality = false;
-
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
-    public override void Spawned()
+    /// <summary>
+    /// コマの状態を管理するコントローラー
+    /// </summary>
+    private PieceController controller { get; set; }
+
+    void Awake()
     {
         RenderName();
+        controller = new PieceController();
+
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -105,7 +97,7 @@ public abstract class PieceObject : NetworkBehaviour
             {
                 ((IOnAttackEvent)this).OnAttack(newX, newY, enemy);
             }
-            SetReverse(true);
+            SetReverse_RPC(true);
         }
         else
         {
@@ -123,21 +115,6 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public abstract PieceType GetPieceType();
 
-    public void SetKing(bool value)
-    {
-        SetKing_RPC(value ? 1 : 0);
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void SetKing_RPC(int value)
-    {
-        isKing = value == 1;
-        if (isKing && HasStateAuthority)
-        {
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
-        }
-
-    }
     public abstract PieceMovement GetPieceMovementOrigin(int baseX, int baseY);
 
 
@@ -156,8 +133,6 @@ public abstract class PieceObject : NetworkBehaviour
     }
     public void Death()
     {
-        if (isImmortality) return;
-        isLiving = false;
 
         // そこにいるのがまだ自分の場合のみ、ボード上から削除 (移動で踏みつぶされている場合は消さない)
         if (BoardManager.singleton.onlinePieces[x, y] == gameObject) BoardManager.singleton.RemovePieceOnBoard(x, y);
@@ -167,7 +142,7 @@ public abstract class PieceObject : NetworkBehaviour
 
 
         // 王の場合、ゲーム終了へ
-        if (isKing)
+        if (GetIsKing())
         {
             GameManager.singleton.phaseMachine.TransitionTo(new GameEndPhase(GameManager.singleton.HasStateAuthority != HasStateAuthority));
         }
@@ -193,49 +168,61 @@ public abstract class PieceObject : NetworkBehaviour
     {
         addPieceMovementList.Remove(adder);
     }
+
     /// <summary>
-    /// 指定した駒の指定位置（正・逆）を決める
+    /// 逆位置にするかどうかを設定するRPC
     /// </summary>
-    /// <param name="isReverse"></param>
-    public void SetReverse(bool isReverse)
-    {
-        SetReverse_RPC(isReverse);
-    }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetReverse_RPC(bool isReverse)
+    public void SetReverse_RPC(NetworkBool isReverse)
     {
-        this.isReverse = isReverse;
+        controller.SetReverse(isReverse);
         onChangeInformation?.Invoke();
         if (isReverse && this is IOnReverse)
         {
             ((IOnReverse)this).OnReverse();
         }
     }
-    /// <summary>
-    /// 指定した駒の攻撃可否を決める
-    /// </summary>
-    /// <param name="isAttackable"></param>
-    public void SetAttackable(bool isAttackable)
-    {
-        SetAttackable_RPC(isAttackable);
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetAttackable_RPC(bool isAttackable)
-    {
-        this.isAttackable = isAttackable;
-    }
-    /// <summary>
-    /// 指定した駒が死なないかどうか決める
-    /// </summary>
-    /// <param name="isImmortality"></param>
-    public void SetImmortality(bool isImmortality)
-    {
-        SetImmortality_RPC(isImmortality);
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetImmortality_RPC(bool isImmortality)
-    {
-        this.isImmortality = isImmortality;
-    }
 
+    /// <summary>
+    /// 移動可能かどうか
+    /// </summary>
+    public bool GetCanMove() => controller.GetCanMove;
+
+    /// <summary>
+    /// コマが技を使用可能かどうか
+    /// </summary>
+    public bool GetCanSpell() => controller.GetCanSpell;
+
+    /// <summary>
+    /// コマが王かどうかを取得する
+    /// </summary>
+    public bool GetIsKing() => controller.GetIsKing;
+
+    /// <summary>
+    /// コマが逆位置かどうかを取得する
+    /// </summary>
+    public bool GetIsReverse() => controller.GetIsReverse;
+
+    /// <summary>
+    /// コマを召喚酔い状態にするかどうかを設定する
+    /// </summary>
+    public void SetSickness(bool isSickness) => controller.SetSickness(isSickness);
+
+    /// <summary>
+    /// コマが王かどうかを同期して設定する
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void SetIsKing_RPC(NetworkBool isKing) => SetIsKing_Local(isKing);
+
+    /// <summary>
+    /// コマが王かどうかをローカルで設定する
+    /// </summary>
+    public void SetIsKing_Local(bool isKing)
+    {
+        controller.SetKing(isKing);
+        if (GetIsKing() && HasStateAuthority)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
 }

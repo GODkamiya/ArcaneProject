@@ -32,7 +32,7 @@ public class HighPriestessPhase : IPhase
             new SpecificXFilter(masterPiece.x),
             new WithoutAllyFilter()
         };
-        if (!masterPiece.isReverse)
+        if (!masterPiece.GetIsReverse())
         {
             filterList.Add(new CustomFilter(HighPriestessFilter));
         }
@@ -79,7 +79,7 @@ public class HighPriestessPhase : IPhase
     private PieceMovement GetEffectRange(GameObject target)
     {
         var pm = new PieceMovement();
-        if (masterPiece.isReverse)
+        if (masterPiece.GetIsReverse())
         {
             for (int addX = -1; addX < 2; addX++)
             {

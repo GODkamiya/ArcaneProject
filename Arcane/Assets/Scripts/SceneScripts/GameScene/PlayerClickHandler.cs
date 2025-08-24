@@ -42,7 +42,7 @@ public class PlayerClickHandler : MonoBehaviour
         }
         else if (hitObject.tag == "Piece")
         {
-            discriptionPanel.SetTargetPiece(hitObject.GetComponent<PieceObject>());
+            // discriptionPanel.SetTargetPiece(hitObject.GetComponent<PieceObject>());
             clickAction.OnClickPiece(hitObject);
         }
     }

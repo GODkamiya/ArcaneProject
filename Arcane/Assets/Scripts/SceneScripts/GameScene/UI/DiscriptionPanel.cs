@@ -18,9 +18,11 @@ public class DiscriptionPanel : MonoBehaviour
     /// 描画する対象のコマを設定する。
     /// </summary>
     /// <param name="pieceObject"></param>
-    public void SetTargetPiece(PieceObject pieceObject){
+    public void SetTargetPiece(PieceObject pieceObject)
+    {
         // 過去の購読を解除する
-        if(targetPiece!=null){
+        if (targetPiece != null)
+        {
             targetPiece.onChangeInformation -= Render;
         }
 
@@ -35,24 +37,26 @@ public class DiscriptionPanel : MonoBehaviour
     /// PieceTypeのため、仮のインスタンスを作成して描画する。
     /// </summary>
     /// <param name="pieceType"></param>
-    public void SetTargetPiece(PieceType pieceType){
+    public void SetTargetPiece(PieceType pieceType)
+    {
         SetTargetPiece(PieceSpawner.singleton.GetPiecePrefab(pieceType).GetComponent<PieceObject>());
     }
 
     /// <summary>
     /// 対象にしているコマの内容をUIに描画する。
     /// </summary>
-    public void Render(){
+    public void Render()
+    {
         // 名前の描画
         pieceNameLabel.text = targetPiece.GetName();
-        
+
         // 正位置効果の描画
         var uprightDetailText = targetPiece.GetUprightEffectDescription();
-        uprightDetailLabel.text = uprightDetailText==""?"なし。":uprightDetailText;
-        
+        uprightDetailLabel.text = uprightDetailText == "" ? "なし。" : uprightDetailText;
+
         // 逆位置効果の描画
         var reverseDetailText = targetPiece.GetReverseEffectDescription();
-        reverseDetailLabel.text = reverseDetailText==""?"なし。":reverseDetailText;
-        reverseDetailLabel.transform.parent.GetComponent<Image>().color = targetPiece.isReverse? new Color(1f,1f,1f,100f/255f):new Color(0f,0f,0f,100f/255f);
+        reverseDetailLabel.text = reverseDetailText == "" ? "なし。" : reverseDetailText;
+        reverseDetailLabel.transform.parent.GetComponent<Image>().color = targetPiece.GetIsReverse() ? new Color(1f, 1f, 1f, 100f / 255f) : new Color(0f, 0f, 0f, 100f / 255f);
     }
 }

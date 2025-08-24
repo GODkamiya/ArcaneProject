@@ -5,13 +5,13 @@ public class Emperor : ActivePieceObject
     public override void ActiveEffect()
     {
         canActive = false;
-        isReverse = false;
+        SetReverse_RPC(false);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
     public override bool CanSpellActiveEffect()
     {
-        if(!isReverse) return false;
+        if (!GetIsReverse()) return false;
         return canActive;
     }
 
@@ -20,14 +20,14 @@ public class Emperor : ActivePieceObject
         return "皇帝";
     }
 
-    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
+    public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)
             {
-                if(addX == 0 && addY == 0)continue;
+                if (addX == 0 && addY == 0) continue;
                 pm.AddRange(baseX + addX, baseY + addY);
             }
         }

@@ -5,7 +5,7 @@ public class Tower : ActivePieceObject
 {
     public override void ActiveEffect()
     {
-        if (!isReverse) return;
+        if (!GetIsReverse()) return;
         canActive = false;
         Deny_RPC();
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
@@ -13,7 +13,7 @@ public class Tower : ActivePieceObject
 
     public override bool CanSpellActiveEffect()
     {
-        if(!isReverse) return false;
+        if (!GetIsReverse()) return false;
         return canActive;
     }
 

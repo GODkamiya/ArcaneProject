@@ -15,10 +15,12 @@ public class StrengthPhase : IPhase
         List<TargetFilter> filters = new List<TargetFilter>(){
             new RangeFilter(strength.GetPieceMovement())
         };
-        if (strength.isReverse)
+        if (strength.GetIsReverse())
         {
             filters.Add(new WithoutReverseFilter());
-        }else{
+        }
+        else
+        {
             filters.Add(new WithoutAllyFilter());
             filters.Add(new ReverseFilter());
         }
@@ -29,8 +31,8 @@ public class StrengthPhase : IPhase
     private void Effect(GameObject target)
     {
         var piece = target.GetComponent<PieceObject>();
-        piece.SetReverse(!piece.isReverse);
-        strength.SetReverse(!strength.isReverse);
+        piece.SetReverse_RPC(!piece.GetIsReverse());
+        strength.SetReverse_RPC(!strength.GetIsReverse());
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 

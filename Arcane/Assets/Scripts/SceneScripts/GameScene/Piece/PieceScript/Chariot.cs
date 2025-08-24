@@ -7,7 +7,7 @@ public class Chariot : PieceObject, IOnAttackEvent
         return "戦車";
     }
 
-    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
+    public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
@@ -36,10 +36,10 @@ public class Chariot : PieceObject, IOnAttackEvent
         return "このコマが敵コマを倒した後、その位置から移動範囲内にいる全てのコマを倒す。";
     }
 
-    public void OnAttack(int newX,int newY,PieceObject target)
+    public void OnAttack(int newX, int newY, PieceObject target)
     {
         // 移動予定の位置からの移動範囲を求める
-        PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement(newX,newY);
+        PieceMovement pieceMovement = gameObject.GetComponent<PieceObject>().GetPieceMovement(newX, newY);
         for (int i = 0; i < 10; i++)
         {
             for (int j = 0; j < 10; j++)
@@ -49,7 +49,7 @@ public class Chariot : PieceObject, IOnAttackEvent
                     GameObject newTarget = BoardManager.singleton.onlinePieces[i, j];
                     if (newTarget != null)
                     {
-                        if(isReverse && newTarget.GetComponent<PieceObject>().isMine == isMine)continue;
+                        if (GetIsReverse() && newTarget.GetComponent<PieceObject>().isMine == isMine) continue;
                         newTarget.GetComponent<PieceObject>().Death();
                     }
                 }

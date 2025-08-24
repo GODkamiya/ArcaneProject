@@ -8,7 +8,7 @@ public class Moon : ActivePieceObject
     {
         canActive = false;
         RenderName_RPC();
-        isReverse = false;
+        SetReverse_RPC(false);
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -32,7 +32,7 @@ public class Moon : ActivePieceObject
     {
         PieceMovement pm = new PieceMovement();
 
-        if (isReverse)
+        if (GetIsReverse())
         {
             if (isTransformed)
             {

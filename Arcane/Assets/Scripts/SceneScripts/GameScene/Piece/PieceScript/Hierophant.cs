@@ -5,7 +5,7 @@ public class Hierophant : ActivePieceObject
 {
     public override void ActiveEffect()
     {
-        if(isReverse)return;
+        if (GetIsReverse()) return;
         GameManager.singleton.phaseMachine.TransitionTo(new HierophantPhase(this));
     }
 
@@ -14,14 +14,14 @@ public class Hierophant : ActivePieceObject
         return "教皇";
     }
 
-    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
+    public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)
             {
-                if(addX == 0 && addY == 0)continue;
+                if (addX == 0 && addY == 0) continue;
                 pm.AddRange(baseX + addX, baseY + addY);
             }
         }
@@ -33,20 +33,21 @@ public class Hierophant : ActivePieceObject
         return PieceType.Hierophant;
     }
 
-    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
-    public void AddMovement_RPC(NetworkObject target){
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void AddMovement_RPC(NetworkObject target)
+    {
         canActive = false;
         var buff = new UDLRAddPieceMovement(1);
         target.GetComponent<PieceObject>().AddAddPieceMovement(buff);
         GameManager.singleton.turnEndEvents.Add(
-            new TurnEndEvent(1,()=>target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))
+            new TurnEndEvent(1, () => target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))
         );
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }
 
     public override bool CanSpellActiveEffect()
     {
-        if(isReverse) return false;
+        if (GetIsReverse()) return false;
         return canActive;
     }
 

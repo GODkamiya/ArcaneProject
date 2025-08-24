@@ -7,7 +7,7 @@ public class Death : PieceObject
         return "死神";
     }
 
-    public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
+    public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
         for (int addY = 1; addY < 10; addY++)
@@ -15,7 +15,8 @@ public class Death : PieceObject
             pm.AddRange(baseX, baseY + addY);
         }
         // 逆位置の場合に、移動範囲が増加する
-        if(isReverse){
+        if (GetIsReverse())
+        {
             for (int addX = -1; addX < 2; addX++)
             {
                 for (int addY = -1; addY < 2; addY++)
