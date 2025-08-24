@@ -6,8 +6,12 @@ using UnityEngine;
 
 public abstract class PieceObject : NetworkBehaviour
 {
+    // TODO : x,yはControllerに畳み込まれるべき
     public int x, y;
 
+    /// <summary>
+    /// このコマが自分のものであるかどうか
+    /// </summary>
     public bool isMine => HasStateAuthority;
 
     // このコマに関する情報が変更した際に発火されるイベント
@@ -15,7 +19,9 @@ public abstract class PieceObject : NetworkBehaviour
 
     List<AddPieceMovement> addPieceMovementList = new List<AddPieceMovement>();
 
-    // コマの振る舞い管理
+    /// <summary>
+    /// コマの状態を管理するコントローラー
+    /// </summary>
     private PieceController controller { get; set; }
 
     void Awake()
