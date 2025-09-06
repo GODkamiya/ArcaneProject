@@ -6,21 +6,20 @@ public class PlayerClickHandleController
 
     readonly DescriptionPanelController discriptionPanel;
 
-    public PlayerClickHandleController(PlayerClickHandleManager playerClickHandleManager,
+    public PlayerClickHandleController(
     DescriptionPanelController discriptionPanel)
     {
         this.discriptionPanel = discriptionPanel;
-        playerClickHandleManager.onClick += OnClick;
     }
 
-    void OnClick(GameObject clickedObject)
+    public void OnClick(GameObject clickedObject)
     {
-        Debug.Log("TestTestTest");
         if (clickedObject.tag == "Board")
         {
         }
         else if (clickedObject.tag == "Piece")
         {
+            // TODO ここで隠者は見えないようにしなければいけない
             discriptionPanel.SetPieceInfo(clickedObject.GetComponent<PieceObject>());
         }
     }

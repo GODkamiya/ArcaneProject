@@ -1,7 +1,12 @@
+using System.ComponentModel.Design;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
+/// <summary>
+/// コマの説明パネルの表示を司る
+/// </summary>
 public class DescriptionPanelViewObject : MonoBehaviour
 {
     [SerializeField]
@@ -20,10 +25,27 @@ public class DescriptionPanelViewObject : MonoBehaviour
     private readonly Color focusColor = new Color(1f, 1f, 1f, 1f);
     private readonly Color unfocusColor = new Color(170f / 255f, 170f / 255f, 170f / 255f, 1f);
 
+
+    private DescriptionPanelController _controller;
+
+    [Inject]
+    public void Inject(DescriptionPanelController controller)
+    {
+        _controller = controller;
+        _controller.OnSetPieceInfo += (name, description, isReverse) =>
+        {
+            ShowPieceName(name);
+            ShowPieceDescription(description, isReverse);
+        };
+        standardButton.GetComponent<Button>().onClick.AddListener(() => ShowPieceDescription(_controller.GetPieceUprightDescription(), false));
+        reverseButton.GetComponent<Button>().onClick.AddListener(() => ShowPieceDescription(_controller.GetPieceReverseDescription(), true));
+    }
+
+
     /// <summary>
     /// コマの名前を表示する
     /// </summary>
-    public void ShowPieceName(string pieceName)
+    private void ShowPieceName(string pieceName)
     {
         pieceNameText.text = pieceName;
     }
@@ -31,7 +53,7 @@ public class DescriptionPanelViewObject : MonoBehaviour
     /// <summary>
     /// コマの技の説明を表示する
     /// </summary>
-    public void ShowPieceDescription(string pieceDescription, bool isReverse)
+    private void ShowPieceDescription(string pieceDescription, bool isReverse)
     {
         pieceDescriptionText.text = pieceDescription;
         LightOn(isReverse);
