@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 public class PieceUIScript : MonoBehaviour
 {
@@ -7,7 +8,15 @@ public class PieceUIScript : MonoBehaviour
     private Canvas canvas;
     private CanvasGroup canvasGroup;
 
-    public PieceType pieceType{ get; set; }
+    public PieceType pieceType { get; set; }
+
+    private DescriptionPanelController _descriptionPanelController;
+
+    [Inject]
+    public void Inject(DescriptionPanelController descriptionPanelController)
+    {
+        _descriptionPanelController = descriptionPanelController;
+    }
 
     private void Awake()
     {
@@ -16,8 +25,9 @@ public class PieceUIScript : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public void OnClick(){
+    public void OnClick()
+    {
         PlayerClickHandler.singleton.ClickHand(pieceType);
-        // PlayerClickHandler.singleton.GetDescriptionPanel().SetTargetPiece(pieceType);
+        _descriptionPanelController.SetPieceInfo(PieceSpawner.singleton.GetPiecePrefab(pieceType).GetComponent<PieceObject>());
     }
 }

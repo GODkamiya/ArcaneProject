@@ -5,6 +5,8 @@ using System.Linq;
 using Fusion;
 using TMPro;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 public class PlayerObject : NetworkBehaviour
 {
@@ -16,6 +18,14 @@ public class PlayerObject : NetworkBehaviour
     NetworkLinkedList<PieceType> hand => default;
     [SerializeField]
     GameObject pieceUIPrefab;
+
+    private IObjectResolver _container;
+
+    [Inject]
+    public void Construct(IObjectResolver container)
+    {
+        _container = container;
+    }
 
     private GameObject handPanel;
     // プレイヤーが生成され次第、プレイヤーを登録する
@@ -104,7 +114,7 @@ public class PlayerObject : NetworkBehaviour
         }
         foreach (PieceType pieceType in hand)
         {
-            GameObject pieceUI = Instantiate(pieceUIPrefab);
+            GameObject pieceUI = _container.Instantiate(pieceUIPrefab);
             pieceUI.GetComponent<PieceUIScript>().pieceType = pieceType;
             pieceUI.GetComponentInChildren<TextMeshProUGUI>().text = PieceTypeExtension.GetNameFromPieceType(pieceType);
             pieceUI.transform.SetParent(handPanel.transform, false);
@@ -115,13 +125,16 @@ public class PlayerObject : NetworkBehaviour
     {
         hand.Remove(pieceType);
     }
-    public void AddHand(PieceType pieceType){
+    public void AddHand(PieceType pieceType)
+    {
         hand.Add(pieceType);
     }
-    public bool HasOneCard(){
+    public bool HasOneCard()
+    {
         return hand.Count > 0;
     }
-    public bool HasRestDeck(){
+    public bool HasRestDeck()
+    {
         return deck.Length > drawCount;
     }
 }

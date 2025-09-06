@@ -10,10 +10,14 @@ public class GameSceneLifetimeScope : LifetimeScope
     [SerializeField]
     PlayerClickHandleManager playerClickHandlerManager;
 
+    [SerializeField]
+    GameManager gameManager;
+
     protected override void Configure(IContainerBuilder builder)
     {
         // エントリーポイントの登録
         // builder.RegisterEntryPoint<GameEntryPoint>();
+        builder.RegisterComponent(gameManager);
 
         // クリック取得システムの登録
         builder.RegisterComponent(playerClickHandlerManager); // Inject呼び出し元を登録
