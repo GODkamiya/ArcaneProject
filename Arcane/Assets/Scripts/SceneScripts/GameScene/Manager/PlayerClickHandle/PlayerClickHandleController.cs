@@ -19,8 +19,18 @@ public class PlayerClickHandleController
         }
         else if (clickedObject.tag == "Piece")
         {
-            // TODO ここで隠者は見えないようにしなければいけない
-            discriptionPanel.SetPieceInfo(clickedObject.GetComponent<PieceObject>());
+            RequestShowDescription(clickedObject.GetComponent<PieceObject>());
         }
+    }
+
+    /// <summary>
+    /// 説明パネルに表示するよう要求する
+    /// </summary>
+    private void RequestShowDescription(PieceObject piece)
+    {
+        // もし敵の隠者のコマだったら、表示しない
+        if (!piece.isMine && piece is Hermit hermit && hermit.isTransparent) return;
+
+        discriptionPanel.SetPieceInfo(piece);
     }
 }

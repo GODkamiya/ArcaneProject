@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Hermit : ActivePieceObject
 {
+    /// <summary>
+    /// 現在、透明状態かどうか
+    /// </summary>
     public bool isTransparent = false;
 
     private NetworkObject previousTarget;
