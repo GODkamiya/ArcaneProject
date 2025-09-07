@@ -8,12 +8,6 @@ public class Hierophant : ActivePieceObject
         if (GetIsReverse()) return;
         GameManager.singleton.phaseMachine.TransitionTo(new HierophantPhase(this));
     }
-
-    public override string GetName()
-    {
-        return "教皇";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -49,15 +43,5 @@ public class Hierophant : ActivePieceObject
     {
         if (GetIsReverse()) return false;
         return canActive;
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマと同じ列、もしくは同じ行にいる味方コマ1体の移動範囲を、このターンの終わりまで上下左右+1する。";
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "このコマは効果を使用できなくなる。";
     }
 }

@@ -23,11 +23,6 @@ public class Tower : ActivePieceObject
         Death();
     }
 
-    public override string GetName()
-    {
-        return "塔";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -38,15 +33,5 @@ public class Tower : ActivePieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Tower;
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "自爆することができる。";
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマが倒れたとき、このコマを中心にした5×5の範囲内にいるすべてのコマを取る。";
     }
 }

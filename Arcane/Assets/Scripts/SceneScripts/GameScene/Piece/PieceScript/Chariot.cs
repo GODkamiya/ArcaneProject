@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class Chariot : PieceObject, IOnAttackEvent
 {
-    public override string GetName()
-    {
-        return "戦車";
-    }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
@@ -24,16 +20,6 @@ public class Chariot : PieceObject, IOnAttackEvent
     public override PieceType GetPieceType()
     {
         return PieceType.Chariot;
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "正位置の効果で倒す対象が敵のコマだけになる。";
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマが敵コマを倒した後、その位置から移動範囲内にいる全てのコマを倒す。";
     }
 
     public void OnAttack(int newX, int newY, PieceObject target)

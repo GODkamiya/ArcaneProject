@@ -8,11 +8,6 @@ public class WheelOfFortune : ActivePieceObject
         GameManager.singleton.phaseMachine.TransitionTo(new WheelOfFortunePhase(this));
     }
 
-    public override string GetName()
-    {
-        return "運命の輪";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -44,15 +39,5 @@ public class WheelOfFortune : ActivePieceObject
     public override bool CanSpellActiveEffect()
     {
         return canActive;
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "指定した味方コマ1体とこのコマの位置を入れ替える。";
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "指定した味方コマ2体の位置を入れ替える。";
     }
 }

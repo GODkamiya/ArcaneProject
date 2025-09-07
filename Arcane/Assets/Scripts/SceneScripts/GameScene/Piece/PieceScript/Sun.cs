@@ -24,11 +24,6 @@ public class Sun : ActivePieceObject
         return canActive;
     }
 
-    public override string GetName()
-    {
-        return isTransformed ? "月" : "太陽";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -115,15 +110,5 @@ public class Sun : ActivePieceObject
     public override PieceType GetPieceType()
     {
         return isTransformed ? PieceType.Moon : PieceType.Sun;
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "正位置の月のコマに変身する。";
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "";
     }
 }

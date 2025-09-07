@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using VContainer;
 
 public class GameManager : NetworkBehaviour, IPlayerJoined
 {
@@ -40,6 +41,14 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
 
     public List<TurnEndEvent> turnEndEvents = new List<TurnEndEvent>();
 
+    private IObjectResolver _container;
+
+    [Inject]
+    public void Construct(IObjectResolver container)
+    {
+        _container = container;
+    }
+
     private void Awake()
     {
         singleton = this;
@@ -67,7 +76,9 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         // TODO : PlayerJoinedが全クライアントで呼ばれるようにするための施策が思いつき次第修正
         if (Runner.LocalPlayer == player)
         {
-            Runner.Spawn(playerObjectPrefab, Vector3.zero, Quaternion.identity, player);
+            var obj = Runner.Spawn(playerObjectPrefab, Vector3.zero, Quaternion.identity, player);
+            var playerObject = obj.GetComponent<PlayerObject>();
+            _container.Inject(playerObject);
         }
     }
 

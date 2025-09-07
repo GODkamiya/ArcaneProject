@@ -1,17 +1,22 @@
-using System;
 using UnityEngine;
+using VContainer;
 
 public class PlayerClickHandleManager : MonoBehaviour
 {
-    public event Action<GameObject> onClick;
+    private PlayerClickHandleController _controller;
+
+    [Inject]
+    public void Construct(PlayerClickHandleController controller)
+    {
+        _controller = controller;
+    }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit raycastHithit = new RaycastHit();
-            if (Physics.Raycast(ray, out raycastHithit))
+            if (Physics.Raycast(ray, out RaycastHit raycastHithit))
             {
                 ClickObject(raycastHithit);
             }
@@ -21,6 +26,6 @@ public class PlayerClickHandleManager : MonoBehaviour
     void ClickObject(RaycastHit clickedObject)
     {
         GameObject hitObject = clickedObject.collider.gameObject;
-        onClick?.Invoke(hitObject);
+        _controller.OnClick(hitObject);
     }
 }

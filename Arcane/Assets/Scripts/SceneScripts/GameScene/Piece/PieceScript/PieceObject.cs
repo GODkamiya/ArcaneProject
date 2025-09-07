@@ -104,10 +104,10 @@ public abstract class PieceObject : NetworkBehaviour
             if (!isSummon && isMine) GameManager.singleton.SendLog(new MoveLog(GameManager.singleton.GetIs1P(), GetName()));
         }
     }
-    public abstract string GetName();
-    public abstract string GetUprightEffectDescription();
+    public string GetName() => PieceTypeExtension.GetNameFromPieceType(GetPieceType());
+    public string GetUprightEffectDescription() => PieceTypeExtension.GetUprightEffectDescriptionFromPieceType(GetPieceType());
 
-    public abstract string GetReverseEffectDescription();
+    public string GetReverseEffectDescription() => PieceTypeExtension.GetReverseEffectDescriptionFromPieceType(GetPieceType());
 
     public void RenderName()
     {

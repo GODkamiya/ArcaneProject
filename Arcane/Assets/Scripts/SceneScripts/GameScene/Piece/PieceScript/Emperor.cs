@@ -15,11 +15,6 @@ public class Emperor : ActivePieceObject
         return canActive;
     }
 
-    public override string GetName()
-    {
-        return "皇帝";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -37,15 +32,5 @@ public class Emperor : ActivePieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Emperor;
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "";
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "";
     }
 }

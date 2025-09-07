@@ -1,13 +1,10 @@
-using System.Runtime.CompilerServices;
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 /// <summary>
 /// コマの説明パネルを制御するクラス
 /// </summary>
 public class DescriptionPanelController
 {
-    readonly DescriptionPanelViewObject viewObject;
 
     // 現在表示しているのが逆位置かどうか
     private bool isReverse = false;
@@ -15,29 +12,27 @@ public class DescriptionPanelController
     // 現在表示しているコマ
     private PieceObject currentPieceObject;
 
-    public DescriptionPanelController(DescriptionPanelViewObject descriptionPanelViewObject)
-    {
-        viewObject = descriptionPanelViewObject;
-        viewObject.standardButton.GetComponent<Button>().onClick.AddListener(OnClickStandardButton);
-        viewObject.reverseButton.GetComponent<Button>().onClick.AddListener(OnClickReverseButton);
-    }
+    /// <summary>
+    /// 選択中のコマが切り替わったときのイベント
+    /// </summary>
+    public event Action<string/*コマの名前*/, string/*コマのアビリティ説明*/, bool/*コマが逆位置かどうか*/> OnSetPieceInfo;
 
+    /// <summary>
+    /// 選択中のコマが切り替わったとき
+    /// </summary>
     public void SetPieceInfo(PieceObject pieceObject)
     {
         currentPieceObject = pieceObject;
-        viewObject.ShowPieceName(pieceObject.GetName());
-        viewObject.ShowPieceDescription(isReverse ? pieceObject.GetReverseEffectDescription() : pieceObject.GetUprightEffectDescription(), isReverse);
+        // コマの情報を[OnSetPieceInfo]イベントに流す
+        string name = pieceObject.GetName();
+        string description = isReverse ? pieceObject.GetReverseEffectDescription() : pieceObject.GetUprightEffectDescription();
+        OnSetPieceInfo?.Invoke(name, description, isReverse);
     }
 
-    private void OnClickStandardButton()
-    {
-        isReverse = false;
-        viewObject.ShowPieceDescription(currentPieceObject.GetUprightEffectDescription(), isReverse);
-    }
+    /// <summary>
+    /// 対象のコマの正位置の説明を取得する
+    /// </summary>
+    public string GetPieceUprightDescription() => currentPieceObject.GetUprightEffectDescription();
 
-    private void OnClickReverseButton()
-    {
-        isReverse = true;
-        viewObject.ShowPieceDescription(currentPieceObject.GetReverseEffectDescription(), isReverse);
-    }
+    public string GetPieceReverseDescription() => currentPieceObject.GetReverseEffectDescription();
 }

@@ -7984,6 +7984,7 @@ MonoBehaviour:
   autoInjectGameObjects: []
   descriptionPanel: {fileID: 1466165626}
   playerClickHandlerManager: {fileID: 313104462}
+  gameManager: {fileID: 1444782186}
 --- !u!4 &1701425312
 Transform:
   m_ObjectHideFlags: 0
