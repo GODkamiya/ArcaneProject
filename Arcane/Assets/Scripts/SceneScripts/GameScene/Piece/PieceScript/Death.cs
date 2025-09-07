@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class Death : PieceObject
 {
-    public override string GetName()
-    {
-        return "死神";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -32,15 +27,5 @@ public class Death : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Death;
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "移動範囲が広がる。";
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "";
     }
 }

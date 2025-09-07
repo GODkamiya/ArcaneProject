@@ -12,11 +12,6 @@ public class Strength : ActivePieceObject
         return canActive;
     }
 
-    public override string GetName()
-    {
-        return "力";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -34,15 +29,5 @@ public class Strength : ActivePieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Strength;
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "自分の移動範囲内にいる逆位置の敵コマ1体を正位置にする。その後、このコマは逆位置になる。";
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "自分の移動範囲内にいる正位置のコマ1体を逆位置にする。その後、このコマは正位置になる。";
     }
 }

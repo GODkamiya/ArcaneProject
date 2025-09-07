@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class World : PieceObject, IOnAttackEvent
 {
-    public override string GetName()
-    {
-        return "世界";
-    }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
@@ -26,17 +22,7 @@ public class World : PieceObject, IOnAttackEvent
         return PieceType.World;
     }
 
-    public override string GetReverseEffectDescription()
-    {
-        return "このコマは持ち主の手札に戻る。";
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマは好きな位置に召喚することができる。";
-    }
-
-    public void OnAttack(int newX, int newY,PieceObject target)
+    public void OnAttack(int newX, int newY, PieceObject target)
     {
         // 既存のコマを削除し、手札に戻す
         Death();

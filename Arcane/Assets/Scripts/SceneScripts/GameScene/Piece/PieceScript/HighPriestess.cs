@@ -28,11 +28,6 @@ public class HighPriestess : ActivePieceObject
         }
     }
 
-    public override string GetName()
-    {
-        return "女教皇";
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement();
@@ -55,15 +50,5 @@ public class HighPriestess : ActivePieceObject
     public override bool CanSpellActiveEffect()
     {
         return canActive;
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマを中心にした5×5の範囲内にいる敵コマ1体を、その範囲内の好きな位置に移動させる。";
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "";
     }
 }

@@ -6,7 +6,10 @@ public class HangedMan : PieceObject, IOnReverse
 {
     private PieceType? pretender;
 
-    public override string GetName()
+    /// <summary>
+    /// 何者かにすり替わっている場合、その名前を返す
+    /// </summary>
+    public new string GetName()
     {
         return PieceTypeExtension.GetNameFromPieceType(pretender ?? PieceType.HangedMan);
     }
@@ -68,15 +71,5 @@ public class HangedMan : PieceObject, IOnReverse
             if (GetIsKing()) localBoard.SelectKing(newPiece);
             BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner, true, localBoard);
         }
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマは召喚する際に、「吊るされた男」以外のコマ１体に偽装する。動きや効果は変わらない。";
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "偽装しているコマに変身する。";
     }
 }

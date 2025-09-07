@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class Star : PieceObject
 {
-    public override string GetName()
-    {
-        return "星";
-    }
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
@@ -29,15 +25,5 @@ public class Star : PieceObject
     public override PieceType GetPieceType()
     {
         return PieceType.Star;
-    }
-
-    public override string GetReverseEffectDescription()
-    {
-        return "移動範囲が広がる。";
-    }
-
-    public override string GetUprightEffectDescription()
-    {
-        return "このコマの移動範囲内に、コマを召喚できる。";
     }
 }
