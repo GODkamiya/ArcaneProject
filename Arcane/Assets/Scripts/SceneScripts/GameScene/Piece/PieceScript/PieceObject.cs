@@ -109,6 +109,10 @@ public abstract class PieceObject : NetworkBehaviour
 
     public string GetReverseEffectDescription() => PieceTypeExtension.GetReverseEffectDescriptionFromPieceType(GetPieceType());
 
+    public int[,] GetMovementDefinitions() => PieceTypeExtension.GetMovementDefinitionsFromPieceType(GetPieceType());
+
+    public int[,] GetReverseMovementDefinitions() => PieceTypeExtension.GetReverseMovementDefinitionsFromPieceType(GetPieceType());
+
     public void RenderName()
     {
         GetComponentInChildren<TextMeshPro>().text = GetName();
