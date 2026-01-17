@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
@@ -47,7 +48,7 @@ public class ChooseOneClickAction : IClickAction
 
         if (latestSelectPiece != null) ChangeOriginalColor(latestSelectPiece);
         latestSelectPiece = pieceObject;
-        pieceObject.GetComponent<Renderer>().material.color = Color.yellow;
+        pieceObject.GetComponent<PieceObject>().ChangeColor(Color.yellow);
     }
 
     public void OnPressButton()
@@ -61,15 +62,15 @@ public class ChooseOneClickAction : IClickAction
     {
         if (!piece.GetComponent<PieceObject>().isMine)
         {
-            piece.GetComponent<Renderer>().material.color = Color.grey;
+            piece.GetComponent<PieceObject>().ChangeColor(Color.grey);
         }
         else if (piece.GetComponent<PieceObject>().GetIsKing())
         {
-            piece.GetComponent<Renderer>().material.color = Color.red;
+            piece.GetComponent<PieceObject>().ChangeColor(Color.red);
         }
         else
         {
-            piece.GetComponent<Renderer>().material.color = Color.white;
+            piece.GetComponent<PieceObject>().ChangeColor(Color.white);
         }
     }
 }

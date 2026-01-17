@@ -28,7 +28,6 @@ public abstract class PieceObject : NetworkBehaviour
     {
         RenderName();
         controller = new PieceController();
-
     }
 
     public void SetLocalPosition(int newX, int newY)
@@ -57,19 +56,19 @@ public abstract class PieceObject : NetworkBehaviour
         {
             newX = 9 - newX;
             newY = 9 - newY;
-            gameObject.GetComponent<Renderer>().material.color = Color.gray;
+            ChangeColor(Color.gray);
             if (GetPieceType() == PieceType.Hermit)
             {
                 Hermit hermitData = gameObject.GetComponent<Hermit>();
                 hermitData.ToggleTransparent_RPC();
                 if (hermitData.isTransparent)
                 {
-                    gameObject.GetComponent<Renderer>().enabled = false;
+                    SetEnable(false);
                     gameObject.GetComponentInChildren<TextMeshPro>().text = "";
                 }
                 else
                 {
-                    gameObject.GetComponent<Renderer>().enabled = true;
+                    SetEnable(true);
                     gameObject.GetComponentInChildren<TextMeshPro>().text = hermitData.GetName();
                 }
             }
@@ -113,9 +112,28 @@ public abstract class PieceObject : NetworkBehaviour
 
     public int[,] GetReverseMovementDefinitions() => PieceTypeExtension.GetReverseMovementDefinitionsFromPieceType(GetPieceType());
 
+    public void ChangeColor(Color color)
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material.color = color;
+        }
+    }
+
+    public void SetEnable(bool isEnable)
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.enabled = isEnable;
+        }
+    }
+
     public void RenderName()
     {
-        GetComponentInChildren<TextMeshPro>().text = GetName();
+        TextMeshPro ugui = GetComponentInChildren<TextMeshPro>();
+        if (ugui != null) { ugui.text = GetName(); }
     }
     public abstract PieceType GetPieceType();
 
@@ -188,6 +206,16 @@ public abstract class PieceObject : NetworkBehaviour
     }
 
     /// <summary>
+    /// コマの向きを調節するRPC
+    /// </summary>
+    /// <returns></returns>
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void SetAngular_RPC()
+    {
+        transform.rotation = Quaternion.Euler(0, isMine ? 0 : 180, 0);
+    }
+
+    /// <summary>
     /// 移動可能かどうか
     /// </summary>
     public bool GetCanMove() => controller.GetCanMove;
@@ -226,7 +254,7 @@ public abstract class PieceObject : NetworkBehaviour
         controller.SetKing(isKing);
         if (GetIsKing() && HasStateAuthority)
         {
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
+            ChangeColor(Color.red);
         }
     }
 }

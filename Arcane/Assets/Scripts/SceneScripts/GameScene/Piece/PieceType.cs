@@ -32,25 +32,25 @@ public class PieceTypeExtension
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.HighPriestess, new PieceInformation("女教皇", "このコマを中心にした5×5の範囲内にいる敵コマ1体を、その範囲内の好きな位置に移動させる。", "", new int[,]
+        { PieceType.HighPriestess, new PieceInformation("女教皇", "このコマより前にいる敵コマ1体を、1歩こちら側に移動させる", "このコマより前にいる敵コマ1体を、8方向好きな方向に1歩移動させる。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Empress, new PieceInformation("女帝", "自分から王範囲にいる別の味方コマが倒れるとき、代わりにこのコマが倒れる。(敵のコマは、女帝の位置に移動する)", "範囲を縦横2の5x5範囲に拡大する。", new int[,]
+        { PieceType.Empress, new PieceInformation("女帝", "自分の周り8マスにいる別の味方コマが倒れるとき、代わりにこのコマが倒れる。(敵のコマは、女帝の位置に移動する)", "効果の範囲を自分を中心とした5x5マスの範囲に拡大する。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Emperor, new PieceInformation("皇帝", "このコマは逆位置のコマには倒されない。", "このコマは正位置のコマには倒されない。効果発動でこのコマを正位置にすることができる。", new int[,]
+        { PieceType.Emperor, new PieceInformation("皇帝", "このコマは逆位置のコマにのみ倒されなくなる。", "このコマは正位置のコマにのみ倒されなくなる。効果発動でこのコマを正位置にすることができる。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Hierophant, new PieceInformation("教皇", "このコマと同じ列、もしくは同じ行にいる味方コマ1体の移動範囲を、このターンの終わりまで上下左右+1する。", "このコマは効果を使用できなくなる。", new int[,]
+        { PieceType.Hierophant, new PieceInformation("教皇", "このコマと同じ列、もしくは同じ行にいる味方コマ1体の移動範囲を、このターンの終わりまで上下左右+1する。", "このコマは効果が使用できなくなる。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
@@ -62,7 +62,7 @@ public class PieceTypeExtension
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Chariot, new PieceInformation("戦車", "このコマが敵コマを倒した後、その位置から移動範囲内にいる全てのコマを倒す。", "正位置の効果で倒す対象が敵のコマだけになる。", new int[,]
+        { PieceType.Chariot, new PieceInformation("戦車", "このコマが敵コマを倒したとき、その位置から移動範囲内にいる全てのコマを倒す。", "正位置の効果で倒す対象が敵のコマだけになる。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
@@ -74,7 +74,7 @@ public class PieceTypeExtension
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Hermit, new PieceInformation("隠者", "このコマは召喚時、透明になる。透明な状態で移動すると透明が解除される。透明じゃない状態で移動すると透明になる。", "味方のコマ1体を、次の相手のターンの終わりまで透明状態にする。", new int[,]
+        { PieceType.Hermit, new PieceInformation("隠者", "このコマは召喚時、透明になる。その後、移動するたびに非透明と透明を交互に繰り返す。", "味方のコマ1体を、次の相手のターンの終わりまで透明状態にする。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
@@ -86,7 +86,7 @@ public class PieceTypeExtension
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Justice, new PieceInformation("正義", "盤の中心を基準に、横に線対称な位置に移動する。", "盤の中心を基準に、点対象な位置に移動する。", new int[,]
+        { PieceType.Justice, new PieceInformation("正義", "盤の中心を基準に、左右対称な位置に移動する。", "盤の中心を基準に、点対象な位置に移動する。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
@@ -98,7 +98,7 @@ public class PieceTypeExtension
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Death, new PieceInformation("死神", "", "移動範囲が広がる。", new int[,]
+        { PieceType.Death, new PieceInformation("死神", "前に際限なく移動できる。", "移動範囲が広がる。", new int[,]
         { {0,0,2,0,0},
           {0,0,2,0,0},
           {0,0,0,0,0},
@@ -109,7 +109,7 @@ public class PieceTypeExtension
           {0,1,0,1,0},
           {0,1,1,1,0},
           {0,0,0,0,0}}) },
-        { PieceType.Temperance, new PieceInformation("節制", "このコマから一歩前にいるコマは移動も効果も使用できない。", "このコマから上下左右1の範囲内にいるコマは移動も効果も使用できない。", new int[,]
+        { PieceType.Temperance, new PieceInformation("節制", "このコマから1マス前にいるコマは移動も効果も使用できない。", "このコマから上下左右1マスの範囲内にいるコマは移動も効果も使用できない。", new int[,]
         { {0,0,0,0,0},
           {0,1,1,1,0},
           {0,1,0,1,0},
