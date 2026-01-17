@@ -73,6 +73,7 @@ public class BoardManager : MonoBehaviour
             networkPieceObject.SetPosition(po.x, po.y, true, true);
             networkPieceObject.SetIsKing_RPC(po.GetIsKing());
             networkPieceObject.SetReverse_RPC(po.GetIsReverse());
+            networkPieceObject.SetAngular_RPC();
             if (isFirstSummon)
             {
                 networkPieceObject.SetSickness(false);
@@ -131,5 +132,10 @@ public class BoardManager : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public GameObject GetTile(int x, int y)
+    {
+        return board[x, y];
     }
 }

@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using VContainer;
-
 public class PlayerClickHandler : MonoBehaviour
 {
     public static PlayerClickHandler singleton;
@@ -23,11 +21,9 @@ public class PlayerClickHandler : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit raycastHithit = new RaycastHit();
-            if (Physics.Raycast(ray, out raycastHithit))
+            if (Physics.Raycast(ray, out RaycastHit raycastHithit))
             {
                 ClickObject(raycastHithit);
-
             }
         }
     }

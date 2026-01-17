@@ -21,6 +21,10 @@ public class DescriptionPanelViewObject : MonoBehaviour
     [SerializeField]
     public GameObject reverseButton;
 
+    [SerializeField]
+    private DescriptionMovementPanelViewObject movementPanel;
+
+
     // 色の定義
     private readonly Color focusColor = new Color(1f, 1f, 1f, 1f);
     private readonly Color unfocusColor = new Color(170f / 255f, 170f / 255f, 170f / 255f, 1f);
@@ -32,13 +36,32 @@ public class DescriptionPanelViewObject : MonoBehaviour
     public void Inject(DescriptionPanelController controller)
     {
         _controller = controller;
-        _controller.OnSetPieceInfo += (name, description, isReverse) =>
+        _controller.OnSetPieceInfo += (name, description, isReverse, movementDefinitions) =>
         {
             ShowPieceName(name);
             ShowPieceDescription(description, isReverse);
+            ShowMovementDefinitions(movementDefinitions);
         };
-        standardButton.GetComponent<Button>().onClick.AddListener(() => ShowPieceDescription(_controller.GetPieceUprightDescription(), false));
-        reverseButton.GetComponent<Button>().onClick.AddListener(() => ShowPieceDescription(_controller.GetPieceReverseDescription(), true));
+        standardButton.GetComponent<Button>().onClick.AddListener(() => ShowUpright(_controller.GetPieceUprightDescription(), _controller.GetPieceMovementDefinitions()));
+        reverseButton.GetComponent<Button>().onClick.AddListener(() => ShowReverse(_controller.GetPieceReverseDescription(), _controller.GetPieceReverseMovementDefinitions()));
+    }
+
+    /// <summary>
+    /// 正位置の情報表示
+    /// </summary>
+    private void ShowUpright(string pieceDescription, int[,] movementDefinitions)
+    {
+        ShowPieceDescription(pieceDescription, false);
+        ShowMovementDefinitions(movementDefinitions);
+    }
+
+    /// <summary>
+    /// 逆位置の情報表示
+    /// </summary>
+    private void ShowReverse(string pieceDescription, int[,] movementDefinitions)
+    {
+        ShowPieceDescription(pieceDescription, true);
+        ShowMovementDefinitions(movementDefinitions);
     }
 
 
@@ -57,6 +80,14 @@ public class DescriptionPanelViewObject : MonoBehaviour
     {
         pieceDescriptionText.text = pieceDescription;
         LightOn(isReverse);
+    }
+
+    /// <summary>
+    /// コマの移動範囲を表示する
+    /// </summary>
+    private void ShowMovementDefinitions(int[,] definitions)
+    {
+        movementPanel.ShowMovableTiles(definitions);
     }
 
     /// <summary>

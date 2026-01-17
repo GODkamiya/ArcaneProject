@@ -62,10 +62,10 @@ public class LocalBoardManager
     {
         if (kingPieceObject != null)
         {
-            kingPieceObject.GetComponent<Renderer>().material.color = Color.white;
+            kingPieceObject.GetComponent<PieceObject>().ChangeColor(Color.white);
         }
         kingPieceObject = pieceObject;
-        pieceObject.GetComponent<Renderer>().material.color = Color.red;
+        pieceObject.GetComponent<PieceObject>().ChangeColor(Color.red);
     }
 
     public bool HasKing()

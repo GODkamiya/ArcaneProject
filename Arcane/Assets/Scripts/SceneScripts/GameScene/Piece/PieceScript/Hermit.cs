@@ -24,11 +24,11 @@ public class Hermit : ActivePieceObject
         // コマの所持者は見える状態がキープされる
         if (target.HasStateAuthority) return;
 
-        target.gameObject.GetComponent<Renderer>().enabled = false;
+        target.gameObject.GetComponent<PieceObject>().SetEnable(false);
         target.gameObject.GetComponentInChildren<TextMeshPro>().text = "";
         void reset()
         {
-            target.gameObject.GetComponent<Renderer>().enabled = true;
+            target.gameObject.GetComponent<PieceObject>().SetEnable(true);
             target.gameObject.GetComponentInChildren<TextMeshPro>().text = target.GetComponent<PieceObject>().GetName();
         }
         GameManager.singleton.turnEndEvents.Add(

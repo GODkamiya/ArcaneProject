@@ -41,7 +41,7 @@ public class PieceMoveClickAction : IClickAction
         }
 
         // 駒を移動させる処理
-        latestPiece.GetComponent<Renderer>().material.color = latestPiece.GetComponent<PieceObject>().GetIsKing() ? Color.red : Color.white;
+        latestPiece.GetComponent<PieceObject>().ChangeColor(latestPiece.GetComponent<PieceObject>().GetIsKing() ? Color.red : Color.white);
         latestPiece.GetComponent<PieceObject>().SetPosition(posX, posY, true, false);
         BoardManager.singleton.ClearMovement();
         GameManager.singleton.TurnEnd();
@@ -98,7 +98,13 @@ public class PieceMoveClickAction : IClickAction
     public void OnClickPiece(GameObject pieceObject)
     {
         PieceObject piece = pieceObject.GetComponent<PieceObject>();
-        if (!piece.isMine) return;
+        if (!piece.isMine)
+        {
+            BoardBlock bb = BoardManager.singleton.GetTile(piece.x, piece.y).GetComponent<BoardBlock>();
+            OnClickBoard(bb);
+            return;
+        }
+        ;
         if (!piece.GetCanMove()) return;
         int poX = pieceObject.GetComponent<PieceObject>().x;
         int poY = pieceObject.GetComponent<PieceObject>().y;
@@ -122,15 +128,15 @@ public class PieceMoveClickAction : IClickAction
         {
             if (latestPiece.GetComponent<PieceObject>().GetIsKing())
             {
-                latestPiece.GetComponent<Renderer>().material.color = Color.red;
+                latestPiece.GetComponent<PieceObject>().ChangeColor(Color.red);
             }
             else
             {
-                latestPiece.GetComponent<Renderer>().material.color = Color.white;
+                latestPiece.GetComponent<PieceObject>().ChangeColor(Color.white);
             }
         }
         latestPiece = pieceObject;
-        pieceObject.GetComponent<Renderer>().material.color = Color.cyan;
+        pieceObject.GetComponent<PieceObject>().ChangeColor(Color.cyan);
         PieceMovement move = piece.GetPieceMovement();
         latestMove = move;
         BoardManager.singleton.ShowMovement(move);

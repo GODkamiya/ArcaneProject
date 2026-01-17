@@ -15,7 +15,7 @@ public class DescriptionPanelController
     /// <summary>
     /// 選択中のコマが切り替わったときのイベント
     /// </summary>
-    public event Action<string/*コマの名前*/, string/*コマのアビリティ説明*/, bool/*コマが逆位置かどうか*/> OnSetPieceInfo;
+    public event Action<string/*コマの名前*/, string/*コマのアビリティ説明*/, bool/*コマが逆位置かどうか*/, int[,]/*移動範囲*/> OnSetPieceInfo;
 
     /// <summary>
     /// 選択中のコマが切り替わったとき
@@ -26,7 +26,8 @@ public class DescriptionPanelController
         // コマの情報を[OnSetPieceInfo]イベントに流す
         string name = pieceObject.GetName();
         string description = isReverse ? pieceObject.GetReverseEffectDescription() : pieceObject.GetUprightEffectDescription();
-        OnSetPieceInfo?.Invoke(name, description, isReverse);
+        int[,] movementDefinitions = !isReverse ? pieceObject.GetMovementDefinitions() : pieceObject.GetReverseMovementDefinitions() ?? pieceObject.GetMovementDefinitions();
+        OnSetPieceInfo?.Invoke(name, description, isReverse, movementDefinitions);
     }
 
     /// <summary>
@@ -35,4 +36,8 @@ public class DescriptionPanelController
     public string GetPieceUprightDescription() => currentPieceObject.GetUprightEffectDescription();
 
     public string GetPieceReverseDescription() => currentPieceObject.GetReverseEffectDescription();
+
+    public int[,] GetPieceMovementDefinitions() => currentPieceObject.GetMovementDefinitions();
+
+    public int[,] GetPieceReverseMovementDefinitions() => currentPieceObject.GetReverseMovementDefinitions();
 }
