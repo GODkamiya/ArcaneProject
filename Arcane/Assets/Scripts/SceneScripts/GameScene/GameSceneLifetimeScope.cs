@@ -13,6 +13,9 @@ public class GameSceneLifetimeScope : LifetimeScope
     [SerializeField]
     GameManager gameManager;
 
+    [SerializeField]
+    GameConfig gameConfig;
+
     protected override void Configure(IContainerBuilder builder)
     {
         // エントリーポイントの登録
@@ -26,5 +29,8 @@ public class GameSceneLifetimeScope : LifetimeScope
         // UIの登録
         builder.RegisterComponent(descriptionPanel);
         builder.Register<DescriptionPanelController>(Lifetime.Singleton);
+
+        // ゲーム設定の登録
+        builder.RegisterInstance(gameConfig);
     }
 }
