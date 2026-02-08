@@ -3,6 +3,14 @@ using UnityEngine;
 
 public class Hierophant : ActivePieceObject
 {
+    private TurnActionManager turnActionManager;
+
+    [VContainer.Inject]
+    public void Construct(TurnActionManager turnActionManager)
+    {
+        this.turnActionManager = turnActionManager;
+    }
+
     public override void ActiveEffect()
     {
         if (GetIsReverse()) return;
@@ -33,8 +41,8 @@ public class Hierophant : ActivePieceObject
         canActive = false;
         var buff = new UDLRAddPieceMovement(1);
         target.GetComponent<PieceObject>().AddAddPieceMovement(buff);
-        GameManager.singleton.turnEndEvents.Add(
-            new TurnEndEvent(1, () => target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))
+        turnActionManager.Register(
+            new DelayedTurnAction(1, () => target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))
         );
         GameManager.singleton.phaseMachine.TransitionTo(new ActionPhase());
     }

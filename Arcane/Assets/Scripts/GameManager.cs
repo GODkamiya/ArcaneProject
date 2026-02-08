@@ -39,14 +39,15 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public PhaseMachine phaseMachine = new PhaseMachine();
     public TurnMachine turnMachine = new TurnMachine();
 
-    public List<TurnEndEvent> turnEndEvents = new List<TurnEndEvent>();
 
     private IObjectResolver _container;
+    private TurnActionManager _turnActionManager;
 
     [Inject]
-    public void Construct(IObjectResolver container)
+    public void Construct(IObjectResolver container, TurnActionManager turnActionManager)
     {
         _container = container;
+        _turnActionManager = turnActionManager;
     }
 
     private void Awake()
@@ -188,7 +189,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void TurnEnd_RPC()
     {
-        turnEndEvents.ForEach(turnEndEvent => turnEndEvent.Do());
+        _turnActionManager.OnTurnEnd();
+        
         is1pTurn = !is1pTurn;
         TurnStart();
     }
