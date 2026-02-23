@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class PieceMovement
 {
-    public bool[,] range = new bool[10, 10];
+    private GameConfig _config;
+    public bool[,] range;
+
+    public PieceMovement(GameConfig config)
+    {
+        _config = config;
+        range = new bool[_config.BoardSize, _config.BoardSize];
+    }
     public void AddRange(int x, int y)
     {
         if (x < 0) return;
@@ -15,12 +22,17 @@ public class PieceMovement
     }
 
     public PieceMovement Copy(){
-        PieceMovement pm = new PieceMovement();
-        for(int i = 0 ; i < 10 ; i++){
-            for(int j = 0 ; j < 10; j++){
-                if(range[i,j])pm.AddRange(i,j);
+        PieceMovement pm = new PieceMovement(_config);
+
+        for (int i = 0; i < _config.BoardSize; i++)
+        {
+            for (int j = 0; j < _config.BoardSize; j++)
+            {
+                if (range[i, j])
+                    pm.AddRange(i, j);
             }
         }
+
         return pm;
     }
 

@@ -4,6 +4,11 @@ using UnityEngine;
 public class Moon : ActivePieceObject
 {
     private bool isTransformed = false;
+    private GameConfig _config;
+    public Moon(GameConfig config)
+    {
+        _config = config;
+    }
     public override void ActiveEffect()
     {
         canActive = false;
@@ -25,7 +30,7 @@ public class Moon : ActivePieceObject
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
 
         if (GetIsReverse())
         {
@@ -42,7 +47,7 @@ public class Moon : ActivePieceObject
                     {
                         x += dx;
                         // 盤の範囲外なら終了
-                        if (x < 0 || x >= 10) break;
+                        if (x < 0 || x >= _config.BoardSize) break;
                         pm.AddRange(x, baseY);
                     }
                 }
@@ -55,7 +60,7 @@ public class Moon : ActivePieceObject
                     {
                         y += dy;
                         // 盤の範囲外なら終了
-                        if (y < 0 || y >= 10) break;
+                        if (y < 0 || y >= _config.BoardSize) break;
                         pm.AddRange(baseX, y);
                     }
                 }
@@ -74,7 +79,7 @@ public class Moon : ActivePieceObject
                             x += dx;
                             y += dy;
 
-                            if (x < 0 || x >= 10 || y < 0 || y >= 10) break;
+                            if (x < 0 || x >= _config.BoardSize || y < 0 || y >= _config.BoardSize) break;
 
                             pm.AddRange(x, y);
                         }

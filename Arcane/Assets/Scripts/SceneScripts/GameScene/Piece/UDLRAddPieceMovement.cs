@@ -6,17 +6,13 @@ public class UDLRAddPieceMovement : AddPieceMovement
 {
     private GameConfig _config;
 
-    [Inject]
-    public void Construct(GameConfig config)
-    {
-        _config = config;
-    }
 
     int addValue;
 
-    public UDLRAddPieceMovement(int addValue)
+    public UDLRAddPieceMovement(int addValue, GameConfig config)
     {
         this.addValue = addValue;
+        _config = config;
     }
 
     public override PieceMovement Add(int x, int y, PieceMovement movement)

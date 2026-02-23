@@ -7,7 +7,14 @@ using UnityEngine;
 /// </summary>
 public class LocalBoardManager
 {
-    public GameObject[,] pieces = new GameObject[BoardManager.BOARD_SIZE, BoardManager.BOARD_SIZE];
+    private GameConfig _config;
+    public GameObject[,] pieces;
+
+    public LocalBoardManager(GameConfig config)
+    {
+        _config = config;
+        pieces = new GameObject[_config.BoardSize, _config.BoardSize];
+    }
 
     private GameObject kingPieceObject = null;
 
@@ -43,9 +50,9 @@ public class LocalBoardManager
     public List<GameObject> GetPieceList()
     {
         List<GameObject> list = new List<GameObject>();
-        for (int i = 0; i < BoardManager.BOARD_SIZE; i++)
+        for (int i = 0; i < _config.BoardSize; i++)
         {
-            for (int j = 0; j < BoardManager.BOARD_SIZE; j++)
+            for (int j = 0; j < _config.BoardSize; j++)
             {
                 if (pieces[i, j] != null) list.Add(pieces[i, j]);
             }

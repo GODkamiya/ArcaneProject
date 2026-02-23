@@ -1,8 +1,15 @@
 using Fusion;
 using UnityEngine;
+using VContainer;
 
 public class Hierophant : ActivePieceObject
 {
+    private GameConfig _gameconfig;
+    [Inject]
+    public void Construct(GameConfig gameConfig)
+    {
+        _gameconfig = gameConfig;
+    }
     public override void ActiveEffect()
     {
         if (GetIsReverse()) return;
@@ -31,7 +38,7 @@ public class Hierophant : ActivePieceObject
     public void AddMovement_RPC(NetworkObject target)
     {
         canActive = false;
-        var buff = new UDLRAddPieceMovement(1);
+        var buff = new UDLRAddPieceMovement(1,_gameconfig);
         target.GetComponent<PieceObject>().AddAddPieceMovement(buff);
         GameManager.singleton.turnEndEvents.Add(
             new TurnEndEvent(1, () => target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))

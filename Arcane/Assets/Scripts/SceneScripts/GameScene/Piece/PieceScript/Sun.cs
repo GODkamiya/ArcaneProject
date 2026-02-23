@@ -5,6 +5,12 @@ public class Sun : ActivePieceObject
 {
     private bool isTransformed = false;
 
+    private GameConfig _config;
+    public Sun(GameConfig config)
+    {
+        _config = config;
+    }
+
     public override void ActiveEffect()
     {
         canActive = false;
@@ -26,7 +32,7 @@ public class Sun : ActivePieceObject
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
 
         if (GetIsReverse())
         {
@@ -44,7 +50,7 @@ public class Sun : ActivePieceObject
                             x += dx;
                             y += dy;
 
-                            if (x < 0 || x >= 10 || y < 0 || y >= 10) break;
+                            if (x < 0 || x >= _config.BoardSize || y < 0 || y >= _config.BoardSize) break;
 
                             pm.AddRange(x, y);
                         }
@@ -64,7 +70,7 @@ public class Sun : ActivePieceObject
                     {
                         x += dx;
                         // 盤の範囲外なら終了
-                        if (x < 0 || x >= 10) break;
+                        if (x < 0 || x >= _config.BoardSize) break;
                         pm.AddRange(x, baseY);
                     }
                 }
@@ -77,7 +83,7 @@ public class Sun : ActivePieceObject
                     {
                         y += dy;
                         // 盤の範囲外なら終了
-                        if (y < 0 || y >= 10) break;
+                        if (y < 0 || y >= _config.BoardSize) break;
                         pm.AddRange(baseX, y);
                     }
                 }
@@ -96,7 +102,7 @@ public class Sun : ActivePieceObject
                     int newY = baseY + addY;
 
                     // 盤の範囲内なら追加
-                    if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10)
+                    if (newX >= 0 && newX < _config.BoardSize && newY >= 0 && newY < _config.BoardSize)
                     {
                         pm.AddRange(newX, newY);
                     }

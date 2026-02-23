@@ -105,9 +105,9 @@ public class BoardManager : MonoBehaviour
     public void ShowMovement(PieceMovement pieceMovement)
     {
         ClearMovement();
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 if (pieceMovement.range[x, y])
                 {
@@ -118,9 +118,9 @@ public class BoardManager : MonoBehaviour
     }
     public void ClearMovement()
     {
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 board[x, y].GetComponent<Renderer>().material.color = Color.white;
             }
@@ -130,9 +130,9 @@ public class BoardManager : MonoBehaviour
     public List<GameObject> GetAllPieces()
     {
         List<GameObject> result = new List<GameObject>();
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 if (onlinePieces[x, y] != null)
                 {
