@@ -4,6 +4,7 @@ using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using Unity.VisualScripting;
 using UnityEngine;
+using VContainer;
 
 public class BoardManager : MonoBehaviour
 {
@@ -15,9 +16,17 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// ボードのサイズ
     /// </summary>
-    public const int BOARD_SIZE = 10;
-    private GameObject[,] board = new GameObject[BOARD_SIZE, BOARD_SIZE];
-    public GameObject[,] onlinePieces = new GameObject[BOARD_SIZE, BOARD_SIZE];
+    private GameConfig _config;
+    private GameObject[,] board;
+    public GameObject[,] onlinePieces;
+
+    [Inject]
+    public void Construct(GameConfig config)
+    {
+        _config = config;
+        board = new GameObject[_config.BoardSize, _config.BoardSize];
+        onlinePieces = new GameObject[_config.BoardSize, _config.BoardSize];
+    }
 
     private void Awake()
     {
@@ -29,9 +38,9 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     public void SetBoard()
     {
-        for (int x = 0; x < BOARD_SIZE; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < BOARD_SIZE; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 GameObject tile = Instantiate(tilePrefab);
                 tile.GetComponent<BoardBlock>().x = x;
@@ -96,9 +105,9 @@ public class BoardManager : MonoBehaviour
     public void ShowMovement(PieceMovement pieceMovement)
     {
         ClearMovement();
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 if (pieceMovement.range[x, y])
                 {
@@ -109,9 +118,9 @@ public class BoardManager : MonoBehaviour
     }
     public void ClearMovement()
     {
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 board[x, y].GetComponent<Renderer>().material.color = Color.white;
             }
@@ -121,9 +130,9 @@ public class BoardManager : MonoBehaviour
     public List<GameObject> GetAllPieces()
     {
         List<GameObject> result = new List<GameObject>();
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < _config.BoardSize; x++)
         {
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < _config.BoardSize; y++)
             {
                 if (onlinePieces[x, y] != null)
                 {

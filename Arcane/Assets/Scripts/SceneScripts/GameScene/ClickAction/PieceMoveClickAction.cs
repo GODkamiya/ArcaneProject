@@ -6,6 +6,12 @@ public class PieceMoveClickAction : IClickAction
 {
     private GameObject latestPiece;
     private PieceMovement latestMove;
+    private GameConfig _config;
+
+    public PieceMoveClickAction(GameConfig config)
+    {
+        _config = config;
+    }
     public void OnClickBoard(BoardBlock bb)
     {
         if (latestPiece == null) return;
@@ -70,7 +76,7 @@ public class PieceMoveClickAction : IClickAction
                 int tx = center.x + dx;
                 int ty = center.y + dy;
                 // 範囲外チェック
-                if (tx < 0 || ty < 0 || tx >= BoardManager.BOARD_SIZE || ty >= BoardManager.BOARD_SIZE)
+                if (tx < 0 || ty < 0 || tx >= _config.BoardSize || ty >= _config.BoardSize)
                     continue;
                 var target = BoardManager.singleton.onlinePieces[tx, ty];
                 if (target == null) continue;
@@ -112,7 +118,7 @@ public class PieceMoveClickAction : IClickAction
         bool CheckPiece(int x, int y, bool? reverse)
         {
             // 範囲がオーバーしている際はスキップ
-            if (x < 0 || y < 0 || x >= BoardManager.BOARD_SIZE || y >= BoardManager.BOARD_SIZE) return false;
+            if (x < 0 || y < 0 || x >= _config.BoardSize || y >= _config.BoardSize) return false;
             var piece = BoardManager.singleton.onlinePieces[x, y];
             //近くに節制がいるとき
             if (piece == null) return false;

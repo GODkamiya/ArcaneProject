@@ -5,15 +5,18 @@ public class JusticePhase : IPhase
 {
     Justice masterPiece;
 
-    public JusticePhase(Justice masterPiece)
+    private GameConfig _config;
+
+    public JusticePhase(Justice masterPiece,GameConfig config)
     {
         this.masterPiece = masterPiece;
+        _config = config;
     }
     public void Enter()
     {
         void lineAction()
         {
-            int newX = (BoardManager.BOARD_SIZE - 1) - masterPiece.x;
+            int newX = (_config.BoardSize - 1) - masterPiece.x;
             var targetPiece = BoardManager.singleton.onlinePieces[newX, masterPiece.y];
             //TODO 移動先に味方の駒がいたら発動できないようにする
             if (targetPiece != null && targetPiece.GetComponent<PieceObject>().isMine) return;
@@ -23,8 +26,8 @@ public class JusticePhase : IPhase
         }
         void pointAction()
         {
-            int newX = (BoardManager.BOARD_SIZE - 1) - masterPiece.x;
-            int newY = (BoardManager.BOARD_SIZE - 1) - masterPiece.y;
+            int newX = (_config.BoardSize - 1) - masterPiece.x;
+            int newY = (_config.BoardSize - 1) - masterPiece.y;
             var targetPiece = BoardManager.singleton.onlinePieces[newX, newY];
             //TODO 移動先に味方の駒がいたら発動できないようにする
             if (targetPiece != null && targetPiece.GetComponent<PieceObject>().isMine) return;

@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class Death : PieceObject
 {
+    private GameConfig _config;
+    public Death(GameConfig config)
+    {
+        _config = config;
+    }
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
-        for (int addY = 1; addY < 10; addY++)
+        PieceMovement pm = new PieceMovement(_config);
+        for (int addY = 1; addY < _config.BoardSize; addY++)
         {
             pm.AddRange(baseX, baseY + addY);
         }

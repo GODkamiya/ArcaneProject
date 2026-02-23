@@ -1,12 +1,18 @@
 using UnityEditor;
 using UnityEngine;
+using VContainer;
 
 public class UDLRAddPieceMovement : AddPieceMovement
 {
+    private GameConfig _config;
+
+
     int addValue;
 
-    public UDLRAddPieceMovement(int addValue){
+    public UDLRAddPieceMovement(int addValue, GameConfig config)
+    {
         this.addValue = addValue;
+        _config = config;
     }
 
     public override PieceMovement Add(int x, int y, PieceMovement movement)
@@ -14,27 +20,35 @@ public class UDLRAddPieceMovement : AddPieceMovement
         // TODO 汚すぎるのでリファクタ対象。
         // 方向を{0,1}{0,-1}みたいにもって、それを書けると一個のforで対処できそう
         PieceMovement newMovement = movement.Copy();
-        for(int i  = 1 ; i < 10; i++){
-            if(!newMovement.CanMovement(x+i,y)) {
-                newMovement.AddRange(x+i,y);
+        for (int i = 1; i < _config.BoardSize; i++)
+        {
+            if (!newMovement.CanMovement(x + i, y))
+            {
+                newMovement.AddRange(x + i, y);
                 break;
             }
         }
-        for(int i  = 1 ; i < 10; i++){
-            if(!newMovement.CanMovement(x-i,y)) {
-                newMovement.AddRange(x-i,y);
+        for (int i = 1; i < _config.BoardSize; i++)
+        {
+            if (!newMovement.CanMovement(x - i, y))
+            {
+                newMovement.AddRange(x - i, y);
                 break;
             }
         }
-        for(int i  = 1 ; i < 10; i++){
-            if(!newMovement.CanMovement(x,y+i)) {
-                newMovement.AddRange(x,y+i);
+        for (int i = 1; i < _config.BoardSize; i++)
+        {
+            if (!newMovement.CanMovement(x, y + i))
+            {
+                newMovement.AddRange(x, y + i);
                 break;
             }
         }
-        for(int i  = 1 ; i < 10; i++){
-            if(!newMovement.CanMovement(x,y-i)) {
-                newMovement.AddRange(x,y - i);
+        for (int i = 1; i < _config.BoardSize; i++)
+        {
+            if (!newMovement.CanMovement(x, y - i))
+            {
+                newMovement.AddRange(x, y - i);
                 break;
             }
         }
