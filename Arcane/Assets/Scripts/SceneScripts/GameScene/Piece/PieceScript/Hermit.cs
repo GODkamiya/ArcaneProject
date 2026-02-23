@@ -10,6 +10,13 @@ public class Hermit : ActivePieceObject
     public bool isTransparent = false;
 
     private NetworkObject previousTarget;
+    private TurnActionManager turnActionManager;
+
+    [VContainer.Inject]
+    public void Construct(TurnActionManager turnActionManager)
+    {
+        this.turnActionManager = turnActionManager;
+    }
 
     public override void ActiveEffect()
     {
@@ -31,8 +38,8 @@ public class Hermit : ActivePieceObject
             target.gameObject.GetComponent<PieceObject>().SetEnable(true);
             target.gameObject.GetComponentInChildren<TextMeshPro>().text = target.GetComponent<PieceObject>().GetName();
         }
-        GameManager.singleton.turnEndEvents.Add(
-                    new TurnEndEvent(2, reset)
+        turnActionManager.Register(
+                    new DelayedTurnAction(2, reset)
                 );
     }
 

@@ -19,6 +19,16 @@ public class BoardManager : MonoBehaviour
     private GameObject[,] board = new GameObject[BOARD_SIZE, BOARD_SIZE];
     public GameObject[,] onlinePieces = new GameObject[BOARD_SIZE, BOARD_SIZE];
 
+    private TurnActionManager turnActionManager;
+    private VContainer.IObjectResolver container;
+
+    [VContainer.Inject]
+    public void Construct(VContainer.IObjectResolver container, TurnActionManager turnActionManager)
+    {
+        this.container = container;
+        this.turnActionManager = turnActionManager;
+    }
+
     private void Awake()
     {
         singleton = this;
@@ -70,6 +80,10 @@ public class BoardManager : MonoBehaviour
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
             PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
+            
+            // DI注入
+            container.Inject(networkPieceObject);
+
             networkPieceObject.SetPosition(po.x, po.y, true, true);
             networkPieceObject.SetIsKing_RPC(po.GetIsKing());
             networkPieceObject.SetReverse_RPC(po.GetIsReverse());
@@ -80,8 +94,8 @@ public class BoardManager : MonoBehaviour
             }
             else
             {
-                GameManager.singleton.turnEndEvents.Add(
-                    new TurnEndEvent(1, () => networkPieceObject.SetSickness(false))
+                turnActionManager.Register(
+                    new DelayedTurnAction(1, () => networkPieceObject.SetSickness(false))
                 );
             }
             if (po.GetPieceType() == PieceType.HangedMan)
