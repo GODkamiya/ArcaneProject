@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Fusion;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 public abstract class PieceObject : NetworkBehaviour
 {
     // TODO : x,yはControllerに畳み込まれるべき
     public int x, y;
+
+    [Inject]
+    protected GameConfig _config;
 
     /// <summary>
     /// このコマが自分のものであるかどうか

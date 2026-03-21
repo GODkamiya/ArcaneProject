@@ -4,11 +4,6 @@ using UnityEngine;
 public class Moon : ActivePieceObject
 {
     private bool isTransformed = false;
-    private GameConfig _config;
-    public Moon(GameConfig config)
-    {
-        _config = config;
-    }
     public override void ActiveEffect()
     {
         canActive = false;

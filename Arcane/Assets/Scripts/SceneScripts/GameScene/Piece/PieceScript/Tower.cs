@@ -25,7 +25,7 @@ public class Tower : ActivePieceObject
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
         //移動しないよ
         return pm;
     }

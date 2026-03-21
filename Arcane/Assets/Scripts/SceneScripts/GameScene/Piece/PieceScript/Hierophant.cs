@@ -4,12 +4,6 @@ using VContainer;
 
 public class Hierophant : ActivePieceObject
 {
-    private GameConfig _gameconfig;
-    [Inject]
-    public void Construct(GameConfig gameConfig)
-    {
-        _gameconfig = gameConfig;
-    }
     public override void ActiveEffect()
     {
         if (GetIsReverse()) return;
@@ -17,7 +11,7 @@ public class Hierophant : ActivePieceObject
     }
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)
@@ -38,7 +32,7 @@ public class Hierophant : ActivePieceObject
     public void AddMovement_RPC(NetworkObject target)
     {
         canActive = false;
-        var buff = new UDLRAddPieceMovement(1,_gameconfig);
+        var buff = new UDLRAddPieceMovement(1,_config);
         target.GetComponent<PieceObject>().AddAddPieceMovement(buff);
         GameManager.singleton.turnEndEvents.Add(
             new TurnEndEvent(1, () => target.GetComponent<PieceObject>().RemoveAddPieceMovement(buff))

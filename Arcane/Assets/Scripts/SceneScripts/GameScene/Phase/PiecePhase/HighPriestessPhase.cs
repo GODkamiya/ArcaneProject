@@ -5,9 +5,11 @@ using Fusion;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 public class HighPriestessPhase : IPhase
 {
+    [Inject] private GameConfig _config = default!;
 
     HighPriestess masterPiece;
 
@@ -78,7 +80,7 @@ public class HighPriestessPhase : IPhase
 
     private PieceMovement GetEffectRange(GameObject target)
     {
-        var pm = new PieceMovement();
+        var pm = new PieceMovement(_config);
         if (masterPiece.GetIsReverse())
         {
             for (int addX = -1; addX < 2; addX++)

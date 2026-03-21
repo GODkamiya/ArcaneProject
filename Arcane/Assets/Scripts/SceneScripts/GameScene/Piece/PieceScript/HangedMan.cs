@@ -16,7 +16,7 @@ public class HangedMan : PieceObject, IOnReverse
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)
@@ -66,7 +66,7 @@ public class HangedMan : PieceObject, IOnReverse
         // 新しいコマを配置する
         if (HasStateAuthority)
         {
-            LocalBoardManager localBoard = new LocalBoardManager();
+            LocalBoardManager localBoard = new LocalBoardManager(_config);
             GameObject newPiece = localBoard.SetPiece(pretender ?? PieceType.HangedMan, x, y);
             if (GetIsKing()) localBoard.SelectKing(newPiece);
             BoardManager.singleton.AsyncPiece(GameManager.singleton.Runner, true, localBoard);

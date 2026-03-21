@@ -2,13 +2,6 @@ using UnityEngine;
 
 public class Chariot : PieceObject, IOnAttackEvent
 {
-    private GameConfig _config;
-
-    public Chariot(GameConfig config)
-    {
-        _config = config;
-    }
-
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement(_config);

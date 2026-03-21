@@ -43,7 +43,7 @@ public class Hermit : ActivePieceObject
 
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)

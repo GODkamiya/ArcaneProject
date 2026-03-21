@@ -4,7 +4,7 @@ public class Justice : ActivePieceObject
 {
     public override void ActiveEffect()
     {
-        GameManager.singleton.phaseMachine.TransitionTo(new JusticePhase(this));
+        GameManager.singleton.phaseMachine.TransitionTo(new JusticePhase(this, _config));
         
     }
 
@@ -15,7 +15,7 @@ public class Justice : ActivePieceObject
 
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
         for (int addX = -1; addX < 2; addX++)
         {
             for (int addY = -1; addY < 2; addY++)

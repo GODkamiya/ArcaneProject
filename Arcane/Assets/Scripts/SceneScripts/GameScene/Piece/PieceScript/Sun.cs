@@ -5,12 +5,6 @@ public class Sun : ActivePieceObject
 {
     private bool isTransformed = false;
 
-    private GameConfig _config;
-    public Sun(GameConfig config)
-    {
-        _config = config;
-    }
-
     public override void ActiveEffect()
     {
         canActive = false;

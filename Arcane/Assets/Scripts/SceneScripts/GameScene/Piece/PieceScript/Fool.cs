@@ -6,7 +6,7 @@ public class Fool : PieceObject
 {
     public override PieceMovement GetPieceMovementOrigin(int baseX,int baseY)
     {
-        PieceMovement pm = new PieceMovement();
+        PieceMovement pm = new PieceMovement(_config);
         pm.AddRange(baseX,baseY + 1);
         return pm;
     }

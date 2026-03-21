@@ -17,13 +17,15 @@ public class BoardManager : MonoBehaviour
     /// ボードのサイズ
     /// </summary>
     private GameConfig _config;
+    private IObjectResolver _container;
     private GameObject[,] board;
     public GameObject[,] onlinePieces;
 
     [Inject]
-    public void Construct(GameConfig config)
+    public void Construct(GameConfig config, IObjectResolver container)
     {
         _config = config;
+        _container = container;
         board = new GameObject[_config.BoardSize, _config.BoardSize];
         onlinePieces = new GameObject[_config.BoardSize, _config.BoardSize];
     }
@@ -78,6 +80,7 @@ public class BoardManager : MonoBehaviour
         {
             PieceObject po = piece.GetComponent<PieceObject>();
             NetworkObject netWorkPiece = runner.Spawn(pieceSpawner.GetPiecePrefab(piece.GetComponent<PieceObject>().GetPieceType()));
+            _container.Inject(netWorkPiece.gameObject); // VContainerへの追加
             PieceObject networkPieceObject = netWorkPiece.gameObject.GetComponent<PieceObject>();
             networkPieceObject.SetPosition(po.x, po.y, true, true);
             networkPieceObject.SetIsKing_RPC(po.GetIsKing());

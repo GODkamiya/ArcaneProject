@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class Death : PieceObject
 {
-    private GameConfig _config;
-    public Death(GameConfig config)
-    {
-        _config = config;
-    }
     public override PieceMovement GetPieceMovementOrigin(int baseX, int baseY)
     {
         PieceMovement pm = new PieceMovement(_config);

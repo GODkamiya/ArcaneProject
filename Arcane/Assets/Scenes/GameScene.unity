@@ -8102,6 +8102,8 @@ MonoBehaviour:
   descriptionPanel: {fileID: 1466165626}
   playerClickHandlerManager: {fileID: 313104462}
   gameManager: {fileID: 1444782186}
+  boardManager: {fileID: 452434027}
+  gameConfig: {fileID: 11400000, guid: e22dc938f89b21d4fa639021c019c992, type: 2}
 --- !u!4 &1701425312
 Transform:
   m_ObjectHideFlags: 0

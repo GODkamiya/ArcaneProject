@@ -1,10 +1,12 @@
 using UnityEngine;
+using VContainer;
 
 public class SummonPhase : IPhase
 {
+    [Inject] private GameConfig _config = default!;
     public void Enter()
     {
-        LocalBoardManager localBoardManager = new LocalBoardManager();
+        LocalBoardManager localBoardManager = new LocalBoardManager(_config);
         PlayerClickHandler.singleton.clickAction = new SummonClickAction(localBoardManager);
 
         void afterSummon()

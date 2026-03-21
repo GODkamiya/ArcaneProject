@@ -1,8 +1,10 @@
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
+using VContainer;
 
 public class InitialSummonPhase : IPhase
 {
+    [Inject] private GameConfig _config = default!;
     private PreparationTurn preparationTurn;
 
     public InitialSummonPhase(PreparationTurn preparationTurn){
@@ -19,7 +21,7 @@ public class InitialSummonPhase : IPhase
             po.DrawDeck();
         }
 
-        LocalBoardManager localBoardManager = new LocalBoardManager();
+        LocalBoardManager localBoardManager = new LocalBoardManager(_config);
         PlayerClickHandler.singleton.clickAction = new InitialSummonClickAction(localBoardManager);
         void doneSummon(){
             if (localBoardManager.GetPieceCount() != 5) return;

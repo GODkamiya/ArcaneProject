@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using VContainer;
+using VContainer.Unity;
 
 public class GameManager : NetworkBehaviour, IPlayerJoined
 {
@@ -36,8 +37,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public bool GetIs1P() => HasStateAuthority;
     public PlayerObject GetLocalPlayerObject() => playerObjects[HasStateAuthority ? 0 : 1].GetComponent<PlayerObject>();
     public PlayerObject GetEnemyPlayerObject() => playerObjects[HasStateAuthority ? 1 : 0].GetComponent<PlayerObject>();
-    public PhaseMachine phaseMachine = new PhaseMachine();
-    public TurnMachine turnMachine = new TurnMachine();
+    public PhaseMachine phaseMachine;
+    public TurnMachine turnMachine;
 
     public List<TurnEndEvent> turnEndEvents = new List<TurnEndEvent>();
 
@@ -47,6 +48,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
     public void Construct(IObjectResolver container)
     {
         _container = container;
+        phaseMachine = new PhaseMachine(_container);
+        turnMachine = new TurnMachine(_container);
     }
 
     private void Awake()
@@ -236,7 +239,6 @@ public class GameManager : NetworkBehaviour, IPlayerJoined
         }
     }
 
-    // TODO アクションに変更させるだけのRPC、絶対にここにあるべきではない。
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void ChangeActionPhaseUI_RPC()
     {
